@@ -117,7 +117,7 @@ function increasePlayerHealth(healValue) {
   }
 }
 
-function resetGame() {
+function removeLogs() {
   const logsLi = document.querySelectorAll("#logList li");
 
   for (const logLi of logsLi) {
@@ -134,7 +134,7 @@ function openSettings() {
     displaySection(healthSection);
     displaySection(reset);
 
-    resetGame();
+    removeLogs();
     settingsBtn.classList.remove("button-active");
   } else {
     return;

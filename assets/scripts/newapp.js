@@ -12,6 +12,9 @@ const player = {
   maxHp: 100,
   damage: 25,
   healthBar: document.getElementById("player-health"),
+  manaBar: document.getElementById("player-mana"),
+  currentMana: null,
+  maxMana: 100,
 };
 
 const activeGameSections = [
@@ -22,7 +25,7 @@ const activeGameSections = [
 ];
 
 function healPlayer() {
-  const healValue = player.maxHp / 5 + 5 * Math.random().toPrecision(2);
+  const healValue = player.maxHp / 3 + 5 * Math.random().toPrecision(2);
   if (player.currentHp + healValue > player.maxHp) {
     writeLog(`Player healed ${parseInt(player.maxHp - player.currentHp)} HP`);
     player.currentHp = player.maxHp;
@@ -55,13 +58,19 @@ function showPercentageHp(object) {
   }
 }
 
-function setHealthBar(object) {
-  object.healthBar.max = object.maxHp;
-  object.healthBar.value = object.maxHp;
+function setProgressBar(object, progressBar) {
+  progressBar.max = object.maxHp;
+  progressBar.value = object.maxHp;
+  console.log(object);
 }
 
 function updateHealthBar(object) {
   object.healthBar.value = object.currentHp;
+}
+
+function useMana(value) {
+  player.currentMana -= value;
+  player.manaBar.value = player.currentMana;
 }
 
 function startGame() {
@@ -70,8 +79,11 @@ function startGame() {
   monster.maxHp = document.getElementById("monsterInput").value;
   monster.currentHp = monster.maxHp;
   player.currentHp = player.maxHp;
-  setHealthBar(player);
-  setHealthBar(monster);
+  player.maxMana = player.maxHp;
+  player.currentMana = player.maxMana;
+  setProgressBar(player, player.healthBar);
+  setProgressBar(monster, monster.healthBar);
+  setProgressBar(player, player.manaBar);
   writeLog("Game started");
 
   for (const activeSection of activeGameSections) {
@@ -111,23 +123,22 @@ function removeLogs() {
 function endGame() {
   let gameResult;
   if (monster.currentHp <= 0 && player.currentHp <= 0 && gameActive === true) {
-    gameResult = 'Draw'
+    gameResult = "Draw";
   } else if (player.currentHp <= 0 && gameActive === true) {
-    gameResult = 'Monster wins'
+    gameResult = "Monster wins";
   } else if (monster.currentHp <= 0 && gameActive === true) {
-    gameResult = 'Player wins'
+    gameResult = "Player wins";
   } else {
     return;
   }
-  writeLog(gameResult); 
+  writeLog(gameResult);
   gameStatusSection.firstElementChild.textContent = gameResult;
   gameActive = false;
   for (const controlBtn of controlBtns) {
     controlBtn.classList.remove("button-active");
     controlBtn.setAttribute("disabled", true);
   }
-  settingsBtn.classList.add('click-me');
-  
+  settingsBtn.classList.add("click-me");
 }
 
 startGameBtn.addEventListener("click", () => {
@@ -140,13 +151,23 @@ attackBtn.addEventListener("click", () => {
 });
 
 strongAttackBtn.addEventListener("click", () => {
-  attack(player, monster, 2);
-  attack(monster, player);
+  if (player.currentMana >= player.maxMana * 0.2) {
+    attack(player, monster, 2);
+    useMana(`${player.maxMana * 0.2}`);
+    attack(monster, player);
+  } else {
+    alert("not enought mana");
+  }
 });
 
 healBtn.addEventListener("click", () => {
-  healPlayer();
-  attack(monster, player);
+  if (player.currentMana >= player.maxMana * 0.5) {
+    healPlayer();
+    useMana(`${player.maxMana * 0.5}`);
+    attack(monster, player);
+  } else {
+    alert("not enought mana");
+  }
 });
 
 logBtn.addEventListener("click", () => {
