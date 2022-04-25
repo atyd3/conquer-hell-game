@@ -1,0 +1,150 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+  background: #2c2c2c;
+}
+
+h1 {
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 1rem 0.5rem;
+}
+
+progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 80%;
+  height: 2rem;
+  color: #ff0062;
+  border: 1px solid #a927f5;
+}
+
+progress[value]::-webkit-progress-bar,
+progress[value] {
+  background-color: #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #a927f5;
+  transition: all 0.2s ease-out;
+}
+
+progress[value]::-moz-progress-bar {
+  background-color: #a927f5;
+  transition: all 0.2s ease-out;
+}
+
+button {
+  font: inherit;
+  background: #e9dfdf;
+  border: 1px solid #8b7980;
+  color: #8b7980;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  margin: 0.5rem;
+}
+
+button:focus {
+  outline: none;
+}
+
+.button-active:hover,
+.button-active:active {
+  background: #a927f5;
+  border-color: #a927f5;
+}
+
+.button-active {
+  color: white;
+  background: #ff0062;
+  border: 1px solid #ff0062;
+  cursor: pointer;
+}
+
+#health-levels,
+#controls,
+#settings,
+#game-status, 
+#additional-controls,
+#logs,
+header {
+  margin: 2rem auto;
+  width: 35rem;
+  text-align: center;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  background: white;
+}
+
+header {
+  background-color: #a927f5;
+  color: white
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+}
+
+#bonus-life {
+  font-weight: bold;
+  color: white;
+  background: #ff0062;
+  border: 1px solid #ff0062;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  text-align: center;
+  margin: 0 0.5rem;
+}
+
+#setHpBtn {
+  display: block;
+  margin: 1rem auto;
+}
+
+#validationFailed {
+  font-weight: bold;
+}
+
+#logs {
+  font-weight: bold;
+}
+
+#logs ul {
+  padding: 0;
+}
+
+#logs ul li {
+  list-style: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.toggle {
+  display: none !important;
+}
+
+#hint {
+  display: none;
+}
+
+.click-me {
+  transition: all 1s ease-out;
+  background: #a927f5;
+  border-color: #a927f5;
+}
+
+.click-me:hover {
+  background: #9e27e2;
+  border-color: #9e27e2;
+  transform: scale(1.05);
+}
