@@ -37,34 +37,36 @@ function healPlayer() {
   const healValue = (player.maxHp / 2) + 5 * Math.random().toPrecision(2) + 5;
   if (player.currentHp + healValue > player.maxHp) {
     roundLogs.push(
-      `Player healed ${parseInt(player.maxHp - player.currentHp)} HP`
+      `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
     );
     player.currentHp = player.maxHp;
-    console.log('max hp')
   } else {
     roundLogs.push(`Player healed ${parseInt(healValue)} HP`);
     player.currentHp += healValue;
-    console.log(healValue)
   }
   roundData.push("heal");
   writeLog();
 }
 
 function attack(attacker, defender, dmg = 1) {
-  checkPrevRound();
-
-  const dealtDamage = (Math.random() * 15 + attacker.damage * dmg).toPrecision(
-    2
-  );
-  defender.currentHp = defender.currentHp - dealtDamage;
-  updateHealthBar(defender);
-  roundLogs.push(
-    `${attacker.name}(${showPercentageHp(attacker)}%) attack ${
-      defender.name
-    }(${showPercentageHp(defender)}%) and caused ${dealtDamage} damage`
-  );
-  writeLog();
-  endGame();
+  if (gameStatus.isActive === true) {
+    checkPrevRound();
+  
+    const dealtDamage = (Math.random() * 15 + attacker.damage * dmg).toPrecision(
+      2
+    );
+    defender.currentHp = defender.currentHp - dealtDamage;
+    updateHealthBar(defender);
+    roundLogs.push(
+      `${attacker.name}(${showPercentageHp(attacker)}%) attack ${
+        defender.name
+      }(${showPercentageHp(defender)}%) and caused ${dealtDamage} damage`
+    );
+    writeLog();
+    endGame();
+  } else {
+    return;
+  }
 }
 
 function showPercentageHp(object) {
@@ -95,7 +97,6 @@ function returnMana() {
     player.currentMana = +player.currentMana + returnManaValue;
     player.manaBar.value = player.currentMana;
   } else {
-    console.log("max mana");
     return;
   }
 }
@@ -113,6 +114,7 @@ function startGame() {
   setProgressBar(monster, monster.healthBar);
   setProgressBar(player, player.manaBar);
   roundLogs[0] = "Game started";
+  gameStatusSection.firstElementChild.textContent = roundLogs[0];
   writeLog();
 
   for (const activeSection of activeGameSections) {
