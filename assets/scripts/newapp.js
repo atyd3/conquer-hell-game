@@ -17,6 +17,14 @@ const player = {
   maxMana: 100,
 };
 
+const gameStatus = {
+  isActive: true,
+  result: null,
+};
+
+let roundLogs = [];
+let roundData = [];
+
 const activeGameSections = [
   gameStatusSection,
   healthSection,
@@ -25,27 +33,37 @@ const activeGameSections = [
 ];
 
 function healPlayer() {
-  const healValue = player.maxHp / 3 + 5 * Math.random().toPrecision(2);
+  checkPrevRound();
+  const healValue = (player.maxHp / 2) + 5 * Math.random().toPrecision(2) + 5;
   if (player.currentHp + healValue > player.maxHp) {
-    writeLog(`Player healed ${parseInt(player.maxHp - player.currentHp)} HP`);
+    roundLogs.push(
+      `Player healed ${parseInt(player.maxHp - player.currentHp)} HP`
+    );
     player.currentHp = player.maxHp;
+    console.log('max hp')
   } else {
-    writeLog(`Player healed ${parseInt(healValue)} HP`);
+    roundLogs.push(`Player healed ${parseInt(healValue)} HP`);
     player.currentHp += healValue;
+    console.log(healValue)
   }
+  roundData.push("heal");
+  writeLog();
 }
 
 function attack(attacker, defender, dmg = 1) {
+  checkPrevRound();
+
   const dealtDamage = (Math.random() * 15 + attacker.damage * dmg).toPrecision(
     2
   );
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
-  writeLog(
+  roundLogs.push(
     `${attacker.name}(${showPercentageHp(attacker)}%) attack ${
       defender.name
     }(${showPercentageHp(defender)}%) and caused ${dealtDamage} damage`
   );
+  writeLog();
   endGame();
 }
 
@@ -69,11 +87,22 @@ function updateHealthBar(object) {
 
 function useMana(value) {
   player.currentMana -= value;
-  player.manaBar.value = player.currentMana;
+}
+
+function returnMana() {
+  let returnManaValue = player.maxMana * 0.05;
+  if (player.currentMana + returnManaValue < player.maxMana) {
+    player.currentMana = +player.currentMana + returnManaValue;
+    player.manaBar.value = player.currentMana;
+  } else {
+    console.log("max mana");
+    return;
+  }
 }
 
 function startGame() {
-  gameActive = true;
+  manaSpan.textContent = "30% MP"
+  gameStatus.isActive = true;
   player.maxHp = document.getElementById("playerInput").value;
   monster.maxHp = document.getElementById("monsterInput").value;
   monster.currentHp = monster.maxHp;
@@ -83,7 +112,8 @@ function startGame() {
   setProgressBar(player, player.healthBar);
   setProgressBar(monster, monster.healthBar);
   setProgressBar(player, player.manaBar);
-  writeLog("Game started");
+  roundLogs[0] = "Game started";
+  writeLog();
 
   for (const activeSection of activeGameSections) {
     displaySection(activeSection);
@@ -101,10 +131,10 @@ function displaySection(section) {
   section.classList.toggle("toggle");
 }
 
-function writeLog(message) {
-  if (gameActive === true) {
+function writeLog() {
+  if (gameStatus.isActive === true) {
     let li = document.createElement("li");
-    li.textContent = message;
+    li.textContent = roundLogs.slice(-1);
     logList.appendChild(li);
   } else {
     return;
@@ -112,6 +142,7 @@ function writeLog(message) {
 }
 
 function removeLogs() {
+  roundLogs = [];
   const logsLi = document.querySelector("#logs ul");
   while (logsLi.firstChild) {
     logsLi.firstChild.remove();
@@ -120,19 +151,24 @@ function removeLogs() {
 }
 
 function endGame() {
-  let gameResult;
-  if (monster.currentHp <= 0 && player.currentHp <= 0 && gameActive === true) {
-    gameResult = "Draw";
-  } else if (player.currentHp <= 0 && gameActive === true) {
-    gameResult = "Monster wins";
-  } else if (monster.currentHp <= 0 && gameActive === true) {
-    gameResult = "Player wins";
+  if (
+    monster.currentHp <= 0 &&
+    player.currentHp <= 0 &&
+    gameStatus.isActive === true
+  ) {
+    gameStatus.result = "Draw";
+  } else if (player.currentHp <= 0 && gameStatus.isActive === true) {
+    gameStatus.result = "Monster wins";
+  } else if (monster.currentHp <= 0 && gameStatus.isActive === true) {
+    gameStatus.result = "Player wins";
   } else {
     return;
   }
-  writeLog(gameResult);
-  gameStatusSection.firstElementChild.textContent = gameResult;
-  gameActive = false;
+
+  roundLogs.push(gameStatus.result);
+  writeLog(gameStatus.result);
+  gameStatus.isActive = false;
+  gameStatusSection.firstElementChild.textContent = gameStatus.result;
   for (const controlBtn of controlBtns) {
     controlBtn.classList.remove("button-active");
     controlBtn.setAttribute("disabled", true);
@@ -141,18 +177,24 @@ function endGame() {
 }
 
 startGameBtn.addEventListener("click", () => {
+  removeLogs();
   startGame();
 });
 
 attackBtn.addEventListener("click", () => {
   attack(player, monster);
+  roundData.push("attack");
   attack(monster, player);
+  returnMana();
 });
 
 strongAttackBtn.addEventListener("click", () => {
   if (player.currentMana >= player.maxMana * 0.2) {
     attack(player, monster, 2);
+    roundData.push("strongattack");
+
     useMana(`${player.maxMana * 0.2}`);
+    returnMana();
     attack(monster, player);
   } else {
     alert("not enought mana");
@@ -160,10 +202,21 @@ strongAttackBtn.addEventListener("click", () => {
 });
 
 healBtn.addEventListener("click", () => {
-  if (player.currentMana >= player.maxMana * 0.5) {
+  let manaForHeal = player.maxMana * 0.3;
+  if (
+    roundData.slice(-1) == "heal" &&
+    player.currentMana >= player.maxMana * 0.6
+  ) {
+    manaForHeal = player.maxMana * 0.6;
     healPlayer();
-    useMana(`${player.maxMana * 0.5}`);
+    useMana(manaForHeal);
     attack(monster, player);
+    returnMana();
+  } else if (player.currentMana >= player.maxMana * 0.3) {
+    healPlayer();
+    useMana(manaForHeal);
+    attack(monster, player);
+    returnMana();
   } else {
     alert("not enought mana");
   }
@@ -175,5 +228,15 @@ logBtn.addEventListener("click", () => {
 
 settingsBtn.addEventListener("click", () => {
   removeLogs();
+  endGame();
   startGame();
 });
+
+function checkPrevRound() {
+  if (roundData.slice(-1) == "heal") {
+    manaSpan.textContent = "60% MP";
+  } else {
+    manaSpan.textContent = "30% MP";
+  }
+
+}
