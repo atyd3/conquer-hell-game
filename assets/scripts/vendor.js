@@ -27,6 +27,8 @@ const controlBtns = document.querySelectorAll("#controls button");
 
 let gameActive = false;
 
+const manaSpan = document.getElementById('mana-span')
+
 
 
 

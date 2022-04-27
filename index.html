@@ -44,14 +44,15 @@
     </section>
     <section id="health-levels" class="toggle">
       <h2>MONSTER HEALTH</h2>
-      <progress id="monster-health" data-name="Monster" max="200" value="200">100%</progress>
-      <h2>PLAYER HEALTH</h2>
-      <progress id="player-health" data-name="Player" max="100" value="100">100%</progress>
+      <progress id="monster-health" max="200" value="200">100%</progress>
+      <h2>PLAYER HEALTH / MANA</h2>
+      <progress id="player-health" max="100" value="100">100%</progress>
+      <progress id="player-mana" class="mana-bar" max="100" value="100">100%</progress>
     </section>
     <section id="controls" class="toggle">
       <button id="attack-btn">ATTACK</button>
-      <button id="strong-attack-btn">STRONG ATTACK</button>
-      <button id="heal-btn">HEAL</button>
+      <button id="strong-attack-btn">STRONG ATTACK <span>20% MP</span></button>
+      <button id="heal-btn">HEAL <span id="mana-span">30% MP</span></button>
     </section>
     <section id="additional-controls" class="toggle">
       <button id="log-btn" class="button-active">SHOW LOG</button>
