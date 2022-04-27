@@ -10,12 +10,14 @@ const player = {
   name: "Player",
   currentHp: null,
   maxHp: 100,
-  damage: 25,
+  damage: 15,
   healthBar: document.getElementById("player-health"),
   manaBar: document.getElementById("player-mana"),
   currentMana: null,
   maxMana: 100,
 };
+
+
 
 const gameStatus = {
   isActive: true,
@@ -34,7 +36,7 @@ const activeGameSections = [
 
 function healPlayer() {
   checkPrevRound();
-  const healValue = (player.maxHp / 2) + 5 * Math.random().toPrecision(2) + 5;
+  const healValue = player.maxHp / 2 + 5 * Math.random().toPrecision(2) + 5;
   if (player.currentHp + healValue > player.maxHp) {
     roundLogs.push(
       `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
@@ -51,10 +53,10 @@ function healPlayer() {
 function attack(attacker, defender, dmg = 1) {
   if (gameStatus.isActive === true) {
     checkPrevRound();
-  
-    const dealtDamage = (Math.random() * 15 + attacker.damage * dmg).toPrecision(
-      2
-    );
+    const dealtDamage = (
+      Math.random() * 15 +
+      attacker.damage * dmg
+    ).toPrecision(2);
     defender.currentHp = defender.currentHp - dealtDamage;
     updateHealthBar(defender);
     roundLogs.push(
@@ -102,7 +104,7 @@ function returnMana() {
 }
 
 function startGame() {
-  manaSpan.textContent = "30% MP"
+  manaSpan.textContent = "30% MP";
   gameStatus.isActive = true;
   player.maxHp = document.getElementById("playerInput").value;
   monster.maxHp = document.getElementById("monsterInput").value;
@@ -240,5 +242,13 @@ function checkPrevRound() {
   } else {
     manaSpan.textContent = "30% MP";
   }
-
 }
+
+
+// for (const controlBtn of controlBtns) {
+//   controlBtn.addEventListener('click', () => {
+//     controlBtn.classList.remove("button-active");
+//     controlBtn.setAttribute("disabled", true);
+//   } )
+// }
+
