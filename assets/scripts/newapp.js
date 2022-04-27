@@ -61,7 +61,6 @@ function showPercentageHp(object) {
 function setProgressBar(object, progressBar) {
   progressBar.max = object.maxHp;
   progressBar.value = object.maxHp;
-  console.log(object);
 }
 
 function updateHealthBar(object) {
