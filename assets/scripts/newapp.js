@@ -15,9 +15,74 @@ const player = {
   manaBar: document.getElementById("player-mana"),
   currentMana: null,
   maxMana: 100,
+  useMana(value) {
+    if (this.currentMana - value >= 0) {
+      this.currentMana -= value;
+    } else {
+      return;
+    }
+  },
 };
 
+const playerSkills = {
+  heal: {
+    canUseHeal() {
+      let neededMana = player.maxMana * 0.3;
+      if (roundData.slice(-1) == "heal") {
+        neededMana *= 2;
+        healManaSpan.textContent = "60% MP";
+      } else {
+        healManaSpan.textContent = "30% MP";
+      }
 
+      if (player.currentMana >= neededMana) {
+        return neededMana;
+      } else {
+        return false;
+      }
+    },
+    useHeal() {
+      const healValue = player.maxHp / 3 + 5 * Math.random().toPrecision(2) + 5;
+      if (player.currentHp + healValue > player.maxHp) {
+        roundLogs.push(
+          `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
+        );
+        player.currentHp = player.maxHp;
+      } else {
+        roundLogs.push(`Player healed ${parseInt(healValue)} HP`);
+        player.currentHp += healValue;
+      }
+      const mana = playerSkills.heal.canUseHeal();
+      player.useMana(mana);
+      updateHealthBar(player);
+      roundData.push("heal");
+      writeLog();
+    },
+  },
+  strongAttack: {
+    canUseStrong() {
+      let neededMana = player.maxMana * 0.2;
+      if (roundData.slice(-1) == "strongattack") {
+        neededMana *= 2;
+        strongManaSpan.textContent = "40% MP";
+      } else {
+        strongManaSpan.textContent = "20% MP";
+      }
+
+      if (player.currentMana >= neededMana) {
+        return neededMana;
+      } else {
+        return false;
+      }
+    },
+    useStrong() {
+      const mana = playerSkills.strongAttack.canUseStrong();
+      attack(player, monster, 2);
+      player.useMana(mana);
+      roundData.push("strongattack");
+    },
+  },
+};
 
 const gameStatus = {
   isActive: true,
@@ -34,25 +99,18 @@ const activeGameSections = [
   additionalControlsSection,
 ];
 
-function healPlayer() {
-  checkPrevRound();
-  const healValue = player.maxHp / 2 + 5 * Math.random().toPrecision(2) + 5;
-  if (player.currentHp + healValue > player.maxHp) {
-    roundLogs.push(
-      `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
-    );
-    player.currentHp = player.maxHp;
+function checkAvailableSkills(skill, controlBtn) {
+  if (skill === false || gameStatus.isActive === false) {
+    controlBtn.classList.remove("button-active");
+    controlBtn.setAttribute("disabled", true);
   } else {
-    roundLogs.push(`Player healed ${parseInt(healValue)} HP`);
-    player.currentHp += healValue;
+    controlBtn.classList = "button-active";
+    controlBtn.removeAttribute("disabled", true);
   }
-  roundData.push("heal");
-  writeLog();
 }
 
 function attack(attacker, defender, dmg = 1) {
   if (gameStatus.isActive === true) {
-    checkPrevRound();
     const dealtDamage = (
       Math.random() * 15 +
       attacker.damage * dmg
@@ -89,9 +147,9 @@ function updateHealthBar(object) {
   object.healthBar.value = object.currentHp;
 }
 
-function useMana(value) {
-  player.currentMana -= value;
-}
+// function useMana(value) {
+//   player.currentMana -= value;
+// }
 
 function returnMana() {
   let returnManaValue = player.maxMana * 0.05;
@@ -99,15 +157,22 @@ function returnMana() {
     player.currentMana = +player.currentMana + returnManaValue;
     player.manaBar.value = player.currentMana;
   } else {
+    player.currentMana = player.maxMana;
     return;
   }
+  checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
+  checkAvailableSkills(
+    playerSkills.strongAttack.canUseStrong(),
+    strongAttackBtn
+  );
 }
 
 function startGame() {
-  manaSpan.textContent = "30% MP";
+  healManaSpan.textContent = "30% MP";
+  strongManaSpan.textContent = "20% MP";
   gameStatus.isActive = true;
-  player.maxHp = document.getElementById("playerInput").value;
-  monster.maxHp = document.getElementById("monsterInput").value;
+  player.maxHp = +document.getElementById("playerInput").value;
+  monster.maxHp = +document.getElementById("monsterInput").value;
   monster.currentHp = monster.maxHp;
   player.currentHp = player.maxHp;
   player.maxMana = player.maxHp;
@@ -147,6 +212,7 @@ function writeLog() {
 
 function removeLogs() {
   roundLogs = [];
+  roundData = [];
   const logsLi = document.querySelector("#logs ul");
   while (logsLi.firstChild) {
     logsLi.firstChild.remove();
@@ -187,43 +253,15 @@ startGameBtn.addEventListener("click", () => {
 
 attackBtn.addEventListener("click", () => {
   attack(player, monster);
-  roundData.push("attack");
   attack(monster, player);
+  roundData.push("attack");
   returnMana();
 });
 
 strongAttackBtn.addEventListener("click", () => {
-  if (player.currentMana >= player.maxMana * 0.2) {
-    attack(player, monster, 2);
-    roundData.push("strongattack");
-
-    useMana(`${player.maxMana * 0.2}`);
-    returnMana();
-    attack(monster, player);
-  } else {
-    alert("not enought mana");
-  }
-});
-
-healBtn.addEventListener("click", () => {
-  let manaForHeal = player.maxMana * 0.3;
-  if (
-    roundData.slice(-1) == "heal" &&
-    player.currentMana >= player.maxMana * 0.6
-  ) {
-    manaForHeal = player.maxMana * 0.6;
-    healPlayer();
-    useMana(manaForHeal);
-    attack(monster, player);
-    returnMana();
-  } else if (player.currentMana >= player.maxMana * 0.3) {
-    healPlayer();
-    useMana(manaForHeal);
-    attack(monster, player);
-    returnMana();
-  } else {
-    alert("not enought mana");
-  }
+  playerSkills.strongAttack.useStrong();
+  returnMana();
+  attack(monster, player);
 });
 
 logBtn.addEventListener("click", () => {
@@ -236,19 +274,8 @@ settingsBtn.addEventListener("click", () => {
   startGame();
 });
 
-function checkPrevRound() {
-  if (roundData.slice(-1) == "heal") {
-    manaSpan.textContent = "60% MP";
-  } else {
-    manaSpan.textContent = "30% MP";
-  }
-}
-
-
-// for (const controlBtn of controlBtns) {
-//   controlBtn.addEventListener('click', () => {
-//     controlBtn.classList.remove("button-active");
-//     controlBtn.setAttribute("disabled", true);
-//   } )
-// }
-
+healBtn.addEventListener("click", () => {
+  playerSkills.heal.useHeal();
+  attack(monster, player);
+  returnMana();
+});
