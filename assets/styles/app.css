@@ -60,10 +60,10 @@ button {
   font: inherit;
   background: #e9dfdf;
   border: 1px solid #8b7980;
-  color: #8b7980;
-  padding: 1rem 2rem;
+  color: #3f3a3c;
+  padding: 0.8rem 2rem;
   border-radius: 6px;
-  margin: 0.5rem;
+  margin: 0.3rem;
 }
 
 button:focus {
@@ -90,11 +90,11 @@ button:focus {
 #additional-controls,
 #logs,
 header {
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 35rem;
   text-align: center;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.8rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   background: white;
 }
@@ -161,7 +161,6 @@ span {
   border-radius: 6px;
   border: 1px solid white;
   box-shadow: 1px 0px 20px rgba(255, 255, 255, 0.5);
-
 }
 
 .system {
@@ -174,4 +173,20 @@ span {
 
 .monster {
   color: #a927f5;
+}
+
+.button-active-alt  {
+  background-color: #a927f5;
+  border: none;
+  /* color: #c2bdbf; */
+ }
+
+#restore-mana-span {
+  background-color: #ff0062;
+}
+
+.button-active-alt:hover,
+.button-active-alt:active {
+  background: #ff0062;
+  border-color: #ff0062;
 }

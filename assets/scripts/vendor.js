@@ -7,11 +7,13 @@ const hpInputs = [document.getElementById("playerInput"), document.getElementByI
 
 
 const hpForm = document.getElementById('hpForm');
+
 const controlBtns = document.querySelectorAll("#controls button");
 const attackBtn = document.getElementById("attack-btn");
 const strongAttackBtn = document.getElementById("strong-attack-btn");
 const healBtn = document.getElementById("heal-btn");
 const stunBtn = document.getElementById("stun-btn");
+const restoreBtn = document.getElementById('restore-btn');
 
 const startGameBtn = document.getElementById("startGameBtn");
 const logBtn = document.getElementById("log-btn");

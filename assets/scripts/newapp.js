@@ -114,6 +114,30 @@ const playerSkills = {
       }
     },
   },
+  restore: {
+    canUseRestore() {
+      const neededHp = player.maxHp * 0.2;
+      if (player.currentHp >= neededHp) {
+        return neededHp;
+      } else {
+        return false;
+      }
+    },
+    useRestore() {
+      const restoredMana = player.maxMana / 2;
+      const burnHp = playerSkills.restore.canUseRestore();
+      player.currentHp = player.currentHp - burnHp;
+      if (player.currentMana + restoredMana > player.maxMana) {
+        player.currentMana = player.maxMana
+      }
+      player.currentMana = player.currentMana + restoredMana;
+      player.manaBar.value = player.currentMana;
+      roundLogs.push(`Player restore mana using 20%HP`);
+      roundData.push("restore");
+      writeLog('player');
+    }
+  }
+  
 };
 
 const gameStatus = {
@@ -135,9 +159,11 @@ const activeGameSections = [
 function checkAvailableSkills(skill, controlBtn) {
   if (!skill || !gameStatus.isActive) {
     controlBtn.classList.remove("button-active");
+    restoreBtn.classList.remove("button-active-alt");
     controlBtn.setAttribute("disabled", true);
   } else {
-    controlBtn.classList = "button-active";
+    controlBtn.classList.add("button-active");
+    restoreBtn.classList.add("button-active-alt");
     controlBtn.removeAttribute("disabled", true);
   }
 }
@@ -188,7 +214,6 @@ function returnMana() {
     player.manaBar.value = player.currentMana;
   } else {
     player.currentMana = player.maxMana;
-    return;
   }
   checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
   checkAvailableSkills(
@@ -196,6 +221,7 @@ function returnMana() {
     strongAttackBtn
   );
   checkAvailableSkills(playerSkills.stun.canUseStun(), stunBtn);
+  checkAvailableSkills(playerSkills.restore.canUseRestore(), restoreBtn);
 }
 
 function startGame() {
@@ -225,9 +251,12 @@ function startGame() {
   displaySection(settingsSection); //close settings
 
   for (const controlBtn of controlBtns) {
-    controlBtn.classList = "button-active";
+    controlBtn.classList.add("button-active");
     controlBtn.removeAttribute("disabled");
   }
+  restoreBtn.classList.add("button-active-alt");
+  settingsBtn.classList.remove("click-me");
+
 }
 
 function displaySection(section) {
@@ -306,27 +335,33 @@ settingsBtn.addEventListener("click", () => {
   startGame();
 });
 
+stunBtn.addEventListener("click", () => {
+  playerSkills.stun.useStun();
+  returnMana();
+});
+
 healBtn.addEventListener("click", () => {
   playerSkills.heal.useHeal();
   returnMana();
   attack(monster, player);
 });
 
-for (const hpInput of hpInputs) {
-  hpInput.addEventListener("keyup", () => {
-    if (hpInput.value < 1) {
-      hint.style = "display: block";
-      gameStatus.canStart = false;
-      startGameBtn.classList.remove("button-active");
-    } else {
-      hint.style = "display: none";
-      gameStatus.canStart = true;
-      startGameBtn.classList = "button-active";
-    }
-  });
-}
-
-stunBtn.addEventListener("click", () => {
-  playerSkills.stun.useStun();
+restoreBtn.addEventListener('click', ()=> {
+  playerSkills.restore.useRestore();
   returnMana();
-});
+  attack(monster, player);
+})
+
+  for (const hpInput of hpInputs) {
+    hpInput.addEventListener("keyup", () => {
+      if (hpInput.value < 1) {
+        hint.style = "display: block";
+        gameStatus.canStart = false;
+        startGameBtn.classList.remove("button-active");
+      } else {
+        hint.style = "display: none";
+        gameStatus.canStart = true;
+        startGameBtn.classList.add("button-active");
+      }
+    });
+  }
