@@ -17,7 +17,7 @@
       <h1>GAME STARTED!</h1>
     </section>
     <section id="settings">
-      <form action="#">
+      <form id="hpForm" action="#">
         <div id="inputContainer">
           <h3>MONSTER HP:</h3>
           <input
@@ -38,9 +38,9 @@
             required
           />
           <p id="hint">Hp must be greater then 0</p>
+          <button type="submit" id="startGameBtn" class="button-active">START GAME</button>
         </div>
       </form>
-      <button id="startGameBtn" class="button-active">START GAME</button>
     </section>
     <section id="health-levels" class="toggle">
       <h2>MONSTER HEALTH</h2>
@@ -53,7 +53,7 @@
       <button id="attack-btn">ATTACK</button>
       <button id="strong-attack-btn">STRONG ATTACK <span id="strong-mana-span">20% MP</span></button>
       <button id="heal-btn">HEAL <span id="heal-mana-span">40% MP</span></button>
-      <button id="stun-btn">STUN <span id="heal-mana-span">40% MP</span></button>
+      <button id="stun-btn">STUN <span id="stun-mana-span">40% MP</span></button>
     </section>
     <section id="additional-controls" class="toggle">
       <button id="log-btn" class="button-active">SHOW LOG</button>

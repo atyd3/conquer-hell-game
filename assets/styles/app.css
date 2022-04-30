@@ -109,7 +109,7 @@ header {
   flex-direction: column;
 }
 
-#setHpBtn {
+#startGameBtn {
   display: block;
   margin: 1rem auto;
 }

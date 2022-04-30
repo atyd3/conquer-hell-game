@@ -56,7 +56,7 @@ const playerSkills = {
       player.useMana(mana);
       updateHealthBar(player);
       roundData.push("heal");
-      writeLog('player');
+      writeLog("player");
     },
   },
   strongAttack: {
@@ -82,9 +82,42 @@ const playerSkills = {
       roundData.push("strongattack");
     },
   },
+  stun: {
+    canUseStun() {
+      let neededMana = player.maxMana * 0.4;
+      if (roundData.slice(-1) == "stun") {
+        neededMana *= 2;
+        stunManaSpan.textContent = "80% MP";
+      } else {
+        stunManaSpan.textContent = "40% MP";
+      }
+
+      if (player.currentMana >= neededMana) {
+        return neededMana;
+      } else {
+        return false;
+      }
+    },
+    useStun() {
+      const mana = playerSkills.stun.canUseStun();
+      player.useMana(mana);
+      roundData.push("stun");
+      const stun = Math.random();
+      attack(player, monster);
+      if (stun > 0.4) {
+        roundLogs.push(`Stun failed`);
+        writeLog("system");
+        attack(monster, player);
+      } else {
+        roundLogs.push(`Monster is stunned`);
+        writeLog("system");
+      }
+    },
+  },
 };
 
 const gameStatus = {
+  canStart: true,
   isActive: true,
   result: null,
 };
@@ -111,12 +144,13 @@ function checkAvailableSkills(skill, controlBtn) {
 
 function attack(attacker, defender, dmg = 1) {
   if (!gameStatus.isActive) {
-    return
+    return;
   }
-  
+
   const dealtDamage = (
     Math.random() * 15 +
-    attacker.damage * dmg + (defender.maxHp * 0.01)
+    attacker.damage * dmg +
+    defender.maxHp * 0.01
   ).toPrecision(2);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
@@ -161,10 +195,12 @@ function returnMana() {
     playerSkills.strongAttack.canUseStrong(),
     strongAttackBtn
   );
+  checkAvailableSkills(playerSkills.stun.canUseStun(), stunBtn);
 }
 
 function startGame() {
   healManaSpan.textContent = "40% MP";
+  stunManaSpan.textContent = "40% MP";
   strongManaSpan.textContent = "20% MP";
   gameStatus.isActive = true;
 
@@ -180,7 +216,7 @@ function startGame() {
   setProgressBar(player, player.manaBar);
   roundLogs[0] = "Game started";
   gameStatusSection.firstElementChild.textContent = roundLogs[0];
-  writeLog('system');
+  writeLog("system");
 
   for (const activeSection of activeGameSections) {
     displaySection(activeSection);
@@ -200,7 +236,7 @@ function displaySection(section) {
 
 function writeLog(className) {
   if (!gameStatus.isActive) {
-    return 
+    return;
   }
 
   let li = document.createElement("li");
@@ -220,11 +256,7 @@ function removeLogs() {
 }
 
 function endGame() {
-  if (
-    monster.currentHp <= 0 &&
-    player.currentHp <= 0 &&
-    gameStatus.isActive
-  ) {
+  if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Draw";
   } else if (player.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Monster wins";
@@ -235,7 +267,7 @@ function endGame() {
   }
 
   roundLogs.push(gameStatus.result);
-  writeLog('system');
+  writeLog("system");
   gameStatus.isActive = !gameStatus.isActive;
   gameStatusSection.firstElementChild.textContent = gameStatus.result;
   for (const controlBtn of controlBtns) {
@@ -245,7 +277,8 @@ function endGame() {
   settingsBtn.classList.add("click-me");
 }
 
-startGameBtn.addEventListener("click", () => {
+hpForm.addEventListener("submit", (event) => {
+  event.preventDefault();
   removeLogs();
   startGame();
 });
@@ -277,4 +310,23 @@ healBtn.addEventListener("click", () => {
   playerSkills.heal.useHeal();
   returnMana();
   attack(monster, player);
+});
+
+for (const hpInput of hpInputs) {
+  hpInput.addEventListener("keyup", () => {
+    if (hpInput.value < 1) {
+      hint.style = "display: block";
+      gameStatus.canStart = false;
+      startGameBtn.classList.remove("button-active");
+    } else {
+      hint.style = "display: none";
+      gameStatus.canStart = true;
+      startGameBtn.classList = "button-active";
+    }
+  });
+}
+
+stunBtn.addEventListener("click", () => {
+  playerSkills.stun.useStun();
+  returnMana();
 });
