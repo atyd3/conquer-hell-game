@@ -109,17 +109,6 @@ header {
   flex-direction: column;
 }
 
-#bonus-life {
-  font-weight: bold;
-  color: white;
-  background: #ff0062;
-  border: 1px solid #ff0062;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  text-align: center;
-  margin: 0 0.5rem;
-}
-
 #setHpBtn {
   display: block;
   margin: 1rem auto;
@@ -129,9 +118,9 @@ header {
   font-weight: bold;
 }
 
-#logs {
+/* #logs {
   font-weight: bold;
-}
+} */
 
 #logs ul {
   padding: 0;
@@ -141,7 +130,8 @@ header {
   list-style: none;
   border: 1px solid black;
   border-radius: 6px;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin: 1px;
 }
 
 .toggle {
@@ -172,4 +162,16 @@ span {
   border: 1px solid white;
   box-shadow: 1px 0px 20px rgba(255, 255, 255, 0.5);
 
+}
+
+.system {
+  background-color: #e9dfdf;
+}
+
+.player {
+  color: #ff0062;
+}
+
+.monster {
+  color: #a927f5;
 }
