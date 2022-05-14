@@ -1,3 +1,4 @@
+const header = document.querySelector('header')
 const hint = document.getElementById("hint");
 
 const monsterHealthBar = document.getElementById("monster-health");
@@ -20,7 +21,7 @@ const logBtn = document.getElementById("log-btn");
 const settingsBtn = document.getElementById('settings-btn');
 const additionalControlsSection = document.getElementById('additional-controls');
 
-const logs = document.getElementById('logs');
+const logsSection = document.getElementById('logs');
 const logList = document.getElementById('logList');
 const logsLi = document.querySelectorAll('#logList li:not(:first-child)');
 

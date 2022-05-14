@@ -127,10 +127,11 @@ const playerSkills = {
       const restoredMana = player.maxMana / 2;
       const burnHp = playerSkills.restore.canUseRestore();
       player.currentHp = player.currentHp - burnHp;
-      if (player.currentMana + restoredMana > player.maxMana) {
+      if (player.currentMana + restoredMana >= player.maxMana) {
         player.currentMana = player.maxMana
+      } else {
+        player.currentMana = player.currentMana + restoredMana;
       }
-      player.currentMana = player.currentMana + restoredMana;
       player.manaBar.value = player.currentMana;
       roundLogs.push(`Player restore mana using 20%HP`);
       roundData.push("restore");
@@ -150,11 +151,16 @@ let roundLogs = [];
 let roundData = [];
 
 const activeGameSections = [
-  gameStatusSection,
   healthSection,
+  logsSection,
   controlsSection,
   additionalControlsSection,
 ];
+
+const activeSettingsSections = [
+  header,
+  settingsSection
+]
 
 function checkAvailableSkills(skill, controlBtn) {
   if (!skill || !gameStatus.isActive) {
@@ -176,7 +182,7 @@ function attack(attacker, defender, dmg = 1) {
   const dealtDamage = (
     Math.random() * 15 +
     attacker.damage * dmg +
-    defender.maxHp * 0.01
+    defender.maxHp * 0.02
   ).toPrecision(2);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
@@ -241,14 +247,15 @@ function startGame() {
   setProgressBar(monster, monster.healthBar);
   setProgressBar(player, player.manaBar);
   roundLogs[0] = "Game started";
-  gameStatusSection.firstElementChild.textContent = roundLogs[0];
   writeLog("system");
+  // displaySection(logsSection);
 
   for (const activeSection of activeGameSections) {
-    displaySection(activeSection);
+    showSection(activeSection);
   }
 
-  displaySection(settingsSection); //close settings
+  hideSection(settingsSection); //close settings
+  hideSection(header); //close header
 
   for (const controlBtn of controlBtns) {
     controlBtn.classList.add("button-active");
@@ -259,8 +266,12 @@ function startGame() {
 
 }
 
-function displaySection(section) {
-  section.classList.toggle("toggle");
+function hideSection(section) {
+  section.classList.add("hidden");
+}
+
+function showSection(section) {
+  section.classList.remove("hidden");
 }
 
 function writeLog(className) {
@@ -272,6 +283,7 @@ function writeLog(className) {
   li.classList.add(className);
   li.textContent = roundLogs.slice(-1);
   logList.appendChild(li);
+  logsSection.scrollTop = logsSection.scrollHeight - logsSection.clientHeight
 }
 
 function removeLogs() {
@@ -281,7 +293,7 @@ function removeLogs() {
   while (logsLi.firstChild) {
     logsLi.firstChild.remove();
   }
-  logs.classList.add("toggle");
+  // logsSection.classList.add("toggle");
 }
 
 function endGame() {
@@ -289,16 +301,20 @@ function endGame() {
     gameStatus.result = "Draw";
   } else if (player.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Monster wins";
+    gameStatusSection.classList.add('monster-bg');
   } else if (monster.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Player wins";
+    gameStatusSection.classList.add('player-bg');
   } else {
     return;
   }
-
+  
   roundLogs.push(gameStatus.result);
   writeLog("system");
   gameStatus.isActive = !gameStatus.isActive;
   gameStatusSection.firstElementChild.textContent = gameStatus.result;
+  hideSection(healthSection);
+  showSection(gameStatusSection)
   for (const controlBtn of controlBtns) {
     controlBtn.classList.remove("button-active");
     controlBtn.setAttribute("disabled", true);
@@ -326,13 +342,19 @@ strongAttackBtn.addEventListener("click", () => {
 });
 
 logBtn.addEventListener("click", () => {
-  displaySection(logs);
+  logsSection.classList.toggle('hidden');
 });
 
 settingsBtn.addEventListener("click", () => {
   removeLogs();
   endGame();
-  startGame();
+  for (const activeSection of activeGameSections) {
+    hideSection(activeSection);
+  }
+  for (const activeSection of activeSettingsSections) {
+    showSection(activeSection);
+  }
+  hideSection(gameStatusSection)
 });
 
 stunBtn.addEventListener("click", () => {
