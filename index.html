@@ -11,7 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/styles/app.css" />
     <script src="assets/scripts/vendor.js" defer></script>
     <script src="assets/scripts/newapp.js" defer></script>
@@ -45,6 +48,13 @@
             required
           />
           <p id="hint">Hp must be greater then 1</p>
+          <div class="monsterSelect">
+            <h2>Fight with:</h2>
+            <input type="radio" id="hypno" name="monsterSelect" value="hypno" >
+            <label for="hypno" class="button-active">Hypno</label>
+            <input type="radio" id="electro" name="monsterSelect" value="electro">
+            <label for="electro" class="button-active">Electro</label>
+          </div>
           <button type="submit" id="startGameBtn" class="button-active">
             START GAME
           </button>

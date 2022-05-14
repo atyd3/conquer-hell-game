@@ -104,7 +104,7 @@ const playerSkills = {
       roundData.push("stun");
       const stun = Math.random();
       attack(player, monster);
-      if (stun > 0.4) {
+      if (stun > 0.7) {
         roundLogs.push(`Stun failed`);
         writeLog("system");
         attack(monster, player);
@@ -128,19 +128,27 @@ const playerSkills = {
       const burnHp = playerSkills.restore.canUseRestore();
       player.currentHp = player.currentHp - burnHp;
       if (player.currentMana + restoredMana >= player.maxMana) {
-        player.currentMana = player.maxMana
+        player.currentMana = player.maxMana;
       } else {
         player.currentMana = player.currentMana + restoredMana;
       }
       player.manaBar.value = player.currentMana;
       roundLogs.push(`Player restore mana using 20%HP`);
       roundData.push("restore");
-      writeLog('player');
-    }
-  }
-  
+      writeLog("player");
+    },
+  },
 };
 
+const monsterSkills = {
+  hypno: { regeneration, hypnosis },
+  electro: { lightning, flash }
+};
+
+//regeneration: monster can regenerate 25% HP if his HP is under 50%, chance 3%
+//hypnosis: monster is preparing for attack that can stun player for 3 rounds (and make 3 attack in this time), chance 3% (can be stopped by stun)
+//lightning: strong attack with random damage
+//flash: 2 normal attacks in round, chance 10% or more 
 const gameStatus = {
   canStart: true,
   isActive: true,
@@ -157,10 +165,7 @@ const activeGameSections = [
   additionalControlsSection,
 ];
 
-const activeSettingsSections = [
-  header,
-  settingsSection
-]
+const activeSettingsSections = [header, settingsSection];
 
 function checkAvailableSkills(skill, controlBtn) {
   if (!skill || !gameStatus.isActive) {
@@ -263,7 +268,6 @@ function startGame() {
   }
   restoreBtn.classList.add("button-active-alt");
   settingsBtn.classList.remove("click-me");
-
 }
 
 function hideSection(section) {
@@ -283,7 +287,7 @@ function writeLog(className) {
   li.classList.add(className);
   li.textContent = roundLogs.slice(-1);
   logList.appendChild(li);
-  logsSection.scrollTop = logsSection.scrollHeight - logsSection.clientHeight
+  logsSection.scrollTop = logsSection.scrollHeight - logsSection.clientHeight;
 }
 
 function removeLogs() {
@@ -301,20 +305,20 @@ function endGame() {
     gameStatus.result = "Draw";
   } else if (player.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Monster wins";
-    gameStatusSection.classList.add('monster-bg');
+    gameStatusSection.classList.add("monster-bg");
   } else if (monster.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Player wins";
-    gameStatusSection.classList.add('player-bg');
+    gameStatusSection.classList.add("player-bg");
   } else {
     return;
   }
-  
+
   roundLogs.push(gameStatus.result);
   writeLog("system");
   gameStatus.isActive = !gameStatus.isActive;
   gameStatusSection.firstElementChild.textContent = gameStatus.result;
   hideSection(healthSection);
-  showSection(gameStatusSection)
+  showSection(gameStatusSection);
   for (const controlBtn of controlBtns) {
     controlBtn.classList.remove("button-active");
     controlBtn.setAttribute("disabled", true);
@@ -342,7 +346,7 @@ strongAttackBtn.addEventListener("click", () => {
 });
 
 logBtn.addEventListener("click", () => {
-  logsSection.classList.toggle('hidden');
+  logsSection.classList.toggle("hidden");
 });
 
 settingsBtn.addEventListener("click", () => {
@@ -354,7 +358,7 @@ settingsBtn.addEventListener("click", () => {
   for (const activeSection of activeSettingsSections) {
     showSection(activeSection);
   }
-  hideSection(gameStatusSection)
+  hideSection(gameStatusSection);
 });
 
 stunBtn.addEventListener("click", () => {
@@ -368,22 +372,22 @@ healBtn.addEventListener("click", () => {
   attack(monster, player);
 });
 
-restoreBtn.addEventListener('click', ()=> {
+restoreBtn.addEventListener("click", () => {
   playerSkills.restore.useRestore();
   returnMana();
   attack(monster, player);
-})
+});
 
-  for (const hpInput of hpInputs) {
-    hpInput.addEventListener("keyup", () => {
-      if (hpInput.value < 1) {
-        hint.style = "display: block";
-        gameStatus.canStart = false;
-        startGameBtn.classList.remove("button-active");
-      } else {
-        hint.style = "display: none";
-        gameStatus.canStart = true;
-        startGameBtn.classList.add("button-active");
-      }
-    });
-  }
+for (const hpInput of hpInputs) {
+  hpInput.addEventListener("keyup", () => {
+    if (hpInput.value < 1) {
+      hint.style = "display: block";
+      gameStatus.canStart = false;
+      startGameBtn.classList.remove("button-active");
+    } else {
+      hint.style = "display: none";
+      gameStatus.canStart = true;
+      startGameBtn.classList.add("button-active");
+    }
+  });
+}
