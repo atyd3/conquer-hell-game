@@ -1,5 +1,9 @@
 html {
-  font-family: sans-serif;
+  font-family: "Bangers", cursive;
+
+  --color-primary: #ff0062;
+  --color-secondary: #a927f5;
+  --color-tertiary: #e9dfdf;
 }
 
 body {
@@ -8,11 +12,27 @@ body {
 
 h1 {
   text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-size: 3rem;
+  margin: 1rem;
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin: 1rem 0.5rem;
+  letter-spacing: 0.1rem;
+}
+
+input {
+  border: 1px solid rgb(163, 160, 160);
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 1px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: inherit;
+  letter-spacing: 0.1rem;
+
 }
 
 progress {
@@ -21,8 +41,8 @@ progress {
   appearance: none;
   width: 80%;
   height: 2rem;
-  color: #ff0062;
-  border: 1px solid #ff0062;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 progress[value]::-webkit-progress-bar,
@@ -32,76 +52,49 @@ progress[value] {
 }
 
 progress[value]::-webkit-progress-value {
-  background-color: #ff0062;
+  background-color: var(--color-primary);
   transition: all 0.2s ease-out;
 }
 
 progress[value]::-moz-progress-bar {
-  background-color: #ff0062;
+  background-color: var(--color-primary);
   transition: all 0.2s ease-out;
 }
 
-.mana-bar{
-  color: #a927f5;
-  border: 1px solid #a927f5; 
+.mana-bar {
+  color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
 }
 
 .mana-bar[value]::-webkit-progress-value {
-  background-color: #a927f5;
+  background-color: var(--color-secondary);
   transition: all 0.2s ease-out;
 }
 
 .mana-bar[value]::-moz-progress-bar {
-  background-color: #a927f5;
+  background-color: var(--color-secondary);
   transition: all 0.2s ease-out;
 }
 
-button {
-  font: inherit;
-  background: #e9dfdf;
-  border: 1px solid #8b7980;
-  color: #8b7980;
-  padding: 1rem 2rem;
-  border-radius: 6px;
-  margin: 0.5rem;
-}
-
-button:focus {
-  outline: none;
-}
-
-.button-active:hover,
-.button-active:active {
-  background: #a927f5;
-  border-color: #a927f5;
-}
-
-.button-active {
-  color: white;
-  background: #ff0062;
-  border: 1px solid #ff0062;
-  cursor: pointer;
-}
-
-#health-levels,
-#controls,
-#settings,
-#game-status, 
-#additional-controls,
-#logs,
+section,
 header {
-  margin: 2rem auto;
-  width: 35rem;
+  margin: 1rem auto;
+  width: 42rem;
   text-align: center;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.8rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   background: white;
 }
 
 header {
-  background-color: #a927f5;
-  color: white
+  background-color: var(--color-secondary);
+  color: white;
+  font-weight: 1000;
+}
+
+#game-status {
+  color: white;
 }
 
 #controls {
@@ -109,18 +102,7 @@ header {
   flex-direction: column;
 }
 
-#bonus-life {
-  font-weight: bold;
-  color: white;
-  background: #ff0062;
-  border: 1px solid #ff0062;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  text-align: center;
-  margin: 0 0.5rem;
-}
-
-#setHpBtn {
+#startGameBtn {
   display: block;
   margin: 1rem auto;
 }
@@ -129,8 +111,33 @@ header {
   font-weight: bold;
 }
 
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 6px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-tertiary);
+  border-radius: 6px;
+  border: 1px solid rgb(163, 160, 160);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+
 #logs {
-  font-weight: bold;
+  height: 15rem;
+  overflow-y: auto;
+  padding: 0 auto;
+  letter-spacing: 0.03rem;
 }
 
 #logs ul {
@@ -139,12 +146,13 @@ header {
 
 #logs ul li {
   list-style: none;
-  border: 1px solid black;
+  border: 1px solid rgb(163, 160, 160);
   border-radius: 6px;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin: 1px;
 }
 
-.toggle {
+.hidden {
   display: none !important;
 }
 
@@ -154,22 +162,86 @@ header {
 
 .click-me {
   transition: all 2s ease-out;
-  background: #a927f5;
-  border-color: #a927f5;
-}
-
-.click-me:hover {
-  background: #9e27e2;
-  border-color: #9e27e2;
+  background: var(--color-secondary) !important;
+  border-color: var(--color-secondary) !important;
   transform: scale(1.05);
 }
 
-span {
-  background-color: #a927f5;
+.click-me:hover {
+  background-color: var(--color-primary);
+  border-color: #9e27e2;
+}
+
+.span {
+  background-color: var(--color-secondary);
   margin-left: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.3rem;
   border-radius: 6px;
   border: 1px solid white;
   box-shadow: 1px 0px 20px rgba(255, 255, 255, 0.5);
+}
 
+#restore-mana-span {
+  background-color: var(--color-primary);
+}
+
+.system {
+  background-color: var(--color-tertiary);
+}
+
+.player {
+  color: var(--color-primary);
+}
+
+.player-bg {
+  background-color: var(--color-primary);
+}
+
+.monster {
+  color: var(--color-secondary);
+}
+
+.monster-bg {
+  background-color: var(--color-secondary);
+}
+
+button {
+  font-family: "Bangers", cursive;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  background: var(--color-tertiary);
+  border: 1px solid #8b7980;
+  color: #3f3a3c;
+  padding: 0.6rem 2rem;
+  border-radius: 6px;
+  margin: 0.1rem;
+}
+
+button:focus {
+  outline: none;
+}
+
+.button-active:hover,
+.button-active:active {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.button-active {
+  color: white;
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  cursor: pointer;
+}
+
+.button-active-alt {
+  background-color: var(--color-secondary);
+  border: none;
+  /* color: #c2bdbf; */
+}
+
+.button-active-alt:hover,
+.button-active-alt:active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
