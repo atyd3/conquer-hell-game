@@ -218,6 +218,11 @@ header {
   color: var(--color-secondary);
 }
 
+.monster-special {
+  background-color: var(--color-secondary);
+  color: white
+}
+
 .monster-bg {
   background-color: var(--color-secondary);
 }

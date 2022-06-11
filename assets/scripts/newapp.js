@@ -141,14 +141,45 @@ const playerSkills = {
 };
 
 const monsterSkills = {
-  hypno: { regeneration, hypnosis },
-  electro: { lightning, flash }
+  hypno: {
+    regeneration(chance) {
+      if (chance <= 0.1 && monster.currentHp <= 0.5*monster.maxHp && gameStatus.isActive){
+        monster.currentHp += 0.25*monster.maxHp
+        updateHealthBar(monster);
+        roundLogs.push(`Hypno used regeneration and restore 25% HP`);
+        writeLog("monster-special");
+      }
+    },
+    hypnosis() {
+      console.log("hypno use hypnosis");
+    },
+  },
+  electro: {
+    lightning(chance) {
+      if (chance <= 0.25)
+      console.log("electro use lightning");
+    },
+    flash() {
+      console.log("electro use flash");
+    },
+  },
+  drago: {
+    fireFury() {
+      console.log("drago use fireFury");
+    },
+    rainOfFire() {
+      console.log("drago use rain of fire");
+    },
+  },
 };
 
-//regeneration: monster can regenerate 25% HP if his HP is under 50%, chance 3%
+//regeneration: monster can regenerate 25% HP if his HP is under 50%, chance 10%
 //hypnosis: monster is preparing for attack that can stun player for 3 rounds (and make 3 attack in this time), chance 3% (can be stopped by stun)
 //lightning: strong attack with random damage
-//flash: 2 normal attacks in round, chance 10% or more 
+//flash: 2 normal attacks in round, chance 10% or more
+//fire fury: player is burning in fire, takes 5% of HP for 3 rounds (can stack)
+//rain of fire: monster can attack with 3 to 7 fire balls with random damage
+
 const gameStatus = {
   canStart: true,
   isActive: true,
@@ -176,6 +207,15 @@ function checkAvailableSkills(skill, controlBtn) {
     controlBtn.classList.add("button-active");
     restoreBtn.classList.add("button-active-alt");
     controlBtn.removeAttribute("disabled", true);
+  }
+}
+
+function enableSpecialMonsterSkills(selectedMonster) {
+  for (let key in monsterSkills) {
+    if (key == selectedMonster) {
+      specialSkills = monsterSkills[key];
+      console.log(specialSkills)
+    }
   }
 }
 
@@ -226,13 +266,6 @@ function returnMana() {
   } else {
     player.currentMana = player.maxMana;
   }
-  checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
-  checkAvailableSkills(
-    playerSkills.strongAttack.canUseStrong(),
-    strongAttackBtn
-  );
-  checkAvailableSkills(playerSkills.stun.canUseStun(), stunBtn);
-  checkAvailableSkills(playerSkills.restore.canUseRestore(), restoreBtn);
 }
 
 function startGame() {
@@ -253,7 +286,6 @@ function startGame() {
   setProgressBar(player, player.manaBar);
   roundLogs[0] = "Game started";
   writeLog("system");
-  // displaySection(logsSection);
 
   for (const activeSection of activeGameSections) {
     showSection(activeSection);
@@ -300,6 +332,26 @@ function removeLogs() {
   // logsSection.classList.add("toggle");
 }
 
+function specialMonsterAttack() {
+  console.log('losowanie specjalnego ataku')
+  const chance = Math.random();
+  for (let skill in specialSkills){
+    specialSkills[skill](chance);
+  }
+}
+
+function nextRound() {
+  returnMana();
+  specialMonsterAttack();
+  checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
+  checkAvailableSkills(
+    playerSkills.strongAttack.canUseStrong(),
+    strongAttackBtn
+  );
+  checkAvailableSkills(playerSkills.stun.canUseStun(), stunBtn);
+  checkAvailableSkills(playerSkills.restore.canUseRestore(), restoreBtn);
+}
+
 function endGame() {
   if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
     gameStatus.result = "Draw";
@@ -329,6 +381,12 @@ function endGame() {
 hpForm.addEventListener("submit", (event) => {
   event.preventDefault();
   removeLogs();
+  for (const monsterSelect of monsterSelects) {
+    if (monsterSelect.checked) {
+      selectedMonster = monsterSelect.value;
+      enableSpecialMonsterSkills(selectedMonster);
+    }
+  }
   startGame();
 });
 
@@ -336,12 +394,12 @@ attackBtn.addEventListener("click", () => {
   attack(player, monster);
   attack(monster, player);
   roundData.push("attack");
-  returnMana();
+  nextRound();
 });
 
 strongAttackBtn.addEventListener("click", () => {
   playerSkills.strongAttack.useStrong();
-  returnMana();
+  nextRound();
   attack(monster, player);
 });
 
@@ -363,18 +421,18 @@ settingsBtn.addEventListener("click", () => {
 
 stunBtn.addEventListener("click", () => {
   playerSkills.stun.useStun();
-  returnMana();
+  nextRound();
 });
 
 healBtn.addEventListener("click", () => {
   playerSkills.heal.useHeal();
-  returnMana();
+  nextRound();
   attack(monster, player);
 });
 
 restoreBtn.addEventListener("click", () => {
   playerSkills.restore.useRestore();
-  returnMana();
+  nextRound();
   attack(monster, player);
 });
 
