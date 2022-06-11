@@ -157,7 +157,7 @@ const monsterSkills = {
   electro: {
     lightning(chance) {
       if (chance <= 0.1 && gameStatus.isActive){
-      lightningDamage = +(Math.random() * 10 + monster.damage * 1.2 * player.maxHp * 0.01).toPrecision(2);
+      lightningDamage = +(0.08 * player.maxHp + Math.random()*0.15*player.maxHp).toPrecision(2);
       player.currentHp -= lightningDamage;
       updateHealthBar(player);
       roundLogs.push(`Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`);
@@ -340,9 +340,9 @@ function removeLogs() {
 
 function specialMonsterAttack() {
   console.log('losowanie specjalnego ataku')
-  const chance = Math.random();
+  let chance = Math.random();
   if (player.maxHp/monster.maxHp > 2) {
-   // 
+   chance -= player.maxHp/monster.maxHp*0.1
   }
   console.log(chance);
   for (let skill in specialSkills){
