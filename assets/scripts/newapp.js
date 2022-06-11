@@ -143,7 +143,7 @@ const playerSkills = {
 const monsterSkills = {
   hypno: {
     regeneration(chance) {
-      if (chance <= 0.1 && monster.currentHp <= 0.5*monster.maxHp && gameStatus.isActive){
+      if (chance <= 0.03 && monster.currentHp <= 0.5*monster.maxHp && gameStatus.isActive){
         monster.currentHp += 0.25*monster.maxHp
         updateHealthBar(monster);
         roundLogs.push(`Hypno used regeneration and restore 25% HP`);
@@ -156,8 +156,14 @@ const monsterSkills = {
   },
   electro: {
     lightning(chance) {
-      if (chance <= 0.25)
-      console.log("electro use lightning");
+      if (chance <= 0.1 && gameStatus.isActive){
+      lightningDamage = +(Math.random() * 10 + monster.damage * 1.2 * player.maxHp * 0.01).toPrecision(2);
+      player.currentHp -= lightningDamage;
+      updateHealthBar(player);
+      roundLogs.push(`Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`);
+      writeLog("monster-special");
+      endGame();
+      };
     },
     flash() {
       console.log("electro use flash");
@@ -224,7 +230,7 @@ function attack(attacker, defender, dmg = 1) {
     return;
   }
 
-  const dealtDamage = (
+  const dealtDamage = +(
     Math.random() * 15 +
     attacker.damage * dmg +
     defender.maxHp * 0.02
@@ -335,6 +341,10 @@ function removeLogs() {
 function specialMonsterAttack() {
   console.log('losowanie specjalnego ataku')
   const chance = Math.random();
+  if (player.maxHp/monster.maxHp > 2) {
+   // 
+  }
+  console.log(chance);
   for (let skill in specialSkills){
     specialSkills[skill](chance);
   }
@@ -448,4 +458,9 @@ for (const hpInput of hpInputs) {
       startGameBtn.classList.add("button-active");
     }
   });
+  hpInput.oninput = function () {
+    if (this.value.length > 5) {
+        this.value = this.value.slice(0,5); 
+    }
+}
 }

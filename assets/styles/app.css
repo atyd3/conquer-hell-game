@@ -219,8 +219,19 @@ header {
 }
 
 .monster-special {
-  background-color: var(--color-secondary);
-  color: white
+  animation: pulse 5s;
+  background-color: var(--color-tertiary);
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+  100%{
+    background-color: var(--color-tertiary);
+    color: black;
+  }
 }
 
 .monster-bg {
