@@ -42,7 +42,9 @@ const playerSkills = {
       }
     },
     useHeal() {
-      const healValue = player.maxHp *0.35 + Math.random().toPrecision(2) * 10 * player.maxHp / 100;
+      const healValue =
+        player.maxHp * 0.35 +
+        (Math.random().toPrecision(2) * 10 * player.maxHp) / 100;
       if (player.currentHp + healValue > player.maxHp) {
         roundLogs.push(
           `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
@@ -110,6 +112,7 @@ const playerSkills = {
         attack(monster, player);
       } else {
         roundLogs.push(`Monster is stunned`);
+        monsterRoundData.push("stun");
         writeLog("system");
       }
     },
@@ -143,31 +146,71 @@ const playerSkills = {
 
 const monsterSkills = {
   hypno: {
+    hypnosis(chance) {
+      if (
+        monsterRoundData.slice(-2,-1) == "hypnosis prep" &&
+        gameStatus.isActive &&
+        monsterRoundData.slice(-1) != "stun"
+      ) {
+        monsterRoundData.push("hypnosis");
+        roundLogs.push(`Hypno used hypnosis`);
+        console.log("working");
+        writeLog("monster-special");
+        attack(monster, player);
+        attack(monster, player);
+      }
+      if (
+        monsterRoundData.slice(-1) != "regeneration" &&
+        monsterRoundData.slice(-1) != "hypnosis" &&
+        chance >= 0.97 &&
+        gameStatus.isActive &&
+        monsterRoundData.slice(-1) != "stun"
+      ) {
+        monsterRoundData.push("hypnosis prep");
+        roundLogs.push(`Hypno is preparing to use hypnosis`);
+        writeLog("monster-special");
+      }
+      console.log(monsterRoundData);
+    },
     regeneration(chance) {
-      if (monsterRoundData.slice(-1) != 'regeneration' && chance <= 0.03 && monster.currentHp <= 0.33*monster.maxHp && gameStatus.isActive){
-        monster.currentHp += 0.25*monster.maxHp
+      if (
+        monsterRoundData.slice(-1) != "regeneration" &&
+        chance <= 0.03 &&
+        monster.currentHp <= 0.33 * monster.maxHp &&
+        gameStatus.isActive &&
+        monsterRoundData.slice(-1) != "stun"
+      ) {
+        monster.currentHp += 0.25 * monster.maxHp;
         updateHealthBar(monster);
         roundLogs.push(`Hypno used regeneration and restore 25% HP`);
-        monsterRoundData.push('regeneration');
+        monsterRoundData.push("regeneration");
         writeLog("monster-special");
       } else {
-        monsterRoundData.push('regeneration failed');
+        monsterRoundData.push("regeneration failed");
       }
-    },
-    hypnosis(chance) {
-      console.log("hypno use hypnosis");
     },
   },
   electro: {
     lightning(chance) {
-      if (chance <= 0.1 && gameStatus.isActive){
-      lightningDamage = +(0.08 * player.maxHp + Math.random()*0.15*player.maxHp).toPrecision(1);
-      player.currentHp -= lightningDamage;
-      updateHealthBar(player);
-      roundLogs.push(`Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`);
-      writeLog("monster-special");
-      endGame();
-      };
+      if (
+        chance <= 0.1 &&
+        gameStatus.isActive &&
+        monsterRoundData.slice(-1) != "stun"
+      ) {
+        lightningDamage = +(
+          0.08 * player.maxHp +
+          Math.random() * 0.15 * player.maxHp
+        ).toPrecision(1);
+        player.currentHp -= lightningDamage;
+        updateHealthBar(player);
+        roundLogs.push(
+          `Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(
+            player
+          )})%`
+        );
+        writeLog("monster-special");
+        endGame();
+      }
     },
     flash() {
       console.log("electro use flash");
@@ -178,23 +221,34 @@ const monsterSkills = {
       console.log("drago use fireFury");
     },
     rainOfFire(chance) {
-      if (chance <= 0.1 && gameStatus.isActive){
-        rainOfFireDrops = Math.floor(Math.random()*(5-2+1)+2);
-        for (let i = 0; i < rainOfFireDrops; i++){
-          rainOfFireDamage = +(Math.random()*0.04*player.maxHp+ 0.01*player.maxHp).toPrecision(1);
+      if (
+        chance <= 0.1 &&
+        gameStatus.isActive &&
+        monsterRoundData.slice(-1) != "stun"
+      ) {
+        rainOfFireDrops = Math.floor(Math.random() * (5 - 2 + 1) + 2);
+        for (let i = 0; i < rainOfFireDrops; i++) {
+          rainOfFireDamage = +(
+            Math.random() * 0.04 * player.maxHp +
+            0.01 * player.maxHp
+          ).toPrecision(1);
           player.currentHp -= rainOfFireDamage;
           updateHealthBar(player);
-          roundLogs.push(`Drago used rain of fire and caused ${rainOfFireDamage} damage to player (${showPercentageHp(player)})%`);
+          roundLogs.push(
+            `Drago used rain of fire and caused ${rainOfFireDamage} damage to player (${showPercentageHp(
+              player
+            )})%`
+          );
           writeLog("monster-special");
           endGame();
         }
-        };
+      }
     },
   },
 };
 
 //regeneration: monster can regenerate 25% HP if his HP is under 50%, chance 10%
-//hypnosis: monster is preparing for attack that can stun player for 3 rounds (and make 3 attack in this time), chance 3% (can be stopped by stun)
+//hypnosis: monster is preparing for attack that can stun player for 2 rounds (and make 2 attack in this time), chance 3% (can be stopped by stun)
 //lightning: strong attack with random damage
 //flash: 2 normal attacks in round, chance 10% or more
 //fire fury: player is burning in fire, takes 5% of HP for 3 rounds (can stack)
@@ -235,7 +289,7 @@ function enableSpecialMonsterSkills(selectedMonster) {
   for (let key in monsterSkills) {
     if (key == selectedMonster) {
       specialSkills = monsterSkills[key];
-      console.log(specialSkills)
+      console.log(specialSkills);
     }
   }
 }
@@ -354,13 +408,13 @@ function removeLogs() {
 }
 
 function specialMonsterAttack() {
-  console.log('losowanie specjalnego ataku')
+  console.log("losowanie specjalnego ataku");
   let chance = Math.random();
-  if (player.maxHp/monster.maxHp >= 2) {
-   chance -= player.maxHp/monster.maxHp*0.1
+  if (player.maxHp / monster.maxHp >= 2) {
+    chance -= (player.maxHp / monster.maxHp) * 0.1;
   }
   console.log(chance);
-  for (let skill in specialSkills){
+  for (let skill in specialSkills) {
     specialSkills[skill](chance);
   }
 }
@@ -475,7 +529,7 @@ for (const hpInput of hpInputs) {
   });
   hpInput.oninput = function () {
     if (this.value.length > 5) {
-        this.value = this.value.slice(0,5); 
+      this.value = this.value.slice(0, 5);
     }
-}
+  };
 }
