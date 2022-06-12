@@ -28,7 +28,7 @@ const playerSkills = {
   heal: {
     canUseHeal() {
       let neededMana = player.maxMana * 0.4;
-      if (roundData.slice(-1) == "heal") {
+      if (playerRoundData.slice(-1) == "heal") {
         neededMana *= 2;
         healManaSpan.textContent = "80% MP";
       } else {
@@ -42,7 +42,7 @@ const playerSkills = {
       }
     },
     useHeal() {
-      const healValue = player.maxHp / 3 + 5 * Math.random().toPrecision(2) + 5;
+      const healValue = player.maxHp *0.35 + Math.random().toPrecision(2) * 10 * player.maxHp / 100;
       if (player.currentHp + healValue > player.maxHp) {
         roundLogs.push(
           `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
@@ -55,14 +55,14 @@ const playerSkills = {
       const mana = playerSkills.heal.canUseHeal();
       player.useMana(mana);
       updateHealthBar(player);
-      roundData.push("heal");
+      playerRoundData.push("heal");
       writeLog("player");
     },
   },
   strongAttack: {
     canUseStrong() {
       let neededMana = player.maxMana * 0.2;
-      if (roundData.slice(-1) == "strongattack") {
+      if (playerRoundData.slice(-1) == "strongattack") {
         neededMana *= 2;
         strongManaSpan.textContent = "40% MP";
       } else {
@@ -79,13 +79,13 @@ const playerSkills = {
       const mana = playerSkills.strongAttack.canUseStrong();
       attack(player, monster, 2);
       player.useMana(mana);
-      roundData.push("strongattack");
+      playerRoundData.push("strongattack");
     },
   },
   stun: {
     canUseStun() {
       let neededMana = player.maxMana * 0.4;
-      if (roundData.slice(-1) == "stun") {
+      if (playerRoundData.slice(-1) == "stun") {
         neededMana *= 2;
         stunManaSpan.textContent = "80% MP";
       } else {
@@ -101,7 +101,7 @@ const playerSkills = {
     useStun() {
       const mana = playerSkills.stun.canUseStun();
       player.useMana(mana);
-      roundData.push("stun");
+      playerRoundData.push("stun");
       const stun = Math.random();
       attack(player, monster);
       if (stun > 0.7) {
@@ -126,7 +126,7 @@ const playerSkills = {
     useRestore() {
       const restoredMana = player.maxMana / 2;
       const burnHp = playerSkills.restore.canUseRestore();
-      player.currentHp = player.currentHp - burnHp;
+      player.currentHp -= burnHp;
       if (player.currentMana + restoredMana >= player.maxMana) {
         player.currentMana = player.maxMana;
       } else {
@@ -134,8 +134,9 @@ const playerSkills = {
       }
       player.manaBar.value = player.currentMana;
       roundLogs.push(`Player restore mana using 20%HP`);
-      roundData.push("restore");
+      playerRoundData.push("restore");
       writeLog("player");
+      endGame();
     },
   },
 };
@@ -143,21 +144,24 @@ const playerSkills = {
 const monsterSkills = {
   hypno: {
     regeneration(chance) {
-      if (chance <= 0.03 && monster.currentHp <= 0.5*monster.maxHp && gameStatus.isActive){
+      if (monsterRoundData.slice(-1) != 'regeneration' && chance <= 0.03 && monster.currentHp <= 0.33*monster.maxHp && gameStatus.isActive){
         monster.currentHp += 0.25*monster.maxHp
         updateHealthBar(monster);
         roundLogs.push(`Hypno used regeneration and restore 25% HP`);
+        monsterRoundData.push('regeneration');
         writeLog("monster-special");
+      } else {
+        monsterRoundData.push('regeneration failed');
       }
     },
-    hypnosis() {
+    hypnosis(chance) {
       console.log("hypno use hypnosis");
     },
   },
   electro: {
     lightning(chance) {
       if (chance <= 0.1 && gameStatus.isActive){
-      lightningDamage = +(0.08 * player.maxHp + Math.random()*0.15*player.maxHp).toPrecision(2);
+      lightningDamage = +(0.08 * player.maxHp + Math.random()*0.15*player.maxHp).toPrecision(1);
       player.currentHp -= lightningDamage;
       updateHealthBar(player);
       roundLogs.push(`Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`);
@@ -173,8 +177,18 @@ const monsterSkills = {
     fireFury() {
       console.log("drago use fireFury");
     },
-    rainOfFire() {
-      console.log("drago use rain of fire");
+    rainOfFire(chance) {
+      if (chance <= 0.1 && gameStatus.isActive){
+        rainOfFireDrops = Math.floor(Math.random()*(5-2+1)+2);
+        for (let i = 0; i < rainOfFireDrops; i++){
+          rainOfFireDamage = +(Math.random()*0.04*player.maxHp+ 0.01*player.maxHp).toPrecision(1);
+          player.currentHp -= rainOfFireDamage;
+          updateHealthBar(player);
+          roundLogs.push(`Drago used rain of fire and caused ${rainOfFireDamage} damage to player (${showPercentageHp(player)})%`);
+          writeLog("monster-special");
+          endGame();
+        }
+        };
     },
   },
 };
@@ -184,7 +198,7 @@ const monsterSkills = {
 //lightning: strong attack with random damage
 //flash: 2 normal attacks in round, chance 10% or more
 //fire fury: player is burning in fire, takes 5% of HP for 3 rounds (can stack)
-//rain of fire: monster can attack with 3 to 7 fire balls with random damage
+//rain of fire: monster can attack with 2 to 5 fire balls with random damage
 
 const gameStatus = {
   canStart: true,
@@ -193,7 +207,8 @@ const gameStatus = {
 };
 
 let roundLogs = [];
-let roundData = [];
+let playerRoundData = [];
+let monsterRoundData = [];
 
 const activeGameSections = [
   healthSection,
@@ -234,7 +249,7 @@ function attack(attacker, defender, dmg = 1) {
     Math.random() * 15 +
     attacker.damage * dmg +
     defender.maxHp * 0.02
-  ).toPrecision(2);
+  ).toPrecision(3);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
   roundLogs.push(
@@ -330,7 +345,7 @@ function writeLog(className) {
 
 function removeLogs() {
   roundLogs = [];
-  roundData = [];
+  playerRoundData = [];
   const logsLi = document.querySelector("#logs ul");
   while (logsLi.firstChild) {
     logsLi.firstChild.remove();
@@ -341,7 +356,7 @@ function removeLogs() {
 function specialMonsterAttack() {
   console.log('losowanie specjalnego ataku')
   let chance = Math.random();
-  if (player.maxHp/monster.maxHp > 2) {
+  if (player.maxHp/monster.maxHp >= 2) {
    chance -= player.maxHp/monster.maxHp*0.1
   }
   console.log(chance);
@@ -403,7 +418,7 @@ hpForm.addEventListener("submit", (event) => {
 attackBtn.addEventListener("click", () => {
   attack(player, monster);
   attack(monster, player);
-  roundData.push("attack");
+  playerRoundData.push("attack");
   nextRound();
 });
 
