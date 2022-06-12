@@ -191,7 +191,7 @@ const monsterSkills = {
   electro: {
     lightning(chance) {
       if (
-        chance <= 0.1 &&
+        chance <= 0.15 &&
         gameStatus.isActive &&
         monsterRoundData.slice(-1) != "stun"
       ) {
@@ -220,7 +220,7 @@ const monsterSkills = {
     },
     rainOfFire(chance) {
       if (
-        chance <= 0.1 &&
+        chance <= 0.15 &&
         gameStatus.isActive &&
         monsterRoundData.slice(-1) != "stun"
       ) {
@@ -298,8 +298,8 @@ function attack(attacker, defender, dmg = 1) {
   }
 
   const dealtDamage = +(
-    defender.maxHp * 0.03 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
-    attacker.damage * dmg 
+    defender.maxHp * 0.02 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
+    attacker.damage *dmg 
   ).toPrecision(3);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
@@ -405,7 +405,6 @@ function removeLogs() {
 }
 
 function specialMonsterAttack() {
-  console.log("losowanie specjalnego ataku");
   let chance = Math.random();
   if (player.maxHp / monster.maxHp >= 2) {
     chance -= (player.maxHp / monster.maxHp) * 0.1;
