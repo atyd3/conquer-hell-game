@@ -79,7 +79,7 @@ const playerSkills = {
     },
     useStrong() {
       const mana = playerSkills.strongAttack.canUseStrong();
-      attack(player, monster, 2);
+      attack(player, monster, 3);
       player.useMana(mana);
       playerRoundData.push("strongattack");
     },
@@ -154,7 +154,6 @@ const monsterSkills = {
       ) {
         monsterRoundData.push("hypnosis");
         roundLogs.push(`Hypno used hypnosis`);
-        console.log("working");
         writeLog("monster-special");
         attack(monster, player);
         attack(monster, player);
@@ -162,7 +161,7 @@ const monsterSkills = {
       if (
         monsterRoundData.slice(-1) != "regeneration" &&
         monsterRoundData.slice(-1) != "hypnosis" &&
-        chance >= 0.97 &&
+        chance >= 0.90 &&
         gameStatus.isActive &&
         monsterRoundData.slice(-1) != "stun"
       ) {
@@ -170,12 +169,11 @@ const monsterSkills = {
         roundLogs.push(`Hypno is preparing to use hypnosis`);
         writeLog("monster-special");
       }
-      console.log(monsterRoundData);
     },
     regeneration(chance) {
       if (
         monsterRoundData.slice(-1) != "regeneration" &&
-        chance <= 0.03 &&
+        chance <= 0.3 &&
         monster.currentHp <= 0.33 * monster.maxHp &&
         gameStatus.isActive &&
         monsterRoundData.slice(-1) != "stun"
@@ -300,9 +298,8 @@ function attack(attacker, defender, dmg = 1) {
   }
 
   const dealtDamage = +(
-    Math.random() * 15 +
-    attacker.damage * dmg +
-    defender.maxHp * 0.02
+    defender.maxHp * 0.03 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
+    attacker.damage * dmg 
   ).toPrecision(3);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
