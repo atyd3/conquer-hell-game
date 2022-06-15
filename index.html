@@ -11,10 +11,19 @@
       href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/styles/app.css" />
-    <script src="assets/scripts/vendor.js" defer></script>
-    <script src="assets/scripts/newapp.js" defer></script>
+    <script src="assets/scripts/elements.js" defer></script>
+    <script src="assets/scripts/player.js" defer></script>
+    <script src="assets/scripts/monsters.js" defer></script>
+    <script src="assets/scripts/validation.js" defer></script>
+    <script src="assets/scripts/sections&hp.js" defer></script>
+    <script src="assets/scripts/logs.js" defer></script>
+    <script src="assets/scripts/main.js" defer></script>
+    <script src="assets/scripts/buttons.js" defer></script>
   </head>
   <body>
     <header>
@@ -31,8 +40,10 @@
             type="number"
             name="monster"
             id="monsterInput"
-            min="1"
-            value="200"
+            min="100"
+            max="99999"
+            maxlength="5"
+            value="2000"
             required
           />
           <h2>PLAYER HP:</h2>
@@ -40,11 +51,22 @@
             type="number"
             name="player"
             id="playerInput"
-            min="1"
-            value="100"
+            min="100"
+            max="99999"
+            maxlength="5"
+            value="1000"
             required
           />
-          <p id="hint">Hp must be greater then 1</p>
+          <p id="hint">Hp must be greater then 100</p>
+          <div class="monsterSelect">
+            <h2>Fight with:</h2>
+            <input type="radio" id="hypno" name="monsterSelect" value="hypno" required>
+            <label for="hypno" class="button-active">Hypno</label>
+            <input type="radio" id="electro" name="monsterSelect" value="electro" required>
+            <label for="electro" class="button-active">Electro</label>
+            <input type="radio" id="drago" name="monsterSelect" value="drago" required>
+            <label for="drago" class="button-active">Drago</label>
+          </div>
           <button type="submit" id="startGameBtn" class="button-active">
             START GAME
           </button>
@@ -75,7 +97,7 @@
         HEAL <span class="span" id="heal-mana-span">40% MP</span>
       </button>
       <button id="restore-btn">
-        RESTORE 50% MANA<span class="span" id="restore-mana-span">20% HP</span>
+        RESTORE MANA<span class="span" id="restore-mana-span">20% HP</span>
       </button>
     </section>
     <section id="additional-controls" class="hidden">

@@ -8,6 +8,13 @@ const hpInputs = [document.getElementById("playerInput"), document.getElementByI
 
 
 const hpForm = document.getElementById('hpForm');
+const monsterSelects = document.querySelectorAll('input[name="monsterSelect"]');
+let selectedMonster;
+// let specialSkills = [];
+let roundLogs = [];
+let playerRoundData = [];
+let monsterRoundData = [];
+
 
 const controlBtns = document.querySelectorAll("#controls button");
 const attackBtn = document.getElementById("attack-btn");
