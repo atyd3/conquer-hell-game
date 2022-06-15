@@ -19,8 +19,8 @@
     <script src="assets/scripts/elements.js" defer></script>
     <script src="assets/scripts/player.js" defer></script>
     <script src="assets/scripts/monsters.js" defer></script>
-    <script src="assets/scripts/validation.js" defer></script>
     <script src="assets/scripts/sections&hp.js" defer></script>
+    <script src="assets/scripts/form.js" defer></script>
     <script src="assets/scripts/logs.js" defer></script>
     <script src="assets/scripts/main.js" defer></script>
     <script src="assets/scripts/buttons.js" defer></script>
@@ -32,9 +32,46 @@
     <section id="game-status" class="hidden">
       <h1>GAME STARTED!</h1>
     </section>
-    <section id="settings">
-      <form id="hpForm" action="#">
-        <div id="inputContainer">
+  </section>
+  <section id="settings">
+    <form id="hpForm" action="#">
+      <div id="inputContainer">
+        <div class="settingsSelect">
+          <h2>Difficulty levels</h2>
+            <input
+              type="radio"
+              id="normal"
+              name="difficultySelect"
+              value="normal"
+              required
+            />
+            <label for="normal" class="button-active">Normal</label>
+            <input
+              type="radio"
+              id="nightmare"
+              name="difficultySelect"
+              value="nightmare"
+              checked
+              required
+            />
+            <label for="nightmare" class="button-active">Nightmare</label>
+            <input
+              type="radio"
+              id="hell"
+              name="difficultySelect"
+              value="hell"
+              required
+            />
+            <label for="hell" class="button-active">Hell</label>
+            <input
+              type="radio"
+              id="custom"
+              name="difficultySelect"
+              value="custom"
+            />
+            <label for="custom" class="button-active">Custom</label>
+        </div>
+        <div id="hpInputs" class="hidden">
           <h2>MONSTER HP:</h2>
           <input
             type="number"
@@ -44,7 +81,6 @@
             max="99999"
             maxlength="5"
             value="2000"
-            required
           />
           <h2>PLAYER HP:</h2>
           <input
@@ -58,13 +94,32 @@
             required
           />
           <p id="hint">Hp must be greater then 100</p>
-          <div class="monsterSelect">
-            <h2>Fight with:</h2>
-            <input type="radio" id="hypno" name="monsterSelect" value="hypno" required>
+        </div>
+          <div class="settingsSelect">
+            <h2>Fight with</h2>
+            <input
+              type="radio"
+              id="hypno"
+              name="monsterSelect"
+              value="hypno"
+              required
+            />
             <label for="hypno" class="button-active">Hypno</label>
-            <input type="radio" id="electro" name="monsterSelect" value="electro" required>
+            <input
+              type="radio"
+              id="electro"
+              name="monsterSelect"
+              value="electro"
+              required
+            />
             <label for="electro" class="button-active">Electro</label>
-            <input type="radio" id="drago" name="monsterSelect" value="drago" required>
+            <input
+              type="radio"
+              id="drago"
+              name="monsterSelect"
+              value="drago"
+              required
+            />
             <label for="drago" class="button-active">Drago</label>
           </div>
           <button type="submit" id="startGameBtn" class="button-active">

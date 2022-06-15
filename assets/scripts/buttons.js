@@ -1,16 +1,4 @@
-hpForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    removeLogs();
-    for (const monsterSelect of monsterSelects) {
-      if (monsterSelect.checked) {
-        selectedMonster = monsterSelect.value;
-        enableSpecialMonsterSkills(selectedMonster);
-      }
-    }
-    startGame();
-  });
-  
-  attackBtn.addEventListener("click", () => {
+   attackBtn.addEventListener("click", () => {
     attack(player, monster);
     attack(monster, player);
     playerRoundData.push("attack");
