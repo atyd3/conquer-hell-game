@@ -8,9 +8,11 @@ const hpInputs = [document.getElementById("playerInput"), document.getElementByI
 
 
 const hpForm = document.getElementById('hpForm');
+const difficultySelects = document.querySelectorAll('input[name="difficultySelect"]');
+const customDifficulty = document.getElementById('custom');
+const hpInputsDiv = document.getElementById("hpInputs");
 const monsterSelects = document.querySelectorAll('input[name="monsterSelect"]');
 let selectedMonster;
-// let specialSkills = [];
 let roundLogs = [];
 let playerRoundData = [];
 let monsterRoundData = [];

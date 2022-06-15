@@ -11,8 +11,6 @@ function startGame() {
   strongManaSpan.textContent = "20% MP";
   gameStatus.isActive = true;
 
-  player.maxHp = +document.getElementById("playerInput").value;
-  monster.maxHp = +document.getElementById("monsterInput").value;
   monster.currentHp = monster.maxHp;
   player.currentHp = player.maxHp;
   player.maxMana = player.maxHp;

@@ -34,21 +34,27 @@ input {
   letter-spacing: 0.1rem;
 }
 
-.monsterSelect {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.settingsSelect {
   margin: 2rem 0 2rem 0;
 }
 
-.monsterSelect label {
+.settingsSelect label {
   font-size: 1.2rem;
   letter-spacing: 0.1rem;
   font-weight: bold;
 }
 
-.monsterSelect input[type="radio"]{
+.settingsSelect input[type="radio"]{
   opacity: 0;
 }
 
-.monsterSelect input[type="radio"]:checked+label{
+.settingsSelect input[type="radio"]:checked+label{
 background: var(--color-secondary)
 }
 
@@ -122,6 +128,10 @@ header {
 #startGameBtn {
   display: block;
   margin: 1rem auto;
+  padding: 1.1rem;
+  font-size: 1.8rem;
+  border-radius: 6px;
+
 }
 
 #validationFailed {
@@ -154,7 +164,7 @@ header {
   height: 15rem;
   overflow-y: auto;
   padding: 0 auto;
-  letter-spacing: 0.03rem;
+  letter-spacing: 0.04rem;
 }
 
 #logs ul {
@@ -243,7 +253,7 @@ button {
   font-size: 1.2rem;
   letter-spacing: 0.1rem;
   background: var(--color-tertiary);
-  border: 1px solid #8b7980;
+  border: none;
   color: #3f3a3c;
   padding: 0.6rem 2rem;
   border-radius: 6px;
@@ -254,8 +264,7 @@ button:focus {
   outline: none;
 }
 
-.button-active:hover,
-.button-active:active {
+.button-active:hover {
   background: var(--color-secondary);
   border-color: var(--color-secondary);
 }
@@ -265,7 +274,7 @@ button:focus {
   border-radius: 3px;
   color: white;
   background: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  /* border: 1px solid var(--color-primary); */
   cursor: pointer;
 }
 
