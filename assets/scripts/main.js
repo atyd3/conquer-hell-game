@@ -1,4 +1,3 @@
-
 const gameStatus = {
   canStart: true,
   isActive: true,
