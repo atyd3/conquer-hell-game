@@ -17,7 +17,7 @@
   
   settingsBtn.addEventListener("click", () => {
     removeLogs();
-    endGame();
+    // endGame();
     for (const activeSection of activeGameSections) {
       hideSection(activeSection);
     }

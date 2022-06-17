@@ -16,7 +16,7 @@ function showSection(section) {
 }
 
 function showPercentageHp(object) {
-  const result = parseInt((object.currentHp / object.maxHp) * 100);
+  const result = Math.ceil((object.currentHp / object.maxHp) * 100);
   if (result <= 0) {
     return 0;
   } else {

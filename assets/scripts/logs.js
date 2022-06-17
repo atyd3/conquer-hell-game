@@ -1,7 +1,7 @@
 function writeLog(className) {
-    if (!gameStatus.isActive) {
-      return;
-    }
+    // if (!gameStatus.isActive) {
+    //   return;
+    // }
   
     let li = document.createElement("li");
     li.classList.add(className);

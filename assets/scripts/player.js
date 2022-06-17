@@ -2,7 +2,7 @@ const player = {
   name: "Player",
   currentHp: null,
   maxHp: 100,
-  damage: 10,
+  damage: 40,
   healthBar: document.getElementById("player-health"),
   manaBar: document.getElementById("player-mana"),
   currentMana: null,

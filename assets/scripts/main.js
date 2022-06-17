@@ -10,6 +10,9 @@ function startGame() {
   strongManaSpan.textContent = "20% MP";
   gameStatus.isActive = true;
 
+  monster.canUseAllSkills = true;
+  monster.skillPrep = false;
+
   monster.currentHp = monster.maxHp;
   player.currentHp = player.maxHp;
   player.maxMana = player.maxHp;
@@ -40,11 +43,13 @@ function attack(attacker, defender, dmg = 1) {
   if (!gameStatus.isActive) {
     return;
   }
-
+  if (attacker === monster && monster.skillPrep){
+    return;
+  }
   const dealtDamage = +(
-    defender.maxHp * 0.02 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
+    defender.maxHp * 0.021 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
     attacker.damage *dmg 
-  ).toPrecision(3);
+  ).toPrecision(2);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
   roundLogs.push(
@@ -57,8 +62,16 @@ function attack(attacker, defender, dmg = 1) {
 }
 
 function nextRound() {
+  if(!gameStatus.isActive){
+    return;
+  }
   returnMana();
+  if (!monster.canUseAllSkills && !monster.skillPrep) {
+    monster.canUseAllSkills = !monster.canUseAllSkills
+  }
   specialMonsterAttack();
+  console.log("can use all skills",monster.canUseAllSkills);
+
   checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
   checkAvailableSkills(
     playerSkills.strongAttack.canUseStrong(),
@@ -80,7 +93,8 @@ function endGame() {
   } else {
     return;
   }
-
+  monster.canUseAllSkills = false;
+  monster.skillPrep = false;
   roundLogs.push(gameStatus.result);
   writeLog("system");
   gameStatus.isActive = !gameStatus.isActive;

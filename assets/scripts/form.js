@@ -19,17 +19,14 @@ hpForm.addEventListener("submit", (event) => {
 function setGameDifficulty(selectedDifficulty) {
   switch (selectedDifficulty) {
     case "normal":
-      console.log("normal");
       player.maxHp = 1000;
       monster.maxHp = 1000;
       break;
     case "nightmare":
-      console.log("nightmare");
       player.maxHp = 2000;
       monster.maxHp = 1000;
       break;
     case "hell":
-      console.log("hell");
       player.maxHp = 3000;
       monster.maxHp = 1000;
       break;
