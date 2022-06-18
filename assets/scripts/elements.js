@@ -13,9 +13,9 @@ const customDifficulty = document.getElementById('custom');
 const hpInputsDiv = document.getElementById("hpInputs");
 const monsterSelects = document.querySelectorAll('input[name="monsterSelect"]');
 let selectedMonster;
-let roundLogs = [];
+// let roundLogs = [];
 let playerRoundData = [];
-let monsterRoundData = [];
+// let monsterRoundData = [];
 
 
 const controlBtns = document.querySelectorAll("#controls button");

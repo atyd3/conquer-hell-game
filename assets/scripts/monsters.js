@@ -21,8 +21,8 @@ const monsterSkills = {
     hypno: {
         hypnosis(chance) {
             if (monster.skillPrep) {
-                roundLogs.push(`Hypno used hypnosis`);
-                writeLog("monster-special");
+                // roundLogs.push(`Hypno used hypnosis`);
+                writeLog(`Hypno used hypnosis`,"monster-special");
                 monster.skillPrep = !monster.skillPrep //false
                 attack(monster, player, 3);
                 attack(monster, player, 3);
@@ -35,8 +35,8 @@ const monsterSkills = {
             ) {
                 monster.skillPrep = !monster.skillPrep; //true
                 monster.canUseAllSkills = !monster.canUseAllSkills //false
-                roundLogs.push(`Hypno is preparing to use hypnosis`);
-                writeLog("monster-special");
+                // roundLogs.push(`Hypno is preparing to use hypnosis`);
+                writeLog(`Hypno is preparing to use hypnosis`,"monster-special");
                 //przygotowanie do użycia hipnozy w następnej rundzie
             }
         },
@@ -48,8 +48,8 @@ const monsterSkills = {
             ) {
                 monster.currentHp += 0.25 * monster.maxHp;
                 updateHealthBar(monster);
-                roundLogs.push(`Hypno used regeneration and restore 25% HP`);
-                writeLog("monster-special");
+                // roundLogs.push(`Hypno used regeneration and restore 25% HP`);
+                writeLog(`Hypno used regeneration and restore 25% HP`,"monster-special");
                 monster.canUseAllSkills = !monster.canUseAllSkills //false
                 //użycie regeneracji
             }
@@ -59,8 +59,7 @@ const monsterSkills = {
         lightning(chance) {
             if (
                 chance <= 0.15 &&
-                gameStatus.isActive &&
-                monsterRoundData.slice(-1) != "stun"
+                gameStatus.isActive
             ) {
                 lightningDamage = +(
                     0.08 * player.maxHp +
@@ -68,8 +67,8 @@ const monsterSkills = {
                 ).toPrecision(1);
                 player.currentHp -= lightningDamage;
                 updateHealthBar(player);
-                roundLogs.push(`Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`);
-                writeLog("monster-special");
+                let message = `Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`;
+                writeLog(message,"monster-special");
                 endGame();
             }
         },
@@ -95,12 +94,11 @@ const monsterSkills = {
                     ).toPrecision(1);
                     player.currentHp -= rainOfFireDamage;
                     updateHealthBar(player);
-                    roundLogs.push(
+                    let message =
                         `Drago used rain of fire and caused ${rainOfFireDamage} damage to player (${showPercentageHp(
                             player
                         )})%`
-                    );
-                    writeLog("monster-special");
+                    writeLog(message,"monster-special");
                     endGame();
                 }
             }

@@ -1,12 +1,12 @@
 const player = {
   name: "Player",
   currentHp: null,
-  maxHp: 100,
+  // maxHp: 100,
   damage: 40,
   healthBar: document.getElementById("player-health"),
   manaBar: document.getElementById("player-mana"),
   currentMana: null,
-  maxMana: 100,
+  // maxMana: 100,
   useMana(value) {
     if (this.currentMana - value >= 0) {
       this.currentMana -= value;
@@ -37,20 +37,19 @@ const playerSkills = {
       const healValue =
         player.maxHp * 0.35 +
         (Math.random().toPrecision(2) * 10 * player.maxHp) / 100;
+      let message;
       if (player.currentHp + healValue > player.maxHp) {
-        roundLogs.push(
-          `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
-        );
+        message = `Player healed ${parseInt(player.maxHp - player.currentHp)} HP (100%)`
         player.currentHp = player.maxHp;
       } else {
-        roundLogs.push(`Player healed ${parseInt(healValue)} HP`);
+        message =`Player healed ${parseInt(healValue)} HP`
         player.currentHp += healValue;
       }
       const mana = playerSkills.heal.canUseHeal();
       player.useMana(mana);
       updateHealthBar(player);
       playerRoundData.push("heal");
-      writeLog("player");
+      writeLog(message,"player-special");
     },
   },
   strongAttack: {
@@ -97,15 +96,16 @@ const playerSkills = {
       player.useMana(mana);
       playerRoundData.push("stun");
       const stun = Math.random();
-      attack(player, monster);
       if (stun > 0.7) {
-        roundLogs.push(`Stun failed`);
-        writeLog("system");
+        // roundLogs.push(`Stun failed`);
+        writeLog(`Stun failed`,"system");
         attack(monster, player);
+        console.log("stun failed > 0.7",stun)
       } else {
-        roundLogs.push(`Monster is stunned`);
-        monsterRoundData.push("stun");
-        writeLog("system");
+        // roundLogs.push(`Monster is stunned`);
+        monster.skillPrep = false;
+        writeLog(`Monster is stunned`,"player-special");
+        console.log("stun chance",stun)
       }
     },
   },
@@ -128,9 +128,9 @@ const playerSkills = {
         player.currentMana = player.currentMana + restoredMana;
       }
       player.manaBar.value = player.currentMana;
-      roundLogs.push(`Player restore mana using 20%HP`);
+      // roundLogs.push(`Player restore mana using 20%HP`);
       playerRoundData.push("restore");
-      writeLog("player");
+      writeLog(`Player restore mana using 20%HP`,"player-special");
       endGame();
     },
   },

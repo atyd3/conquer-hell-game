@@ -21,8 +21,8 @@ function startGame() {
   setProgressBar(player, player.healthBar);
   setProgressBar(monster, monster.healthBar);
   setProgressBar(player, player.manaBar);
-  roundLogs[0] = "Game started";
-  writeLog("system");
+  // roundLogs[0] = "Game started";
+  writeLog("Game started","system");
 
   for (const activeSection of activeGameSections) {
     showSection(activeSection);
@@ -52,12 +52,12 @@ function attack(attacker, defender, dmg = 1) {
   ).toPrecision(2);
   defender.currentHp = defender.currentHp - dealtDamage;
   updateHealthBar(defender);
-  roundLogs.push(
+  let message =(
     `${attacker.name}(${showPercentageHp(attacker)}%) attack ${
       defender.name
     }(${showPercentageHp(defender)}%) and caused ${dealtDamage} damage`
   );
-  writeLog(attacker.name.toLowerCase());
+  writeLog(message, attacker.name.toLowerCase());
   endGame();
 }
 
@@ -95,8 +95,8 @@ function endGame() {
   }
   monster.canUseAllSkills = false;
   monster.skillPrep = false;
-  roundLogs.push(gameStatus.result);
-  writeLog("system");
+  // roundLogs.push(gameStatus.result);
+  writeLog(gameStatus.result,"system");
   gameStatus.isActive = !gameStatus.isActive;
   gameStatusSection.firstElementChild.textContent = gameStatus.result;
   hideSection(healthSection);
