@@ -1,21 +1,48 @@
 const monster = {
     name: "Monster",
     currentHp: null,
-    maxHp: 200,
+    // maxHp: 200,
     damage: 50,
     healthBar: document.getElementById("monster-health"),
+    isStunned: false,
     canUseAllSkills: true,
-    skillPrep: false
+    skillPrep: false,
+    normalAttack() {
+        if (!gameStatus.isActive) {
+            return;
+        }
+        const dealtDamage = +(
+            player.maxHp * 0.021 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
+            monster.damage
+        ).toPrecision(2);
+        player.currentHp -= dealtDamage;
+        updateHealthBar(player);
+        let message = (
+            `MONSTER(${showPercentageHp(monster)}%) attack PLAYER(${showPercentageHp(player)}%) and caused ${dealtDamage} damage`
+        );
+        writeLog(message, "monster");
+        endGame();
+    },
+    addHypnosisButton() {
+        let hypnosisButton = document.createElement('button');
+        hypnosisButton.textContent = '????????????';
+        hypnosisButton.className = "button-active";
+        hypnosisButton.addEventListener('click', ()=> {
+            dealtDamage = player.maxHp/100 * Math.floor(Math.random() * 20) + 10 // min10, max20
+            player.currentHp -= dealtDamage;
+            updateHealthBar(player);
+            let message = (
+                `PLAYER(${showPercentageHp(player)}%) attack himself due to hypnosis and caused ${dealtDamage} damage`
+            );
+            writeLog(message, "monster-special");
+            playerRoundData.push("attack");
+            controlsSection.removeChild(hypnosisButton);
+            enableControlButtons();
+            nextRound();
+        })
+        controlsSection.prepend(hypnosisButton);
+    }
 };
-
-// const previousAttackSkillPrep = (monsterRoundData, gameStatus) => {
-//     return (
-//         monsterRoundData.slice(-2, -1) === "hypnosis prep" &&
-//         monsterRoundData.slice(-1) != "stun" &&
-//         gameStatus.isActive
-//     )
-// }
-
 
 const monsterSkills = {
     hypno: {
@@ -24,8 +51,8 @@ const monsterSkills = {
                 // roundLogs.push(`Hypno used hypnosis`);
                 writeLog(`Hypno used hypnosis`,"monster-special");
                 monster.skillPrep = !monster.skillPrep //false
-                attack(monster, player, 3);
-                attack(monster, player, 3);
+                player.isHypnotized = true;
+                writeLog("Player is hypnotized", "monster-special")
                 monster.canUseAllSkills = false;
                 //użyj hipnozy
             }
@@ -38,6 +65,12 @@ const monsterSkills = {
                 // roundLogs.push(`Hypno is preparing to use hypnosis`);
                 writeLog(`Hypno is preparing to use hypnosis`,"monster-special");
                 //przygotowanie do użycia hipnozy w następnej rundzie
+            }
+
+            if (player.isHypnotized){
+                disableControlButtons();
+                monster.addHypnosisButton();
+                //dodać przycisk ???????????
             }
         },
         regeneration(chance) {
@@ -69,7 +102,7 @@ const monsterSkills = {
                 updateHealthBar(player);
                 let message = `Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`;
                 writeLog(message,"monster-special");
-                endGame();
+                // endGame();
             }
         },
         flash() {

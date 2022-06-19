@@ -1,14 +1,11 @@
    attackBtn.addEventListener("click", () => {
-    attack(player, monster);
-    attack(monster, player);
-    playerRoundData.push("attack");
+    playerSkills.normalAttack();
     nextRound();
   });
   
   strongAttackBtn.addEventListener("click", () => {
     playerSkills.strongAttack.useStrong();
     nextRound();
-    attack(monster, player);
   });
   
   logBtn.addEventListener("click", () => {
@@ -35,11 +32,9 @@
   healBtn.addEventListener("click", () => {
     playerSkills.heal.useHeal();
     nextRound();
-    attack(monster, player);
   });
   
   restoreBtn.addEventListener("click", () => {
     playerSkills.restore.useRestore();
     nextRound();
-    attack(monster, player);
   });

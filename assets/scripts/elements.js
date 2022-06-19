@@ -32,7 +32,7 @@ const additionalControlsSection = document.getElementById('additional-controls')
 
 const logsSection = document.getElementById('logs');
 const logList = document.getElementById('logList');
-const logsLi = document.querySelectorAll('#logList li:not(:first-child)');
+// const logsLi = document.querySelectorAll('#logList li:not(:first-child)');
 
 const settingsSection = document.getElementById("settings");
 const controlsSection = document.getElementById('controls');
