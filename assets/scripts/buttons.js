@@ -1,40 +1,45 @@
-   attackBtn.addEventListener("click", () => {
+attackBtn.addEventListener("click", () => {
     playerSkills.normalAttack();
     nextRound();
-  });
-  
-  strongAttackBtn.addEventListener("click", () => {
+});
+
+strongAttackBtn.addEventListener("click", () => {
     playerSkills.strongAttack.useStrong();
     nextRound();
-  });
-  
-  logBtn.addEventListener("click", () => {
+});
+
+logBtn.addEventListener("click", () => {
     logsSection.classList.toggle("hidden");
-  });
-  
-  settingsBtn.addEventListener("click", () => {
+});
+
+settingsBtn.addEventListener("click", () => {
     removeLogs();
     // endGame();
     for (const activeSection of activeGameSections) {
-      hideSection(activeSection);
+        hideSection(activeSection);
     }
     for (const activeSection of activeSettingsSections) {
-      showSection(activeSection);
+        showSection(activeSection);
     }
     hideSection(gameStatusSection);
-  });
-  
-  stunBtn.addEventListener("click", () => {
+});
+
+stunBtn.addEventListener("click", () => {
     playerSkills.stun.useStun();
     nextRound();
-  });
-  
-  healBtn.addEventListener("click", () => {
+});
+
+healBtn.addEventListener("click", () => {
     playerSkills.heal.useHeal();
     nextRound();
-  });
-  
-  restoreBtn.addEventListener("click", () => {
+});
+
+restoreBtn.addEventListener("click", () => {
     playerSkills.restore.useRestore();
     nextRound();
-  });
+});
+
+hypnosisBtn.addEventListener('click', () => {
+    useMonsterSkill.hypno.hypnosis();
+    nextRound();
+});

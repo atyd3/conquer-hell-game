@@ -30,7 +30,7 @@ const playerSkills = {
         monster.currentHp -= dealtDamage;
         updateHealthBar(monster);
         let message = (
-            `PLAYER(${showPercentageHp(player)}%) attack MONSTER(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`
+            `PLAYER(${showPercentageHp(player)}%) attack ${monster.name}(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`
         );
         writeLog(message, "player");
         playerRoundData.push("attack");
@@ -96,7 +96,7 @@ const playerSkills = {
             updateHealthBar(monster);
             player.useMana(mana);
             let message = (
-                `PLAYER(${showPercentageHp(player)}%) use strong attack on MONSTER(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`
+                `PLAYER(${showPercentageHp(player)}%) use strong attack on ${monster.name}(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`
             );
             writeLog(message, "player-special");
             playerRoundData.push("strongattack");
@@ -128,7 +128,7 @@ const playerSkills = {
                 console.log("stun failed > 0.7", stun);
             } else {
                 monster.skillPrep = false;
-                writeLog(`Monster is stunned`, "player-special");
+                writeLog(`${monster.name} is stunned`, "player-special");
                 monster.isStunned = true;
                 console.log("stun chance", stun);
             }

@@ -6,6 +6,7 @@ hpForm.addEventListener("submit", (event) => {
     if (monsterSelect.checked) {
       selectedMonster = monsterSelect.value;
       enableSpecialMonsterSkills(selectedMonster);
+      monster.name = selectedMonster;
     }
   }
 

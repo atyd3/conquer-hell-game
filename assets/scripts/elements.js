@@ -18,7 +18,9 @@ let playerRoundData = [];
 // let monsterRoundData = [];
 
 
-const controlBtns = document.querySelectorAll("#controls button");
+const controlBtns = document.querySelectorAll("#controls button:not(:first-child)");
+console.log(controlBtns)
+const hypnosisBtn = document.getElementById("hypnosis-btn");
 const attackBtn = document.getElementById("attack-btn");
 const strongAttackBtn = document.getElementById("strong-attack-btn");
 const healBtn = document.getElementById("heal-btn");

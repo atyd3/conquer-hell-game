@@ -21,7 +21,6 @@ function startGame() {
     setProgressBar(player, player.healthBar);
     setProgressBar(monster, monster.healthBar);
     setProgressBar(player, player.manaBar);
-    // roundLogs[0] = "Game started";
     writeLog("Game started", "system");
 
     for (const activeSection of activeGameSections) {
@@ -30,6 +29,7 @@ function startGame() {
 
     hideSection(settingsSection); //close settings
     hideSection(header); //close header
+    hideSection(hypnosisBtn);
 
     enableControlButtons();
     restoreBtn.classList.add("button-active-alt");
