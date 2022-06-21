@@ -1,21 +1,23 @@
-const activeGameSections = [
-  healthSection,
-  logsSection,
-  controlsSection,
-  additionalControlsSection,
+import {sections} from "./elements.js";
+
+export const activeGameSections = [
+  sections.health,
+  sections.logs,
+  sections.controls,
+  sections.additionalControls,
 ];
 
-const activeSettingsSections = [header, settingsSection];
+export const activeSettingsSections = [sections.header, sections.settings];
 
-function hideSection(section) {
+export function hideSection(section) {
   section.classList.add("hidden");
 }
 
-function showSection(section) {
+export function showSection(section) {
   section.classList.remove("hidden");
 }
 
-function showPercentageHp(object) {
+export function showPercentageHp(object) {
   const result = Math.ceil((object.currentHp / object.maxHp) * 100);
   if (result <= 0) {
     return 0;
@@ -24,11 +26,11 @@ function showPercentageHp(object) {
   }
 }
 
-function setProgressBar(object, progressBar) {
+export function setProgressBar(object, progressBar) {
   progressBar.max = object.maxHp;
   progressBar.value = object.maxHp;
 }
 
-function updateHealthBar(object) {
+export function updateHealthBar(object) {
   object.healthBar.value = object.currentHp;
 }

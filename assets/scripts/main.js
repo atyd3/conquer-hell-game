@@ -1,17 +1,23 @@
-const gameStatus = {
+import {manaSpan, buttons, sections} from "./elements.js";
+import {monster} from "./monsters.js";
+import {player} from "./player.js";
+import {activeGameSections, showSection, hideSection, setProgressBar} from "./sections&hp.js";
+import {writeLog} from "./logs.js";
+
+export const gameStatus = {
     canStart: true,
     isActive: true,
     result: null,
 };
 
-function randomIntegerBetweenValues(min, max){
+export function randomIntegerBetweenValues(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function startGame() {
-    healManaSpan.textContent = "40% MP";
-    stunManaSpan.textContent = "40% MP";
-    strongManaSpan.textContent = "20% MP";
+export function startGame() {
+    manaSpan.healManaSpan.textContent = "40% MP";
+    manaSpan.stunManaSpan.textContent = "40% MP";
+    manaSpan.strongManaSpan.textContent = "20% MP";
     gameStatus.isActive = true;
 
     monster.canUseAllSkills = true;
@@ -31,20 +37,20 @@ function startGame() {
         showSection(activeSection);
     }
 
-    hideSection(settingsSection); //close settings
-    hideSection(header); //close header
-    hideSection(hypnosisBtn);
+    hideSection(sections.settings); //close settings
+    hideSection(sections.header); //close header
+    hideSection(buttons.hypnosisBtn);
 
-    calcMonsterSpec();
+    monster.calcSpec();
 
     enableControlButtons();
-    restoreBtn.classList.add("button-active-alt");
-    settingsBtn.classList.remove("click-me");
+    buttons.restoreBtn.classList.add("button-active-alt");
+    buttons.settingsBtn.classList.remove("click-me");
 }
 
-function nextRound() {
+export function nextRound() {
     endGame();
-    returnMana();
+    player.returnMana();
     if (!monster.canUseAllSkills && !monster.skillPrep) {
         monster.canUseAllSkills = !monster.canUseAllSkills
     }
@@ -60,42 +66,42 @@ function nextRound() {
         player.isHypnotized = !player.isHypnotized;
     }
 
-    calcMonsterSpec();
+    monster.calcSpec();
 
-    checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
-    checkAvailableSkills(
-        playerSkills.strongAttack.canUseStrong(),
-        strongAttackBtn
+    player.checkAvailableSkills(player.playerSkills.heal.canUseHeal(), buttons.healBtn);
+    player.checkAvailableSkills(
+        player.playerSkills.strongAttack.canUseStrong(),
+        buttons.strongAttackBtn
     );
-    checkAvailableSkills(playerSkills.stun.canUseStun(), stunBtn);
-    checkAvailableSkills(playerSkills.restore.canUseRestore(), restoreBtn);
+    player.checkAvailableSkills(player.playerSkills.stun.canUseStun(), buttons.stunBtn);
+    player.checkAvailableSkills(player.playerSkills.restore.canUseRestore(), buttons.restoreBtn);
 }
 
-function enableControlButtons() {
-    for (const controlBtn of controlBtns) {
+export function enableControlButtons() {
+    for (const controlBtn of buttons.controlBtns) {
         controlBtn.classList.add("button-active");
         controlBtn.removeAttribute("disabled");
-        restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.add("button-active-alt");
     }
 }
 
-function disableControlButtons() {
-    for (const controlBtn of controlBtns) {
+export function disableControlButtons() {
+    for (const controlBtn of buttons.controlBtns) {
         controlBtn.classList.remove("button-active");
         controlBtn.setAttribute("disabled", true);
-        restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.add("button-active-alt");
     }
 }
 
-function endGame() {
+export function endGame() {
     if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
         gameStatus.result = "Draw";
     } else if (player.currentHp <= 0 && gameStatus.isActive) {
         gameStatus.result = "Monster wins";
-        gameStatusSection.classList.add("monster-bg");
+        sections.gameStatus.classList.add("monster-bg");
     } else if (monster.currentHp <= 0 && gameStatus.isActive) {
         gameStatus.result = "Player wins";
-        gameStatusSection.classList.add("player-bg");
+        sections.gameStatus.classList.add("player-bg");
     } else {
         return;
     }
@@ -103,13 +109,9 @@ function endGame() {
     monster.skillPrep = false;
     writeLog(gameStatus.result, "system");
     gameStatus.isActive = !gameStatus.isActive;
-    gameStatusSection.firstElementChild.textContent = gameStatus.result;
-    hideSection(healthSection);
-    showSection(gameStatusSection);
+    sections.gameStatus.firstElementChild.textContent = gameStatus.result;
+    hideSection(sections.health);
+    showSection(sections.gameStatus);
     disableControlButtons();
-    settingsBtn.classList.add("click-me");
+    buttons.settingsBtn.classList.add("click-me");
 }
-
-
-
-

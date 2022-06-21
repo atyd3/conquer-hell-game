@@ -1,10 +1,17 @@
-const monster = {
+import {disableControlButtons, enableControlButtons, endGame, gameStatus, randomIntegerBetweenValues} from "./main.js";
+import {hideSection, showPercentageHp, showSection, updateHealthBar} from "./sections&hp.js";
+import {player} from "./player.js";
+import {writeLog} from "./logs.js";
+import {buttons} from "./elements.js";
+
+export const monster = {
     name: "Monster",
     currentHp: null,
-    // maxHp: 200,
+    maxHp: null,
     damage: 50,
     healthBar: document.getElementById("monster-health"),
     isStunned: false,
+    specialSkills: null,
     canUseAllSkills: true,
     skillPrep: false,
     activeSkill: null,
@@ -23,21 +30,48 @@ const monster = {
         );
         writeLog(message, "monster");
         endGame();
+    },
+    dealDamageToPlayer(min, max) {
+        let dealtDamage = Math.floor(player.maxHp / 100) * randomIntegerBetweenValues(min, max);
+        player.currentHp -= dealtDamage;
+        updateHealthBar(player);
+        console.log('dealt damage', dealtDamage)
+    },
+    enableSpecialMonsterSkills(name) {
+        for (let key in monsterSkills) {
+            if (key === name) {
+                monster.specialSkills = monsterSkills[key];
+                console.log(monster.specialSkills)
+            }
+        }
+    },
+    calcSpec() {
+        let chance = Math.random();
+        console.log(chance);
+        if (player.maxHp / monster.maxHp >= 2) {
+            chance -= (player.maxHp / monster.maxHp) * 0.1;
+            console.log("chance after calc", chance);
+        }
+        for (let skill in monster.specialSkills) {
+            monster.specialSkills[skill](chance)
+        }
+        //to przenieść do osobnej funkcji
     }
 };
 
-const useMonsterSkill = {
+
+export const useMonsterSkill = {
     hypno: {
         hypnosis() {
-            dealtDamage = player.maxHp / 100 * Math.floor(Math.random() * 20-10) + 10 // min10, max20
+            let dealtDamage = Math.floor(player.maxHp / 100) * randomIntegerBetweenValues(10, 20) // min10, max20
             player.currentHp -= dealtDamage;
             updateHealthBar(player);
             let message = (
                 `PLAYER(${showPercentageHp(player)}%) attack himself due to hypnosis and caused ${dealtDamage} damage`
             );
             writeLog(message, "monster-special");
-            playerRoundData.push("attack");
-            hideSection(hypnosisBtn);
+            player.roundData.push("attack");
+            hideSection(buttons.hypnosisBtn);
             enableControlButtons();
         },
         regeneration() {
@@ -53,7 +87,7 @@ const useMonsterSkill = {
 
         },
         lightning() {
-            lightningDamage = +(
+            let lightningDamage = +(
                 0.08 * player.maxHp +
                 Math.random() * 0.15 * player.maxHp
             ).toPrecision(1);
@@ -66,15 +100,15 @@ const useMonsterSkill = {
     drago: {
         fireFury() {
             //podpala playera na kilka rund
-            let percentageDamage = randomIntegerBetweenValues(4,7);
-            player.currentHp -= Math.floor((player.maxHp/100)*percentageDamage);
+            let percentageDamage = randomIntegerBetweenValues(4, 7);
+            player.currentHp -= Math.floor((player.maxHp / 100) * percentageDamage);
             updateHealthBar(player);
             writeLog(`Player lose ${percentageDamage}% HP due to fire fury`, 'monster-special')
 
         },
         rainOfFire() {
-            for (let i = 0; i < randomIntegerBetweenValues(3,5); i++) {
-                rainOfFireDamage = +(
+            for (let i = 0; i < randomIntegerBetweenValues(3, 5); i++) {
+                let rainOfFireDamage = +(
                     Math.random() * 0.04 * player.maxHp +
                     0.01 * player.maxHp
                 ).toPrecision(1);
@@ -106,7 +140,7 @@ const monsterSkills = {
                 writeLog(`Hypno used hypnosis`, "monster-special");
                 monster.skillPrep = !monster.skillPrep //false
                 monster.canUseAllSkills = false;
-                showSection(hypnosisBtn);
+                showSection(buttons.hypnosisBtn);
                 player.isHypnotized = true;
                 disableControlButtons();
                 //użyj hipnozy
@@ -175,7 +209,7 @@ const monsterSkills = {
                 //użyj firefury
             }
 
-            if (monster.activeSkill){
+            if (monster.activeSkill) {
                 monster.activeSkill -= 1;
                 useMonsterSkill.drago.fireFury();
             }
@@ -193,24 +227,6 @@ const monsterSkills = {
 
 };
 
-function enableSpecialMonsterSkills(selectedMonster) {
-    for (let key in monsterSkills) {
-        if (key == selectedMonster) {
-            specialSkills = monsterSkills[key];
-        }
-    }
-}
 
-function calcMonsterSpec() {
-    let chance = Math.random();
-    console.log(chance);
-    if (player.maxHp / monster.maxHp >= 2) {
-        chance -= (player.maxHp / monster.maxHp) * 0.1;
-        console.log("chance after calc", chance);
-    }
-    for (let skill in specialSkills) {
-        specialSkills[skill](chance);
-    }
-    //to przenieść do osobnej funkcji
-}
+
   

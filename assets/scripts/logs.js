@@ -1,4 +1,9 @@
-function writeLog(message, className) {
+import {player} from './player.js';
+import {logList} from "./elements.js";
+import {gameStatus} from "./main.js";
+import {sections} from "./elements.js";
+
+export function writeLog(message, className) {
     if (!gameStatus.isActive) {
       return;
     }
@@ -7,11 +12,11 @@ function writeLog(message, className) {
     li.classList.add(className);
     li.textContent = message;
     logList.appendChild(li);
-    logsSection.scrollTop = logsSection.scrollHeight - logsSection.clientHeight;
+    sections.logs.scrollTop = sections.logs.scrollHeight - sections.logs.clientHeight;
   }
   
-  function removeLogs() {
-    playerRoundData = [];
+export function removeLogs() {
+    player.roundData = [];
     const logsLi = document.querySelector("#logs ul");
     while (logsLi.firstChild) {
       logsLi.firstChild.remove();
