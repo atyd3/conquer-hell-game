@@ -4,6 +4,10 @@ const gameStatus = {
     result: null,
 };
 
+function randomIntegerBetweenValues(min, max){
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 function startGame() {
     healManaSpan.textContent = "40% MP";
     stunManaSpan.textContent = "40% MP";
@@ -31,6 +35,8 @@ function startGame() {
     hideSection(header); //close header
     hideSection(hypnosisBtn);
 
+    calcMonsterSpec();
+
     enableControlButtons();
     restoreBtn.classList.add("button-active-alt");
     settingsBtn.classList.remove("click-me");
@@ -42,6 +48,7 @@ function nextRound() {
     if (!monster.canUseAllSkills && !monster.skillPrep) {
         monster.canUseAllSkills = !monster.canUseAllSkills
     }
+    //to przenieść do monstera
     if (monster.isStunned || monster.skillPrep) {
         monster.isStunned = false
     } else {
@@ -53,7 +60,7 @@ function nextRound() {
         player.isHypnotized = !player.isHypnotized;
     }
 
-    specialMonsterAttack();
+    calcMonsterSpec();
 
     checkAvailableSkills(playerSkills.heal.canUseHeal(), healBtn);
     checkAvailableSkills(
@@ -94,7 +101,6 @@ function endGame() {
     }
     monster.canUseAllSkills = false;
     monster.skillPrep = false;
-    // roundLogs.push(gameStatus.result);
     writeLog(gameStatus.result, "system");
     gameStatus.isActive = !gameStatus.isActive;
     gameStatusSection.firstElementChild.textContent = gameStatus.result;

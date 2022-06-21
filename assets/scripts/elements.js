@@ -13,13 +13,9 @@ const customDifficulty = document.getElementById('custom');
 const hpInputsDiv = document.getElementById("hpInputs");
 const monsterSelects = document.querySelectorAll('input[name="monsterSelect"]');
 let selectedMonster;
-// let roundLogs = [];
 let playerRoundData = [];
-// let monsterRoundData = [];
-
 
 const controlBtns = document.querySelectorAll("#controls button:not(:first-child)");
-console.log(controlBtns)
 const hypnosisBtn = document.getElementById("hypnosis-btn");
 const attackBtn = document.getElementById("attack-btn");
 const strongAttackBtn = document.getElementById("strong-attack-btn");
