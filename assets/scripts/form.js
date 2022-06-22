@@ -1,15 +1,22 @@
-hpForm.addEventListener("submit", (event) => {
+import {hideSection, showSection} from "./sections&hp.js";
+import {form, buttons} from "./elements.js";
+import {monster} from "./monsters.js";
+import {player} from "./player.js"
+import {startGame} from "./main.js";
+import {removeLogs} from "./logs.js";
+
+form.hpForm.addEventListener("submit", (event) => {
   event.preventDefault();
   removeLogs();
 
-  for (const monsterSelect of monsterSelects) {
+  for (const monsterSelect of form.monsterSelects) {
     if (monsterSelect.checked) {
-      selectedMonster = monsterSelect.value;
-      enableSpecialMonsterSkills(selectedMonster);
+      monster.name = monsterSelect.value;
+      monster.enableSpecialMonsterSkills(monster.name);
     }
   }
 
-  if (customDifficulty.checked) {
+  if (form.customDifficulty.checked) {
     player.maxHp = +document.getElementById("playerInput").value;
     monster.maxHp = +document.getElementById("monsterInput").value;
   }
@@ -19,39 +26,36 @@ hpForm.addEventListener("submit", (event) => {
 function setGameDifficulty(selectedDifficulty) {
   switch (selectedDifficulty) {
     case "normal":
-      console.log("normal");
       player.maxHp = 1000;
       monster.maxHp = 1000;
       break;
     case "nightmare":
-      console.log("nightmare");
       player.maxHp = 2000;
       monster.maxHp = 1000;
       break;
     case "hell":
-      console.log("hell");
       player.maxHp = 3000;
       monster.maxHp = 1000;
       break;
   }
 }
 
-for (const difficultySelect of difficultySelects) {
+for (const difficultySelect of form.difficultySelects) {
   difficultySelect.addEventListener("change", function () {
-    if (customDifficulty.checked) {
-      showSection(hpInputsDiv);
-      for (const hpInput of hpInputs) {
+    if (form.customDifficulty.checked) {
+      showSection(form.hpInputsDiv);
+      for (const hpInput of form.hpInputs) {
         hpInput.setAttribute("required", "true");
         hpInput.oninput = function () {
           if (this.value.length > 5) {
             this.value = this.value.slice(0, 5);
           } 
-          if (hpInputs[0].value < 99 || hpInputs[1].value < 99) {
-            hint.style = "display: block";
-            startGameBtn.classList.remove("button-active");
+          if (form.hpInputs[0].value < 99 || form.hpInputs[1].value < 99) {
+            form.hint.style = "display: block";
+            buttons.startGameBtn.classList.remove("button-active");
           } else {
-            hint.style = "display: none";
-            startGameBtn.classList.add("button-active");
+            form.hint.style = "display: none";
+            buttons.startGameBtn.classList.add("button-active");
           }
           if (this.value < 99) {
             this.style = "background-color: var(--color-tertiary)"
@@ -61,9 +65,9 @@ for (const difficultySelect of difficultySelects) {
         };
       }
     } else {
-      hideSection(hpInputsDiv);
+      hideSection(form.hpInputsDiv);
       setGameDifficulty(this.value);
-      for (const hpInput of hpInputs) {
+      for (const hpInput of form.hpInputs) {
         hpInput.removeAttribute("required", "true");
       }
     }

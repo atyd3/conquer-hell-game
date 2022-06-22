@@ -1,18 +1,22 @@
-function writeLog(className) {
+import {player} from './player.js';
+import {logList} from "./elements.js";
+import {gameStatus} from "./main.js";
+import {sections} from "./elements.js";
+
+export function writeLog(message, className) {
     if (!gameStatus.isActive) {
       return;
     }
   
     let li = document.createElement("li");
     li.classList.add(className);
-    li.textContent = roundLogs.slice(-1);
+    li.textContent = message;
     logList.appendChild(li);
-    logsSection.scrollTop = logsSection.scrollHeight - logsSection.clientHeight;
+    sections.logs.scrollTop = sections.logs.scrollHeight - sections.logs.clientHeight;
   }
   
-  function removeLogs() {
-    roundLogs = [];
-    playerRoundData = [];
+export function removeLogs() {
+    player.roundData = [];
     const logsLi = document.querySelector("#logs ul");
     while (logsLi.firstChild) {
       logsLi.firstChild.remove();

@@ -1,47 +1,49 @@
-const header = document.querySelector('header')
-const hint = document.getElementById("hint");
-
-const monsterHealthBar = document.getElementById("monster-health");
-const playerHealthBar = document.getElementById("player-health");
-
-const hpInputs = [document.getElementById("playerInput"), document.getElementById("monsterInput")]
+// const monsterHealthBar = document.getElementById("monster-health");
+// const playerHealthBar = document.getElementById("player-health");
 
 
-const hpForm = document.getElementById('hpForm');
-const difficultySelects = document.querySelectorAll('input[name="difficultySelect"]');
-const customDifficulty = document.getElementById('custom');
-const hpInputsDiv = document.getElementById("hpInputs");
-const monsterSelects = document.querySelectorAll('input[name="monsterSelect"]');
-let selectedMonster;
-let roundLogs = [];
-let playerRoundData = [];
-let monsterRoundData = [];
+export const form = {
+    hpForm: document.getElementById('hpForm'),
+    difficultySelects: document.querySelectorAll('input[name="difficultySelect"]'),
+    customDifficulty: document.getElementById('custom'),
+    hpInputsDiv: document.getElementById("hpInputs"),
+    hpInputs: [document.getElementById("playerInput"), document.getElementById("monsterInput")],
+    monsterSelects: document.querySelectorAll('input[name="monsterSelect"]'),
+    selectedMonster: null,
+    hint: document.getElementById("hint"),
+}
+
+export const buttons = {
+    controlBtns: document.querySelectorAll("#controls button:not(:first-child)"),
+    hypnosisBtn: document.getElementById("hypnosis-btn"),
+    attackBtn: document.getElementById("attack-btn"),
+    strongAttackBtn: document.getElementById("strong-attack-btn"),
+    healBtn: document.getElementById("heal-btn"),
+    stunBtn: document.getElementById("stun-btn"),
+    restoreBtn: document.getElementById('restore-btn'),
+    startGameBtn: document.getElementById("startGameBtn"),
+    logBtn: document.getElementById("log-btn"),
+    settingsBtn: document.getElementById('settings-btn'),
+}
 
 
-const controlBtns = document.querySelectorAll("#controls button");
-const attackBtn = document.getElementById("attack-btn");
-const strongAttackBtn = document.getElementById("strong-attack-btn");
-const healBtn = document.getElementById("heal-btn");
-const stunBtn = document.getElementById("stun-btn");
-const restoreBtn = document.getElementById('restore-btn');
+export const logList = document.getElementById('logList');
 
-const startGameBtn = document.getElementById("startGameBtn");
-const logBtn = document.getElementById("log-btn");
-const settingsBtn = document.getElementById('settings-btn');
-const additionalControlsSection = document.getElementById('additional-controls');
+export const sections = {
+    header: document.querySelector('header'),
+    settings: document.getElementById("settings"),
+    controls: document.getElementById('controls'),
+    gameStatus: document.getElementById('game-status'),
+    health: document.getElementById('health-levels'),
+    logs: document.getElementById('logs'),
+    additionalControls: document.getElementById('additional-controls'),
+}
+export const manaSpan = {
+    strongManaSpan: document.getElementById('strong-mana-span'),
+    healManaSpan: document.getElementById('heal-mana-span'),
+    stunManaSpan: document.getElementById('stun-mana-span'),
+}
 
-const logsSection = document.getElementById('logs');
-const logList = document.getElementById('logList');
-const logsLi = document.querySelectorAll('#logList li:not(:first-child)');
-
-const settingsSection = document.getElementById("settings");
-const controlsSection = document.getElementById('controls');
-const gameStatusSection = document.getElementById('game-status');
-const healthSection = document.getElementById('health-levels');
-
-const strongManaSpan = document.getElementById('strong-mana-span')
-const healManaSpan = document.getElementById('heal-mana-span')
-const stunManaSpan = document.getElementById('stun-mana-span')
 
 
 

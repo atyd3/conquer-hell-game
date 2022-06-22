@@ -16,14 +16,14 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles/app.css" />
-    <script src="assets/scripts/elements.js" defer></script>
-    <script src="assets/scripts/player.js" defer></script>
-    <script src="assets/scripts/monsters.js" defer></script>
-    <script src="assets/scripts/sections&hp.js" defer></script>
-    <script src="assets/scripts/form.js" defer></script>
-    <script src="assets/scripts/logs.js" defer></script>
-    <script src="assets/scripts/main.js" defer></script>
-    <script src="assets/scripts/buttons.js" defer></script>
+    <script type="module" src="assets/scripts/elements.js" defer></script>
+    <script type="module" src="assets/scripts/player.js" defer></script>
+    <script type="module" src="assets/scripts/monsters.js" defer></script>
+    <script type="module" src="assets/scripts/sections&hp.js" defer></script>
+    <script type="module" src="assets/scripts/form.js" defer></script>
+    <script type="module" src="assets/scripts/logs.js" defer></script>
+    <script type="module" src="assets/scripts/main.js" defer></script>
+    <script type="module" src="assets/scripts/buttons.js" defer></script>
   </head>
   <body>
     <header>
@@ -102,6 +102,7 @@
               id="hypno"
               name="monsterSelect"
               value="hypno"
+              checked
               required
             />
             <label for="hypno" class="button-active">Hypno</label>
@@ -141,6 +142,7 @@
       <ul id="logList"></ul>
     </section>
     <section id="controls" class="hidden">
+      <button id="hypnosis-btn" class="button-active hidden">??????????</button>
       <button id="attack-btn">ATTACK</button>
       <button id="strong-attack-btn">
         STRONG ATTACK <span class="span" id="strong-mana-span">20% MP</span>
@@ -159,5 +161,14 @@
       <button id="log-btn" class="button-active">TOGGLE GAME LOG</button>
       <button id="settings-btn" class="button-active">NEW GAME</button>
     </section>
+  <section id="todo">
+    <p>zmienić losowanie szansy na skilla</p>
+    <p>refactor funkcji startGame</p>
+    <p>przepisać css na scss </p>
+    <p>opis "jak grać"</p>
+    <p>dodać skille do reszty potworków</p>
+    <p>atak nie powinien bazować na hp</p>
+    <p>dodać funkcję losującą liczbę z przedziału?</p>
+  </section>
   </body>
 </html>

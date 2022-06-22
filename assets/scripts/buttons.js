@@ -1,45 +1,51 @@
-   attackBtn.addEventListener("click", () => {
-    attack(player, monster);
-    attack(monster, player);
-    playerRoundData.push("attack");
+import {buttons, sections} from "./elements.js";
+import {nextRound} from "./main.js";
+import {hideSection, showSection, activeGameSections, activeSettingsSections} from "./sections&hp.js";
+import {useMonsterSkill} from "./monsters.js";
+import {player} from "./player.js";
+import {removeLogs} from "./logs.js";
+
+buttons.attackBtn.addEventListener("click", () => {
+    player.playerSkills.normalAttack();
     nextRound();
-  });
-  
-  strongAttackBtn.addEventListener("click", () => {
-    playerSkills.strongAttack.useStrong();
+});
+
+buttons.strongAttackBtn.addEventListener("click", () => {
+    player.playerSkills.strongAttack.useStrong();
     nextRound();
-    attack(monster, player);
-  });
-  
-  logBtn.addEventListener("click", () => {
-    logsSection.classList.toggle("hidden");
-  });
-  
-  settingsBtn.addEventListener("click", () => {
+});
+
+buttons.logBtn.addEventListener("click", () => {
+    sections.logs.classList.toggle("hidden");
+});
+
+buttons.settingsBtn.addEventListener("click", () => {
     removeLogs();
-    endGame();
     for (const activeSection of activeGameSections) {
-      hideSection(activeSection);
+        hideSection(activeSection);
     }
     for (const activeSection of activeSettingsSections) {
-      showSection(activeSection);
+        showSection(activeSection);
     }
-    hideSection(gameStatusSection);
-  });
-  
-  stunBtn.addEventListener("click", () => {
-    playerSkills.stun.useStun();
+    hideSection(sections.gameStatus);
+});
+
+buttons.stunBtn.addEventListener("click", () => {
+    player.playerSkills.stun.useStun();
     nextRound();
-  });
-  
-  healBtn.addEventListener("click", () => {
-    playerSkills.heal.useHeal();
+});
+
+buttons.healBtn.addEventListener("click", () => {
+    player.playerSkills.heal.useHeal();
     nextRound();
-    attack(monster, player);
-  });
-  
-  restoreBtn.addEventListener("click", () => {
-    playerSkills.restore.useRestore();
+});
+
+buttons.restoreBtn.addEventListener("click", () => {
+    player.playerSkills.restore.useRestore();
     nextRound();
-    attack(monster, player);
-  });
+});
+
+buttons.hypnosisBtn.addEventListener('click', () => {
+    useMonsterSkill.hypno.hypnosis();
+    nextRound();
+});
