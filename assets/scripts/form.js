@@ -50,6 +50,7 @@ function setGameDifficulty(selectedDifficulty) {
       monster.maxHp = +document.getElementById("monsterInput").value;
       player.damage = Math.ceil(player.maxHp * 0.04);
       monster.damage = Math.ceil(monster.maxHp * 0.075);
+      gameStatus.difficulty = "custom";
   }
   console.log('player.maxHp', player.maxHp);
   console.log('monster.maxHp', monster.maxHp);

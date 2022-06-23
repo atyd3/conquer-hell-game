@@ -24,6 +24,8 @@ export const buttons = {
     startGameBtn: document.getElementById("startGameBtn"),
     logBtn: document.getElementById("log-btn"),
     settingsBtn: document.getElementById('settings-btn'),
+    howToPlayBtn: document.getElementById("how-to-play-btn"),
+    closeBtn: document.getElementById('close-icon-btn'),
 }
 
 
@@ -38,6 +40,7 @@ export const sections = {
     health: document.getElementById('health-levels'),
     logs: document.getElementById('logs'),
     additionalControls: document.getElementById('additional-controls'),
+    howToPlay: document.getElementById(('how-to-play')),
 }
 export const manaSpan = {
     strongManaSpan: document.getElementById('strong-mana-span'),

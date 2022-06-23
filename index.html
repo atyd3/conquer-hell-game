@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Monster Killer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
+            rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/app.css"/>
     <script type="module" src="assets/scripts/elements.js" defer></script>
     <script type="module" src="assets/scripts/player.js" defer></script>
     <script type="module" src="assets/scripts/monsters.js" defer></script>
@@ -24,146 +24,153 @@
     <script type="module" src="assets/scripts/logs.js" defer></script>
     <script type="module" src="assets/scripts/main.js" defer></script>
     <script type="module" src="assets/scripts/buttons.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>MONSTER KILLER</h1>
-    </header>
-    <section id="game-status" class="hidden">
-      <h1>GAME STARTED!</h1>
-    </section>
-  </section>
-  <section id="settings">
+</head>
+<body>
+<div class="overlay hidden"></div>
+<div class="hidden" id="modal-window"></div>
+<header>
+    <h1>MONSTER KILLER</h1>
+</header>
+<section id="game-status" class="hidden">
+    <h1>GAME STARTED!</h1>
+</section>
+</section>
+<section id="settings">
     <form id="hpForm" action="#">
-      <div id="inputContainer">
-        <div class="settingsSelect">
-          <h2>Difficulty levels</h2>
-            <input
-              type="radio"
-              id="normal"
-              name="difficultySelect"
-              value="normal"
-              required
-            />
-            <label for="normal" class="button-active">Normal</label>
-            <input
-              type="radio"
-              id="nightmare"
-              name="difficultySelect"
-              value="nightmare"
-              required
-            />
-            <label for="nightmare" class="button-active">Nightmare</label>
-            <input
-              type="radio"
-              id="hell"
-              name="difficultySelect"
-              value="hell"
-              required
-            />
-            <label for="hell" class="button-active">Hell</label>
-            <input
-              type="radio"
-              id="custom"
-              name="difficultySelect"
-              value="custom"
-            />
-            <label for="custom" class="button-active">Custom</label>
+        <div id="inputContainer">
+            <div class="settingsSelect">
+                <h2>Difficulty levels</h2>
+                <input
+                        type="radio"
+                        id="normal"
+                        name="difficultySelect"
+                        value="normal"
+                        required
+                />
+                <label for="normal" class="button-active">Normal</label>
+                <input
+                        type="radio"
+                        id="nightmare"
+                        name="difficultySelect"
+                        value="nightmare"
+                        required
+                />
+                <label for="nightmare" class="button-active">Nightmare</label>
+                <input
+                        type="radio"
+                        id="hell"
+                        name="difficultySelect"
+                        value="hell"
+                        required
+                />
+                <label for="hell" class="button-active">Hell</label>
+                <input
+                        type="radio"
+                        id="custom"
+                        name="difficultySelect"
+                        value="custom"
+                />
+                <label for="custom" class="button-active">Custom</label>
+            </div>
+            <div id="hpInputs" class="hidden">
+                <h2 class="hp-input-label">MONSTER HP:</h2>
+                <input
+                        type="number"
+                        name="monster"
+                        id="monsterInput"
+                        min="100"
+                        max="99999"
+                        maxlength="5"
+                        value="2000"
+                />
+                <h2 class="hp-input-label">PLAYER HP:</h2>
+                <input
+                        type="number"
+                        name="player"
+                        id="playerInput"
+                        min="100"
+                        max="99999"
+                        maxlength="5"
+                        value="1000"
+                        required
+                />
+                <p id="hint">Hp must be greater then 100</p>
+            </div>
+            <div class="settingsSelect">
+                <h2>Fight with</h2>
+                <input
+                        type="radio"
+                        id="hypno"
+                        name="monsterSelect"
+                        value="hypno"
+                        required
+                />
+                <label for="hypno" class="button-active">Hypno</label>
+                <input
+                        type="radio"
+                        id="electro"
+                        name="monsterSelect"
+                        value="electro"
+                        required
+                />
+                <label for="electro" class="button-active">Electro</label>
+                <input
+                        type="radio"
+                        id="drago"
+                        name="monsterSelect"
+                        value="drago"
+                        required
+                />
+                <label for="drago" class="button-active">Drago</label>
+            </div>
+            <button type="submit" id="startGameBtn" class="button-active">
+                START GAME
+            </button>
         </div>
-        <div id="hpInputs" class="hidden">
-          <h2>MONSTER HP:</h2>
-          <input
-            type="number"
-            name="monster"
-            id="monsterInput"
-            min="100"
-            max="99999"
-            maxlength="5"
-            value="2000"
-          />
-          <h2>PLAYER HP:</h2>
-          <input
-            type="number"
-            name="player"
-            id="playerInput"
-            min="100"
-            max="99999"
-            maxlength="5"
-            value="1000"
-            required
-          />
-          <p id="hint">Hp must be greater then 100</p>
-        </div>
-          <div class="settingsSelect">
-            <h2>Fight with</h2>
-            <input
-              type="radio"
-              id="hypno"
-              name="monsterSelect"
-              value="hypno"
-              required
-            />
-            <label for="hypno" class="button-active">Hypno</label>
-            <input
-              type="radio"
-              id="electro"
-              name="monsterSelect"
-              value="electro"
-              required
-            />
-            <label for="electro" class="button-active">Electro</label>
-            <input
-              type="radio"
-              id="drago"
-              name="monsterSelect"
-              value="drago"
-              required
-            />
-            <label for="drago" class="button-active">Drago</label>
-          </div>
-          <button type="submit" id="startGameBtn" class="button-active">
-            START GAME
-          </button>
-        </div>
-      </form>
-    </section>
-    <section id="health-levels" class="hidden">
-      <h2 id="monster-health-label">MONSTER HEALTH</h2>
-      <progress id="monster-health" max="200" value="200">100%</progress>
-      <h2>PLAYER HEALTH / MANA</h2>
-      <progress id="player-health" max="100" value="100">100%</progress>
-      <progress id="player-mana" class="mana-bar" max="100" value="100">
+    </form>
+</section>
+<section id="health-levels" class="hidden">
+    <h2 id="monster-health-label">MONSTER HEALTH</h2>
+    <progress id="monster-health" max="200" value="200">100%</progress>
+    <h2>PLAYER HEALTH / MANA</h2>
+    <progress id="player-health" max="100" value="100">100%</progress>
+    <progress id="player-mana" class="mana-bar" max="100" value="100">
         100%
-      </progress>
-    </section>
-    <section id="logs" class="hidden">
-      <ul id="logList"></ul>
-    </section>
-    <section id="controls" class="hidden">
-      <button id="hypnosis-btn" class="button-active hidden">??????????</button>
-      <button id="attack-btn">ATTACK</button>
-      <button id="strong-attack-btn">
+    </progress>
+</section>
+<section id="logs" class="hidden">
+    <ul id="logList"></ul>
+</section>
+<section id="controls" class="hidden">
+    <button id="hypnosis-btn" class="button-active hidden">??????????</button>
+    <button id="attack-btn">ATTACK</button>
+    <button id="strong-attack-btn">
         STRONG ATTACK <span class="span" id="strong-mana-span">20% MP</span>
-      </button>
-      <button id="stun-btn">
+    </button>
+    <button id="stun-btn">
         STUN <span class="span" id="stun-mana-span">40% MP</span>
-      </button>
-      <button id="heal-btn">
+    </button>
+    <button id="heal-btn">
         HEAL <span class="span" id="heal-mana-span">40% MP</span>
-      </button>
-      <button id="restore-btn">
+    </button>
+    <button id="restore-btn">
         RESTORE MANA<span class="span" id="restore-mana-span">20% HP</span>
-      </button>
-    </section>
-    <section id="additional-controls" class="hidden">
-      <button id="log-btn" class="button-active">TOGGLE GAME LOG</button>
-      <button id="settings-btn" class="button-active">NEW GAME</button>
-    </section>
-  <section id="todo">
-    <p>zmienić losowanie szansy na skilla</p>
-    <p>refactor funkcji startGame</p>
-    <p>przepisać css na scss </p>
-    <p>opis "jak grać"</p>
-  </section>
-  </body>
+    </button>
+</section>
+<section id="additional-controls" class="hidden">
+    <button id="how-to-play-btn" class="button-active">HOW TO PLAY?</button>
+    <button id="log-btn" class="button-active">TOGGLE GAME LOG</button>
+    <button id="settings-btn" class="button-active">NEW GAME</button>
+</section>
+<div id="how-to-play" class="section">
+    <a href="#" class="close-icon hidden" id="close-icon-btn"></a>
+    <h2>HOW TO PLAY?</h2>
+    <p>Choose from available difficulty levels or create a custom level.</p>
+    <p>Select the monster that you want to fight with, each monster uses unique skills.</p>
+    <p>Use mana points to make a special attack or heal. Use your HP to restore half of your mana points.</p>
+    <p>You can use stun to stop some of a monster's special attacks while the monster is preparing to use them.</p>
+    <p>Using the same skill as in the previous round will cost you a double mana points.</p>
+    <p>A part of your mana points will be restored each round.</p>
+</div>
+</body>
 </html>

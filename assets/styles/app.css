@@ -8,7 +8,28 @@ html {
 
 body {
     background: #2c2c2c;
+    position: relative;
 }
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+#modal-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 11; /* 1px higher than the overlay layer */
+}
+
 
 h1 {
     text-transform: uppercase;
@@ -23,15 +44,41 @@ h2 {
     letter-spacing: 0.1rem;
 }
 
+p {
+    font-size: 1.1rem;
+}
+
+#monster-health-label {
+    margin: 0rem 0.5rem;
+}
+
 input {
     border: 1px solid rgb(163, 160, 160);
     border-radius: 6px;
-    padding: 0.5rem;
+    padding: 0.3rem;
     margin: 1px;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-family: inherit;
     letter-spacing: 0.1rem;
+}
+
+.close-icon {
+    display: block;
+    float: right;
+    box-sizing: border-box;
+    width: 25px;
+    height: 25px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: red;
+    border-radius: 100%;
+    background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) var(--color-primary);
+    transition: all 0.3s ease;
+}
+
+.hp-input-label {
+    display: inline;
 }
 
 input::-webkit-outer-spin-button,
@@ -100,9 +147,10 @@ progress[value]::-moz-progress-bar {
 }
 
 section,
-header {
+header,
+.section {
     margin: 1rem auto;
-    width: 42rem;
+    width: 43rem;
     text-align: center;
     border-radius: 10px;
     padding: 0.8rem;
@@ -161,9 +209,9 @@ header {
 }
 
 #logs {
-    height: 15rem;
+    height: 17rem;
     overflow-y: auto;
-    padding: 0 auto;
+    /*padding: 0rem auto;*/
     letter-spacing: 0.04rem;
 }
 

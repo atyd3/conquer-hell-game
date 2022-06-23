@@ -34,3 +34,10 @@ export function setProgressBar(object, progressBar) {
 export function updateHealthBar(object) {
   object.healthBar.value = object.currentHp;
 }
+
+export function toggleModalWindow() {
+  sections.howToPlay.classList.toggle("hidden");
+  document.getElementById('close-icon-btn').classList.toggle("hidden");
+  document.getElementsByClassName('overlay')[0].classList.toggle("hidden");
+  document.getElementById('modal-window').classList.toggle("hidden");
+}

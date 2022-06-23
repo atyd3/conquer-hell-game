@@ -8,7 +8,7 @@ export const gameStatus = {
     canStart: true,
     isActive: true,
     result: null,
-    difficulty: "custom"
+    difficulty: null,
 };
 
 export function randomIntegerBetweenValues(min, max){
@@ -48,6 +48,7 @@ export function startGame() {
     hideSection(sections.settings); //close settings
     hideSection(sections.header); //close header
     hideSection(buttons.hypnosisBtn);
+    hideSection(sections.howToPlay);
 
     monster.calcSpec();
 

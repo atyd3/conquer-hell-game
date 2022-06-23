@@ -158,7 +158,8 @@ const monsterSkills = {
         },
         glare(chance) {
             if (
-                chance >= 10 && chance <= 15 &&
+                chance >= 10 && chance <
+                15 &&
                 monster.canUseAllSkills
             ) {
                 useMonsterSkill.electro.glare()
