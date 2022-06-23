@@ -1,6 +1,12 @@
 import {buttons, sections} from "./elements.js";
 import {nextRound} from "./main.js";
-import {hideSection, showSection, activeGameSections, activeSettingsSections} from "./sections&hp.js";
+import {
+    hideSection,
+    showSection,
+    activeGameSections,
+    activeSettingsSections,
+    toggleModalWindow
+} from "./sections&hp.js";
 import {useMonsterSkill} from "./monsters.js";
 import {player} from "./player.js";
 import {removeLogs} from "./logs.js";
@@ -44,6 +50,15 @@ buttons.restoreBtn.addEventListener("click", () => {
     player.playerSkills.restore.useRestore();
     nextRound();
 });
+
+buttons.howToPlayBtn.addEventListener('click', () => {
+    toggleModalWindow();
+    document.getElementById('modal-window').appendChild(sections.howToPlay);
+})
+
+buttons.closeBtn.addEventListener('click', ()=> {
+    toggleModalWindow();
+})
 
 buttons.hypnosisBtn.addEventListener('click', () => {
     useMonsterSkill.hypno.hypnosis();
