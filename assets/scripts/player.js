@@ -1,4 +1,4 @@
-import {gameStatus} from "./main.js";
+import {dealDamage, endGame, gameStatus, randomIntegerBetweenValues} from "./main.js";
 import {buttons, manaSpan} from "./elements.js";
 import {monster} from "./monsters.js";
 import {showPercentageHp, updateHealthBar} from "./sections&hp.js";
@@ -9,10 +9,10 @@ export const player = {
     currentHp: null,
     maxHp: null,
     maxMana: null,
-    damage: 40,
     healthBar: document.getElementById("player-health"),
     manaBar: document.getElementById("player-mana"),
     currentMana: null,
+    damage: 40,
     roundData: [],
     isHypnotized: false, // maxMana: 100,
     useMana(value) {
@@ -44,18 +44,12 @@ export const player = {
     },
     playerSkills: {
         normalAttack() {
-            if (!gameStatus.isActive) {
-                return;
-            }
-
-            const dealtDamage = +(monster.maxHp * 0.021 * Math.floor(Math.random() * (5 - 2 + 1) + 2) + player.damage).toPrecision(2);
-            monster.currentHp -= dealtDamage;
-            updateHealthBar(monster);
+            const dealtDamage = dealDamage(4, 7, player, monster)
             let message = (`PLAYER(${showPercentageHp(player)}%) attack ${monster.name}(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`);
             writeLog(message, "player");
             player.roundData.push("attack");
-            // endGame();
-        }, heal: {
+        },
+        heal: {
             canUseHeal() {
                 let neededMana = player.maxMana * 0.4;
                 if (player.roundData.slice(-1) == "heal") {
@@ -93,7 +87,7 @@ export const player = {
                     neededMana *= 2;
                     manaSpan.strongManaSpan.textContent = "40% MP";
                 } else {
-                   manaSpan.strongManaSpan.textContent = "20% MP";
+                    manaSpan.strongManaSpan.textContent = "20% MP";
                 }
 
                 if (player.currentMana >= neededMana) {
@@ -103,9 +97,7 @@ export const player = {
                 }
             }, useStrong() {
                 const mana = player.playerSkills.strongAttack.canUseStrong();
-                const dealtDamage = +(2 * monster.maxHp * 0.021 * Math.floor(Math.random() * (5 - 2 + 1) + 2) + player.damage).toPrecision(2);
-                monster.currentHp -= dealtDamage;
-                updateHealthBar(monster);
+                let dealtDamage = dealDamage(10,12,player,monster);
                 player.useMana(mana);
                 let message = (`PLAYER(${showPercentageHp(player)}%) use strong attack on ${monster.name}(${showPercentageHp(monster)}%) and caused ${dealtDamage} damage`);
                 writeLog(message, "player-special");
@@ -143,14 +135,14 @@ export const player = {
             },
         }, restore: {
             canUseRestore() {
-                const neededHp = player.maxHp * 0.2;
+                const neededHp = Math.ceil(player.maxHp * 0.2);
                 if (player.currentHp >= neededHp) {
                     return neededHp;
                 } else {
                     return false;
                 }
             }, useRestore() {
-                const restoredMana = player.maxMana / 2;
+                const restoredMana = Math.ceil(player.maxMana / 2);
                 const burnHp = player.playerSkills.restore.canUseRestore();
                 player.currentHp -= burnHp;
                 if (player.currentMana + restoredMana >= player.maxMana) {

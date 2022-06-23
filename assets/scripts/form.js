@@ -1,9 +1,10 @@
 import {hideSection, showSection} from "./sections&hp.js";
-import {form, buttons} from "./elements.js";
+import {form, buttons, sections} from "./elements.js";
 import {monster} from "./monsters.js";
 import {player} from "./player.js"
 import {startGame} from "./main.js";
 import {removeLogs} from "./logs.js";
+import {gameStatus} from "./main.js";
 
 form.hpForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -13,13 +14,11 @@ form.hpForm.addEventListener("submit", (event) => {
     if (monsterSelect.checked) {
       monster.name = monsterSelect.value;
       monster.enableSpecialMonsterSkills(monster.name);
+      sections.monsterName.textContent = `${monster.name} health`;
     }
   }
-
-  if (form.customDifficulty.checked) {
-    player.maxHp = +document.getElementById("playerInput").value;
-    monster.maxHp = +document.getElementById("monsterInput").value;
-  }
+  setGameDifficulty(document.querySelector('input[name="difficultySelect"]:checked').value);
+  console.log('form.selectedDifficulty',document.querySelector('input[name="difficultySelect"]:checked').value)
   startGame();
 });
 
@@ -27,17 +26,35 @@ function setGameDifficulty(selectedDifficulty) {
   switch (selectedDifficulty) {
     case "normal":
       player.maxHp = 1000;
+      player.damage = 25;
       monster.maxHp = 1000;
+      monster.damage = 25;
+      gameStatus.difficulty = "normal";
       break;
     case "nightmare":
-      player.maxHp = 2000;
-      monster.maxHp = 1000;
+      player.maxHp = 1000;
+      player.damage = 40;
+      monster.maxHp = 1500;
+      monster.damage = 75;
+      gameStatus.difficulty = "nightmare";
       break;
     case "hell":
-      player.maxHp = 3000;
-      monster.maxHp = 1000;
+      player.maxHp = 1000;
+      player.damage = 100;
+      monster.maxHp = 2000;
+      monster.damage = 100;
+      gameStatus.difficulty = "hell";
       break;
+    case "custom":
+      player.maxHp = +document.getElementById("playerInput").value;
+      monster.maxHp = +document.getElementById("monsterInput").value;
+      player.damage = Math.ceil(player.maxHp * 0.04);
+      monster.damage = Math.ceil(monster.maxHp * 0.075);
   }
+  console.log('player.maxHp', player.maxHp);
+  console.log('monster.maxHp', monster.maxHp);
+  console.log('player.damage', player.damage);
+  console.log('monster.damage', monster.damage);
 }
 
 for (const difficultySelect of form.difficultySelects) {
@@ -66,7 +83,6 @@ for (const difficultySelect of form.difficultySelects) {
       }
     } else {
       hideSection(form.hpInputsDiv);
-      setGameDifficulty(this.value);
       for (const hpInput of form.hpInputs) {
         hpInput.removeAttribute("required", "true");
       }

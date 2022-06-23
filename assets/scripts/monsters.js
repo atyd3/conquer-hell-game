@@ -1,4 +1,4 @@
-import {disableControlButtons, enableControlButtons, endGame, gameStatus, randomIntegerBetweenValues} from "./main.js";
+import {disableControlButtons, enableControlButtons, endGame, gameStatus, randomIntegerBetweenValues, dealDamage} from "./main.js";
 import {hideSection, showPercentageHp, showSection, updateHealthBar} from "./sections&hp.js";
 import {player} from "./player.js";
 import {writeLog} from "./logs.js";
@@ -8,7 +8,7 @@ export const monster = {
     name: "Monster",
     currentHp: null,
     maxHp: null,
-    damage: 50,
+    damage: null,
     healthBar: document.getElementById("monster-health"),
     isStunned: false,
     specialSkills: null,
@@ -16,26 +16,12 @@ export const monster = {
     skillPrep: false,
     activeSkill: null,
     normalAttack() {
-        if (!gameStatus.isActive) {
-            return;
-        }
-        const dealtDamage = +(
-            player.maxHp * 0.021 * Math.floor(Math.random() * (5 - 2 + 1) + 2) +
-            monster.damage
-        ).toPrecision(2);
-        player.currentHp -= dealtDamage;
-        updateHealthBar(player);
+        const dealtDamage = dealDamage(5, 10, monster, player)
         let message = (
             `${monster.name}(${showPercentageHp(monster)}%) attack PLAYER(${showPercentageHp(player)}%) and caused ${dealtDamage} damage`
         );
         writeLog(message, "monster");
         endGame();
-    },
-    dealDamageToPlayer(min, max) {
-        let dealtDamage = Math.floor(player.maxHp / 100) * randomIntegerBetweenValues(min, max);
-        player.currentHp -= dealtDamage;
-        updateHealthBar(player);
-        console.log('dealt damage', dealtDamage)
     },
     enableSpecialMonsterSkills(name) {
         for (let key in monsterSkills) {
@@ -46,16 +32,16 @@ export const monster = {
         }
     },
     calcSpec() {
-        let chance = Math.random();
-        console.log(chance);
-        if (player.maxHp / monster.maxHp >= 2) {
-            chance -= (player.maxHp / monster.maxHp) * 0.1;
-            console.log("chance after calc", chance);
+        let max = 100;
+        if (monster.maxHp / player.maxHp >= 1.5) {
+            max = 80;
         }
+        console.log(max)
+        let chance = randomIntegerBetweenValues(1, max);
         for (let skill in monster.specialSkills) {
-            monster.specialSkills[skill](chance)
+            monster.specialSkills[skill](chance);
+            console.log('chance after calc', chance)
         }
-        //to przenieść do osobnej funkcji
     }
 };
 
@@ -63,9 +49,7 @@ export const monster = {
 export const useMonsterSkill = {
     hypno: {
         hypnosis() {
-            let dealtDamage = Math.floor(player.maxHp / 100) * randomIntegerBetweenValues(10, 20) // min10, max20
-            player.currentHp -= dealtDamage;
-            updateHealthBar(player);
+            const dealtDamage = dealDamage(10, 15, monster, player);
             let message = (
                 `PLAYER(${showPercentageHp(player)}%) attack himself due to hypnosis and caused ${dealtDamage} damage`
             );
@@ -73,6 +57,7 @@ export const useMonsterSkill = {
             player.roundData.push("attack");
             hideSection(buttons.hypnosisBtn);
             enableControlButtons();
+            endGame();
         },
         regeneration() {
             monster.currentHp += 0.25 * monster.maxHp;
@@ -82,19 +67,16 @@ export const useMonsterSkill = {
         }
     },
     electro: {
-        flash() {
-            writeLog(`Electro used flash`, "monster-special");
-
+        glare() {
+            writeLog(`Electro used glare and stole mana from player`, "monster-special");
+            player.currentMana < player.maxMana * 0.3 ? player.currentMana = 0 : player.currentMana -= Math.ceil(player.maxMana * 0.3);
+            player.manaBar.value = player.currentMana;
         },
         lightning() {
-            let lightningDamage = +(
-                0.08 * player.maxHp +
-                Math.random() * 0.15 * player.maxHp
-            ).toPrecision(1);
-            player.currentHp -= lightningDamage;
-            updateHealthBar(player);
-            let message = `Electro used lightning and caused ${lightningDamage} damage to player (${showPercentageHp(player)})%`;
+            const dealtDamage = dealDamage(8, 18, monster, player);
+            let message = `Electro used lightning and caused ${dealtDamage} damage to player (${showPercentageHp(player)})%`;
             writeLog(message, "monster-special");
+            endGame();
         }
     },
     drago: {
@@ -103,22 +85,18 @@ export const useMonsterSkill = {
             let percentageDamage = randomIntegerBetweenValues(4, 7);
             player.currentHp -= Math.floor((player.maxHp / 100) * percentageDamage);
             updateHealthBar(player);
-            writeLog(`Player lose ${percentageDamage}% HP due to fire fury`, 'monster-special')
-
+            writeLog(`Player lose ${percentageDamage}% HP due to fire fury`, 'monster-special');
+            endGame();
         },
         rainOfFire() {
             for (let i = 0; i < randomIntegerBetweenValues(3, 5); i++) {
-                let rainOfFireDamage = +(
-                    Math.random() * 0.04 * player.maxHp +
-                    0.01 * player.maxHp
-                ).toPrecision(1);
-                player.currentHp -= rainOfFireDamage;
-                updateHealthBar(player);
+                let dealtDamage = dealDamage(4,7,monster, player)
                 let message =
-                    `Drago used rain of fire and caused ${rainOfFireDamage} damage to player (${showPercentageHp(
+                    `Drago used rain of fire and caused ${dealtDamage} damage to player (${showPercentageHp(
                         player
                     )})%`
                 writeLog(message, "monster-special");
+                endGame();
             }
         }
     }
@@ -128,12 +106,13 @@ const monsterSkills = {
     hypno: {
         hypnosis(chance) {
             if (monster.canUseAllSkills &&
-                chance >= 0.9
+                chance < 5
             ) {
                 monster.skillPrep = !monster.skillPrep; //true
                 monster.canUseAllSkills = !monster.canUseAllSkills //false
                 writeLog(`Hypno is preparing to use hypnosis`, "monster-special");
                 //przygotowanie do użycia hipnozy w następnej rundzie
+                return;
             }
 
             if (monster.skillPrep) {
@@ -150,7 +129,7 @@ const monsterSkills = {
             if (
                 monster.canUseAllSkills &&
                 monster.currentHp <= 0.33 * monster.maxHp &&
-                chance <= 0.3
+                chance >= 15 && chance < 21
             ) {
                 useMonsterSkill.hypno.regeneration();
                 //użycie regeneracji
@@ -158,38 +137,38 @@ const monsterSkills = {
         },
     },
     electro: {
-        flash(chance) {
+        lightning(chance) {
             if (
-                chance >= 0.8 &&
+                chance < 5 &&
                 monster.canUseAllSkills
             ) {
                 monster.skillPrep = !monster.skillPrep; //true
                 monster.canUseAllSkills = !monster.canUseAllSkills //false
-                writeLog(`Electro is preparing to use flash`, "monster-special");
-                //przygotowanie do użycia flash w następnej rundzie
+                writeLog(`Electro is preparing to use lightning`, "monster-special");
+                //przygotowanie do użycia lightning w następnej rundzie
                 return;
             }
 
             if (monster.skillPrep) {
                 monster.skillPrep = !monster.skillPrep //false
                 monster.canUseAllSkills = false;
-                useMonsterSkill.electro.flash();
-                //użyj flash
+                useMonsterSkill.electro.lightning();
+                //użyj glare
             }
         },
-        lightning(chance) {
+        glare(chance) {
             if (
-                chance <= 0.15 &&
+                chance >= 10 && chance <= 15 &&
                 monster.canUseAllSkills
             ) {
-                useMonsterSkill.electro.lightning()
+                useMonsterSkill.electro.glare()
             }
         }
     },
     drago: {
         fireFury(chance) {
             if (
-                chance >= 0.9 &&
+                chance < 5 &&
                 monster.canUseAllSkills &&
                 !monster.activeSkill //zmienić żeby nextRound nie przestawiało canUseAllSkills i to wywalić
             ) {
@@ -216,7 +195,7 @@ const monsterSkills = {
         },
         rainOfFire(chance) {
             if (
-                chance <= 0.15 &&
+                chance >= 10 && chance <= 18 &&
                 monster.canUseAllSkills &&
                 !monster.activeSkill
             ) {

@@ -1,17 +1,25 @@
 import {manaSpan, buttons, sections} from "./elements.js";
 import {monster} from "./monsters.js";
 import {player} from "./player.js";
-import {activeGameSections, showSection, hideSection, setProgressBar} from "./sections&hp.js";
+import {activeGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
 import {writeLog} from "./logs.js";
 
 export const gameStatus = {
     canStart: true,
     isActive: true,
     result: null,
+    difficulty: "custom"
 };
 
 export function randomIntegerBetweenValues(min, max){
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function dealDamage(min, max, attacker, defender) {
+    let dealtDamage = Math.floor(defender.maxHp / 100) * randomIntegerBetweenValues(min, max) + attacker.damage;
+    defender.currentHp -= dealtDamage;
+    updateHealthBar(defender);
+    return dealtDamage;
 }
 
 export function startGame() {
@@ -31,7 +39,7 @@ export function startGame() {
     setProgressBar(player, player.healthBar);
     setProgressBar(monster, monster.healthBar);
     setProgressBar(player, player.manaBar);
-    writeLog("Game started", "system");
+    writeLog(`${gameStatus.difficulty} game started`, "system");
 
     for (const activeSection of activeGameSections) {
         showSection(activeSection);
@@ -97,7 +105,7 @@ export function endGame() {
     if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
         gameStatus.result = "Draw";
     } else if (player.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = "Monster wins";
+        gameStatus.result = `${monster.name} wins`;
         sections.gameStatus.classList.add("monster-bg");
     } else if (monster.currentHp <= 0 && gameStatus.isActive) {
         gameStatus.result = "Player wins";

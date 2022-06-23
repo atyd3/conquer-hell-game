@@ -31,6 +31,7 @@ export const logList = document.getElementById('logList');
 
 export const sections = {
     header: document.querySelector('header'),
+    monsterName: document.getElementById('monster-health-label'),
     settings: document.getElementById("settings"),
     controls: document.getElementById('controls'),
     gameStatus: document.getElementById('game-status'),
