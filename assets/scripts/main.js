@@ -6,7 +6,6 @@ import {writeLog} from "./logs.js";
 
 export const gameStatus = {
     isActive: true,
-    result: null,
     difficulty: null,
 };
 
@@ -91,22 +90,23 @@ export function disableControlButtons() {
 }
 
 export function endGame() {
+    let result;
     if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = "Draw";
+        result = "Draw";
     } else if (player.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = `${monster.name} wins`;
+        result = `${monster.name} wins`;
         sections.gameStatus.classList.add("monster-bg");
     } else if (monster.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = "Player wins";
+        result = "Player wins";
         sections.gameStatus.classList.add("player-bg");
     } else {
         return;
     }
     monster.canUseAllSkills = false;
     monster.skillPrep = false;
-    writeLog(gameStatus.result, "system");
+    writeLog(result, "system");
     gameStatus.isActive = !gameStatus.isActive;
-    sections.gameStatus.firstElementChild.textContent = gameStatus.result;
+    sections.gameStatus.firstElementChild.textContent = result;
     hideSection(sections.health);
     showSection(sections.gameStatus);
     disableControlButtons();
