@@ -1,11 +1,10 @@
 import {manaSpan, buttons, sections} from "./elements.js";
 import {monster} from "./monsters.js";
 import {player} from "./player.js";
-import {activeGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
+import {activeGameSections, inActiveGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
 import {writeLog} from "./logs.js";
 
 export const gameStatus = {
-    canStart: true,
     isActive: true,
     result: null,
     difficulty: null,
@@ -45,37 +44,26 @@ export function startGame() {
         showSection(activeSection);
     }
 
-    hideSection(sections.settings); //close settings
-    hideSection(sections.header); //close header
-    hideSection(buttons.hypnosisBtn);
-    hideSection(sections.howToPlay);
+    for (const inActiveGameSection of inActiveGameSections) {
+        hideSection(inActiveGameSection);
+    }
 
     monster.calcSpec();
 
     enableControlButtons();
-    buttons.restoreBtn.classList.add("button-active-alt");
+    // buttons.restoreBtn.classList.add("button-active-alt");
     buttons.settingsBtn.classList.remove("click-me");
 }
 
 export function nextRound() {
     endGame();
     player.returnMana();
-    if (!monster.canUseAllSkills && !monster.skillPrep) {
-        monster.canUseAllSkills = !monster.canUseAllSkills
-    }
-    //to przenieść do monstera
-    if (monster.isStunned || monster.skillPrep) {
-        monster.isStunned = false
-    } else {
-        monster.normalAttack();
-    }
 
-
-    if (player.isHypnotized){
+    if (player.isHypnotized) {
         player.isHypnotized = !player.isHypnotized;
     }
 
-    monster.calcSpec();
+    monster.nextRound();
 
     player.checkAvailableSkills(player.playerSkills.heal.canUseHeal(), buttons.healBtn);
     player.checkAvailableSkills(
@@ -98,7 +86,7 @@ export function disableControlButtons() {
     for (const controlBtn of buttons.controlBtns) {
         controlBtn.classList.remove("button-active");
         controlBtn.setAttribute("disabled", true);
-        buttons.restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.remove("button-active-alt");
     }
 }
 

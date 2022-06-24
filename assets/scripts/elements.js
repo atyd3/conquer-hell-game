@@ -1,7 +1,3 @@
-// const monsterHealthBar = document.getElementById("monster-health");
-// const playerHealthBar = document.getElementById("player-health");
-
-
 export const form = {
     hpForm: document.getElementById('hpForm'),
     difficultySelects: document.querySelectorAll('input[name="difficultySelect"]'),

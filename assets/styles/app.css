@@ -9,6 +9,7 @@ html {
 body {
     background: #2c2c2c;
     position: relative;
+    caret-color: #2c2c2c;
 }
 
 .overlay {

@@ -1,8 +1,9 @@
 import {dealDamage, endGame, gameStatus, randomIntegerBetweenValues} from "./main.js";
 import {buttons, manaSpan} from "./elements.js";
 import {monster} from "./monsters.js";
-import {showPercentageHp, updateHealthBar} from "./sections&hp.js";
+import {showPercentageHp, updateHealthBar, updatePlayerManaBar} from "./sections&hp.js";
 import {writeLog} from "./logs.js";
+
 
 export const player = {
     name: "Player",
@@ -14,7 +15,7 @@ export const player = {
     currentMana: null,
     damage: 40,
     roundData: [],
-    isHypnotized: false, // maxMana: 100,
+    isHypnotized: false,
     useMana(value) {
         if (this.currentMana - value >= 0) {
             this.currentMana -= value;
@@ -26,10 +27,10 @@ export const player = {
         let returnManaValue = player.maxMana * 0.05;
         if (player.currentMana + returnManaValue < player.maxMana) {
             player.currentMana = +player.currentMana + returnManaValue;
-            player.manaBar.value = player.currentMana;
         } else {
             player.currentMana = player.maxMana;
         }
+        updatePlayerManaBar();
     },
     checkAvailableSkills(skill, controlBtn) {
         if (!skill || !gameStatus.isActive || player.isHypnotized) {
@@ -125,12 +126,10 @@ export const player = {
                 const stun = Math.random();
                 if (stun > 0.7) {
                     writeLog(`Stun failed`, "system");
-                    console.log("stun failed > 0.7", stun);
                 } else {
                     monster.skillPrep = false;
                     writeLog(`${monster.name} is stunned`, "player-special");
                     monster.isStunned = true;
-                    console.log("stun chance", stun);
                 }
             },
         }, restore: {
@@ -151,10 +150,8 @@ export const player = {
                     player.currentMana = player.currentMana + restoredMana;
                 }
                 player.manaBar.value = player.currentMana;
-                // roundLogs.push(`Player restore mana using 20%HP`);
                 player.roundData.push("restore");
                 writeLog(`Player restore mana using 20%HP`, "player-special");
-                // endGame();
             },
         },
     }
