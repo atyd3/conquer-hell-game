@@ -1,93 +1,88 @@
-button, label {
+.btn {
   font-family: "Bangers", cursive;
-  font-size: 1.2rem;
+  font-size: $button-font-size;
   letter-spacing: 0.1rem;
   background: $color-grey;
-  border: 1px solid $color-grey-dark;
+  @include border($color-grey-dark, 3px);
   color: $color-black;
   padding: 0.6rem 2rem;
-  border-radius: 3px;
   margin: 0.1rem;
   box-shadow: 2px 2px 5px rgba($color-grey-dark, 0.55);
+
+  &--active {
+    padding: .5rem;
+    color: white;
+    background: $color-primary;
+    cursor: pointer;
+    @include border($color-primary, 3px);
+
+    & span {
+      background-color: $color-secondary;
+      margin-left: 0.5rem;
+      padding: 0.3rem;
+      border-radius: 6px;
+      @include border($color-white, 6px);
+      box-shadow: 1px 0px 20px rgba($color-white, 0.5);
+    }
+
+    &:hover,
+    &:active {
+      background: $color-secondary;
+      border: 1px solid $color-black;
+
+      & span {
+        @include border($color-black, 6px);
+      }
+    }
+
+    &--alt {
+      background-color: $color-secondary;
+      border: 1px solid $color-secondary;
+
+      & span {
+        background-color: $color-primary;
+      }
+
+      &:hover,
+      &:active {
+        background: $color-primary;
+        border: 1px solid $color-black;
+      }
+    }
+  }
 }
 
-button:focus {
-  outline: none;
-}
-
-.button-active {
-  padding: .5rem;
-  color: white;
-  background: $color-primary;
-  cursor: pointer;
-  border: 1px solid $color-primary;
-}
-
-.button-active:hover,
-.button-active:active, {
-  background: $color-secondary;
-  border: 1px solid $color-black;
-}
-
-.button-active-alt {
-  background-color: $color-secondary;
-  border: 1px solid $color-secondary;
-}
-
-.button-active-alt:hover,
-.button-active-alt:active {
-  background: $color-primary;
-  border: 1px solid $color-black;
-}
 
 .settingsSelect {
   margin: 2rem 0 2rem 0;
-}
 
-.settingsSelect label {
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  font-weight: bold;
-}
+  & label {
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+    min-width: 5.5rem;
+    display: inline-block;
+  }
 
-.settingsSelect input[type="radio"] {
-  opacity: 0;
-}
+  & input[type="radio"] {
+    opacity: 0;
+  }
 
-.settingsSelect input[type="radio"]:checked + label {
-  background: $color-secondary;
-  border: 1px solid $color-black;
+  & input[type="radio"]:checked + label {
+    background: $color-secondary;
+    border: 1px solid $color-black;
+  }
 }
-
 
 .click-me {
   transition: all 2s ease-out;
   background: $color-secondary !important;
   border-color: $color-secondary !important;
   transform: scale(1.05);
+
+  &:hover {
+    box-shadow: 0 2px 5px rgba($color-grey-dark, 0.15);
+  }
 }
 
-.click-me:hover {
-  box-shadow: 0 2px 5px rgba($color-grey-dark, 0.15);
-}
 
-.span {
-  background-color: $color-secondary;
-  margin-left: 0.5rem;
-  padding: 0.3rem;
-  border-radius: 6px;
-  border: 1px solid $color-white;
-  box-shadow: 1px 0px 20px rgba($color-white, 0.5);
-}
-
-#restore-mana-span {
-  background-color: $color-primary;
-}
-
-.button-active:hover span {
-  border: 1px solid $color-black;
-}
-
-.button-active:hover #restore-mana-span {
-  background-color: $color-secondary;
-}

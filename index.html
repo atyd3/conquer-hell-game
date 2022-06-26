@@ -36,37 +36,37 @@
         <div id="inputContainer">
             <div class="settingsSelect">
                 <h2>Difficulty levels</h2>
-                <input
+                <input class="btn btn--active"
                         type="radio"
                         id="normal"
                         name="difficultySelect"
                         value="normal"
                         required
                 />
-                <label for="normal" class="button-active">Normal</label>
-                <input
+                <label for="normal" class="btn btn--active">Normal</label>
+                <input class="btn btn--active"
                         type="radio"
                         id="nightmare"
                         name="difficultySelect"
                         value="nightmare"
                         required
                 />
-                <label for="nightmare" class="button-active">Nightmare</label>
-                <input
+                <label for="nightmare" class="btn btn--active">Nightmare</label>
+                <input class="btn btn--active"
                         type="radio"
                         id="hell"
                         name="difficultySelect"
                         value="hell"
                         required
                 />
-                <label for="hell" class="button-active">Hell</label>
-                <input
+                <label for="hell" class="btn btn--active">Hell</label>
+                <input class="btn btn--active"
                         type="radio"
                         id="custom"
                         name="difficultySelect"
                         value="custom"
                 />
-                <label for="custom" class="button-active">Custom</label>
+                <label for="custom" class="btn btn--active">Custom</label>
             </div>
             <div id="hpInputs" class="hidden">
                 <h2 class="hp-input-label">MONSTER HP:</h2>
@@ -101,7 +101,7 @@
                         value="hypno"
                         required
                 />
-                <label for="hypno" class="button-active">Hypno</label>
+                <label for="hypno" class="btn btn--active">Hypno</label>
                 <input
                         type="radio"
                         id="electro"
@@ -109,7 +109,7 @@
                         value="electro"
                         required
                 />
-                <label for="electro" class="button-active">Electro</label>
+                <label for="electro" class="btn btn--active">Electro</label>
                 <input
                         type="radio"
                         id="drago"
@@ -117,9 +117,9 @@
                         value="drago"
                         required
                 />
-                <label for="drago" class="button-active">Drago</label>
+                <label for="drago" class="btn btn--active">Drago</label>
             </div>
-            <button type="submit" id="startGameBtn" class="button-active">
+            <button type="submit" id="startGameBtn" class="btn btn--active">
                 START GAME
             </button>
         </div>
@@ -138,25 +138,25 @@
     <ul id="logList"></ul>
 </section>
 <section id="controls" class="hidden">
-    <button id="hypnosis-btn" class="button-active hidden">??????????</button>
-    <button id="attack-btn">ATTACK</button>
-    <button id="strong-attack-btn">
-        STRONG ATTACK <span class="span" id="strong-mana-span">20% MP</span>
+    <button id="hypnosis-btn" class="btn btn--active hidden">??????????</button>
+    <button id="attack-btn" class="btn">ATTACK</button>
+    <button id="strong-attack-btn" class="btn">
+        STRONG ATTACK <span id="strong-mana-span">20% MP</span>
     </button>
-    <button id="stun-btn">
-        STUN <span class="span" id="stun-mana-span">40% MP</span>
+    <button id="stun-btn" class="btn">
+        STUN <span id="stun-mana-span">40% MP</span>
     </button>
-    <button id="heal-btn">
-        HEAL <span class="span" id="heal-mana-span">40% MP</span>
+    <button id="heal-btn" class="btn">
+        HEAL <span id="heal-mana-span">40% MP</span>
     </button>
-    <button id="restore-btn">
-        RESTORE MANA<span class="span" id="restore-mana-span">20% HP</span>
+    <button id="restore-btn" class="btn">
+        RESTORE MANA<span id="restore-mana-span">20% HP</span>
     </button>
 </section>
 <section id="additional-controls" class="hidden">
-    <button id="how-to-play-btn" class="button-active">HOW TO PLAY?</button>
-    <button id="log-btn" class="button-active">TOGGLE GAME LOG</button>
-    <button id="settings-btn" class="button-active">NEW GAME</button>
+    <button id="how-to-play-btn" class="btn btn--active">HOW TO PLAY?</button>
+    <button id="log-btn" class="btn btn--active">TOGGLE GAME LOG</button>
+    <button id="settings-btn" class="btn btn--active">NEW GAME</button>
 </section>
 <div id="how-to-play" class="section">
     <a href="#" class="close-icon hidden" id="close-icon-btn"></a>

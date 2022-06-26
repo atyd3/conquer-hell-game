@@ -127,9 +127,7 @@ export const useMonsterSkill = {
 const monsterSkills = {
     hypno: {
         hypnosis(chance) {
-            if (monster.canUseAllSkills &&
-                chance < 5
-            ) {
+            if (monster.canUseAllSkills && chance < 5) {
                 monster.prepareSpec('hypnosis');
                 return;
             }

@@ -31,82 +31,68 @@ $breakpoint argument choices:
     background-color: #e9dfdf;
     color: #292a2d; } }
 
-button, label {
+.btn {
   font-family: "Bangers", cursive;
   font-size: 1.2rem;
   letter-spacing: 0.1rem;
   background: #e9dfdf;
   border: 1px solid #a3a0a0;
+  border-radius: 3px;
   color: #292a2d;
   padding: 0.6rem 2rem;
-  border-radius: 3px;
   margin: 0.1rem;
   box-shadow: 2px 2px 5px rgba(163, 160, 160, 0.55); }
-
-button:focus {
-  outline: none; }
-
-.button-active {
-  padding: .5rem;
-  color: white;
-  background: #ff0062;
-  cursor: pointer;
-  border: 1px solid #ff0062; }
-
-.button-active:hover,
-.button-active:active {
-  background: #a927f5;
-  border: 1px solid #292a2d; }
-
-.button-active-alt {
-  background-color: #a927f5;
-  border: 1px solid #a927f5; }
-
-.button-active-alt:hover,
-.button-active-alt:active {
-  background: #ff0062;
-  border: 1px solid #292a2d; }
+  .btn--active {
+    padding: .5rem;
+    color: white;
+    background: #ff0062;
+    cursor: pointer;
+    border: 1px solid #ff0062;
+    border-radius: 3px; }
+    .btn--active span {
+      background-color: #a927f5;
+      margin-left: 0.5rem;
+      padding: 0.3rem;
+      border-radius: 6px;
+      border: 1px solid #fff;
+      border-radius: 6px;
+      box-shadow: 1px 0px 20px rgba(255, 255, 255, 0.5); }
+    .btn--active:hover, .btn--active:active {
+      background: #a927f5;
+      border: 1px solid #292a2d; }
+      .btn--active:hover span, .btn--active:active span {
+        border: 1px solid #292a2d;
+        border-radius: 6px; }
+    .btn--active--alt {
+      background-color: #a927f5;
+      border: 1px solid #a927f5; }
+      .btn--active--alt span {
+        background-color: #ff0062; }
+      .btn--active--alt:hover, .btn--active--alt:active {
+        background: #ff0062;
+        border: 1px solid #292a2d; }
 
 .settingsSelect {
   margin: 2rem 0 2rem 0; }
-
-.settingsSelect label {
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  font-weight: bold; }
-
-.settingsSelect input[type="radio"] {
-  opacity: 0; }
-
-.settingsSelect input[type="radio"]:checked + label {
-  background: #a927f5;
-  border: 1px solid #292a2d; }
+  .settingsSelect label {
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+    min-width: 5.5rem;
+    display: inline-block; }
+  .settingsSelect input[type="radio"] {
+    opacity: 0; }
+  .settingsSelect input[type="radio"]:checked + label {
+    background: #a927f5;
+    border: 1px solid #292a2d; }
 
 .click-me {
   transition: all 2s ease-out;
   background: #a927f5 !important;
   border-color: #a927f5 !important;
   transform: scale(1.05); }
-
-.click-me:hover {
-  box-shadow: 0 2px 5px rgba(163, 160, 160, 0.15); }
-
-.span {
-  background-color: #a927f5;
-  margin-left: 0.5rem;
-  padding: 0.3rem;
-  border-radius: 6px;
-  border: 1px solid #fff;
-  box-shadow: 1px 0px 20px rgba(255, 255, 255, 0.5); }
-
-#restore-mana-span {
-  background-color: #ff0062; }
-
-.button-active:hover span {
-  border: 1px solid #292a2d; }
-
-.button-active:hover #restore-mana-span {
-  background-color: #a927f5; }
+  .click-me:hover {
+    box-shadow: 0 2px 5px rgba(163, 160, 160, 0.15); }
 
 input {
   border: 1px solid #a3a0a0;

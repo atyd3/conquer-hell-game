@@ -34,12 +34,12 @@ export const player = {
     },
     checkAvailableSkills(skill, controlBtn) {
         if (!skill || !gameStatus.isActive || player.isHypnotized) {
-            controlBtn.classList.remove("button-active");
-            buttons.restoreBtn.classList.remove("button-active-alt");
+            controlBtn.classList.remove("btn--active");
+            buttons.restoreBtn.classList.remove("btn--active--alt");
             controlBtn.setAttribute("disabled", true);
         } else {
-            controlBtn.classList.add("button-active");
-            buttons.restoreBtn.classList.add("button-active-alt");
+            controlBtn.classList.add("btn--active");
+            buttons.restoreBtn.classList.add("btn--active--alt");
             controlBtn.removeAttribute("disabled", true);
         }
     },

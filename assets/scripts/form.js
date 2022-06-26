@@ -67,10 +67,10 @@ for (const difficultySelect of form.difficultySelects) {
           } 
           if (form.hpInputs[0].value < 99 || form.hpInputs[1].value < 99) {
             form.hint.style = "display: block";
-            buttons.startGameBtn.classList.remove("button-active");
+            buttons.startGameBtn.classList.remove("btn--active");
           } else {
             form.hint.style = "display: none";
-            buttons.startGameBtn.classList.add("button-active");
+            buttons.startGameBtn.classList.add("btn--active");
           }
           if (this.value < 99) {
             this.style = "background-color: var(--color-tertiary)"

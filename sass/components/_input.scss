@@ -1,6 +1,5 @@
 input {
-  border: 1px solid $color-grey-dark;
-  border-radius: 6px;
+  @include border($color-grey-dark, 6px);
   padding: 0.3rem;
   margin: 1px;
   text-align: center;

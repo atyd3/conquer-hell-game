@@ -75,17 +75,17 @@ export function nextRound() {
 
 export function enableControlButtons() {
     for (const controlBtn of buttons.controlBtns) {
-        controlBtn.classList.add("button-active");
+        controlBtn.classList.add("btn--active");
         controlBtn.removeAttribute("disabled");
-        buttons.restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.add("btn--active--alt");
     }
 }
 
 export function disableControlButtons() {
     for (const controlBtn of buttons.controlBtns) {
-        controlBtn.classList.remove("button-active");
+        controlBtn.classList.remove("btn--active");
         controlBtn.setAttribute("disabled", true);
-        buttons.restoreBtn.classList.remove("button-active-alt");
+        buttons.restoreBtn.classList.remove("btn--active-alt");
     }
 }
 
