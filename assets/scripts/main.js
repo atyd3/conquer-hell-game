@@ -28,6 +28,7 @@ export function startGame() {
 
     monster.canUseAllSkills = true;
     monster.skillPrep = false;
+    monster.activeSkill = null;
 
     monster.currentHp = monster.maxHp;
     player.currentHp = player.maxHp;

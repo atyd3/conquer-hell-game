@@ -35,14 +35,14 @@ function setGameDifficulty(selectedDifficulty) {
       player.maxHp = 1000;
       player.damage = 40;
       monster.maxHp = 1500;
-      monster.damage = 75;
+      monster.damage = 60;
       gameStatus.difficulty = "nightmare";
       break;
     case "hell":
       player.maxHp = 1000;
       player.damage = 100;
       monster.maxHp = 2000;
-      monster.damage = 100;
+      monster.damage = 80;
       gameStatus.difficulty = "hell";
       break;
     case "custom":

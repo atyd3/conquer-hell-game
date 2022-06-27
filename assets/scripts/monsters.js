@@ -41,7 +41,7 @@ export const monster = {
     calcSpec() {
         let max = 100;
         if (monster.maxHp / player.maxHp >= 1.5) {
-            max = 80;
+            max = 70;
         }
         let chance = randomIntegerBetweenValues(1, max);
         for (let skill in monster.specialSkills) {
@@ -127,7 +127,7 @@ export const useMonsterSkill = {
 const monsterSkills = {
     hypno: {
         hypnosis(chance) {
-            if (monster.canUseAllSkills && chance < 5) {
+            if (monster.canUseAllSkills && chance <= 6) {
                 monster.prepareSpec('hypnosis');
                 return;
             }
@@ -156,7 +156,7 @@ const monsterSkills = {
     electro: {
         lightning(chance) {
             if (
-                chance < 5 &&
+                chance <= 6 &&
                 monster.canUseAllSkills
             ) {
                 monster.prepareSpec('lightning')
@@ -181,7 +181,7 @@ const monsterSkills = {
     drago: {
         fireFury(chance) {
             if (
-                chance < 5 &&
+                chance <= 8 &&
                 monster.canUseAllSkills &&
                 !monster.activeSkill
             ) {
