@@ -31,9 +31,99 @@ $breakpoint argument choices:
     background-color: #e9dfdf;
     color: #292a2d; } }
 
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%;
+  /* 10px/16px(default) - so 1rem is 10px*/ }
+  @media (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media (max-width: 56.25em) {
+    html {
+      font-size: 50%; } }
+  @media (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
+
+body {
+  font-family: "Bangers", cursive; }
+
+.heading-primary {
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-size: 4.5rem;
+  margin: 1rem; }
+  @media (max-width: 37.5em) {
+    .heading-primary {
+      font-size: 3rem; } }
+
+.heading-secondary {
+  font-size: 2.5rem;
+  margin: 1rem 0.5rem;
+  letter-spacing: 0.1rem; }
+
+.paragraph {
+  font-size: 2rem;
+  line-height: 1.2; }
+
+#monster-health-label {
+  margin: 0rem 0.5rem; }
+
+header {
+  color: #fff;
+  font-weight: 1000; }
+
+#game-status {
+  color: #fff; }
+
+#validationFailed {
+  font-weight: bold; }
+
+#logs ul li {
+  font-size: 1.8rem; }
+  @media (max-width: 37.5em) {
+    #logs ul li {
+      font-size: 1.8rem; } }
+
+.u-center-text {
+  text-align: center !important; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem !important; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem !important; }
+  @media (max-width: 56.25em) {
+    .u-margin-bottom-medium {
+      margin-bottom: 3rem !important; } }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem !important; }
+  @media (max-width: 56.25em) {
+    .u-margin-bottom-big {
+      margin-bottom: 5rem !important; } }
+
+.u-margin-top-small {
+  margin-top: 1.5rem !important; }
+
+.u-margin-top-medium {
+  margin-top: 4rem !important; }
+
+.u-margin-top-big {
+  margin-top: 8rem !important; }
+
+.u-margin-top-huge {
+  margin-top: 10rem !important; }
+
 .btn {
   font-family: "Bangers", cursive;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   letter-spacing: 0.1rem;
   background: #e9dfdf;
   border: 1px solid #a3a0a0;
@@ -43,12 +133,15 @@ $breakpoint argument choices:
   margin: 0.1rem;
   box-shadow: 2px 2px 5px rgba(163, 160, 160, 0.55); }
   .btn--active {
-    padding: .5rem;
+    padding: .8rem;
     color: white;
     background: #ff0062;
     cursor: pointer;
     border: 1px solid #ff0062;
     border-radius: 3px; }
+    @media (max-width: 37.5em) {
+      .btn--active {
+        font-size: 2rem; } }
     .btn--active span {
       background-color: #a927f5;
       margin-left: 0.5rem;
@@ -71,17 +164,30 @@ $breakpoint argument choices:
       .btn--active--alt:hover, .btn--active--alt:active {
         background: #ff0062;
         border: 1px solid #292a2d; }
+  .btn--big {
+    padding: 1.2rem;
+    font-size: 3rem; }
+    @media (max-width: 37.5em) {
+      .btn--big {
+        padding: .8rem;
+        font-size: 2rem; } }
 
 .settingsSelect {
   margin: 2rem 0 2rem 0; }
   .settingsSelect label {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     letter-spacing: 0.1rem;
     font-weight: bold;
-    min-width: 5.5rem;
+    min-width: 10rem;
     display: inline-block; }
+    @media (max-width: 37.5em) {
+      .settingsSelect label {
+        padding: .4rem;
+        font-size: 1.5rem;
+        min-width: 7rem; } }
   .settingsSelect input[type="radio"] {
-    opacity: 0; }
+    opacity: 0;
+    width: 1px; }
   .settingsSelect input[type="radio"]:checked + label {
     background: #a927f5;
     border: 1px solid #292a2d; }
@@ -94,6 +200,10 @@ $breakpoint argument choices:
   .click-me:hover {
     box-shadow: 0 2px 5px rgba(163, 160, 160, 0.15); }
 
+#controls {
+  display: flex;
+  flex-direction: column; }
+
 input {
   border: 1px solid #a3a0a0;
   border-radius: 6px;
@@ -103,6 +213,52 @@ input {
   font-size: 1.3rem;
   font-family: inherit;
   letter-spacing: 0.1rem; }
+  input::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; }
+
+.hp-input-label {
+  display: inline; }
+
+#logs {
+  height: 17rem;
+  overflow-y: auto;
+  /*padding: 0rem auto;*/
+  letter-spacing: 0.04rem;
+  height: 35vh; }
+
+#logs ul {
+  padding: 0; }
+
+#logs ul li {
+  list-style: none;
+  border: 1px solid #a3a0a0;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 1px; }
+
+.system {
+  background-color: #e9dfdf; }
+
+.player {
+  color: #ff0062; }
+
+.player-bg {
+  background-color: #ff0062; }
+
+.monster {
+  color: #a927f5; }
+
+.monster-bg {
+  background-color: #a927f5; }
+
+.monster-special {
+  animation: pulse-monster 5s;
+  background-color: #e9dfdf; }
+
+.player-special {
+  animation: pulse-player 5s;
+  background-color: #e9dfdf; }
 
 .overlay {
   position: absolute;
@@ -110,17 +266,28 @@ input {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(41, 42, 45, 0.8);
+  background-color: rgba(41, 42, 45, 0.96);
   z-index: 10; }
 
 #modal-window {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
   z-index: 11;
-  /* 1px higher than the overlay layer */ }
+  /* higher than the overlay */
+  width: 100%; }
+
+.close-icon {
+  display: block;
+  float: right;
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+  border: 5px solid #ff0062;
+  border-radius: 100%;
+  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) #ff0062;
+  transition: all 0.3s ease; }
 
 progress {
   -webkit-appearance: none;
@@ -153,6 +320,10 @@ progress[value]::-moz-progress-bar {
   background-color: #a927f5;
   transition: all 0.2s ease-out; }
 
+.mana-bar {
+  color: #a927f5;
+  border: 1px solid #a927f5; }
+
 ::-webkit-scrollbar {
   width: 1rem; }
 
@@ -171,129 +342,38 @@ progress[value]::-moz-progress-bar {
 ::-webkit-scrollbar-thumb:hover {
   background: #6d6a6a; }
 
-html {
-  font-family: "Bangers", cursive; }
-
 body {
+  position: relative;
   background: #292a2d;
-  position: relative; }
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 
-h1 {
-  text-transform: uppercase;
-  letter-spacing: 0.2rem;
-  font-size: 3rem;
-  margin: 1rem; }
-
-h2 {
-  font-size: 1.5rem;
-  margin: 1rem 0.5rem;
-  letter-spacing: 0.1rem; }
-
-p {
-  font-size: 1.1rem; }
-
-#monster-health-label {
-  margin: 0rem 0.5rem; }
-
-.close-icon {
-  display: block;
-  float: right;
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #ff0062;
-  border-radius: 100%;
-  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) #ff0062;
-  transition: all 0.3s ease; }
-
-.hp-input-label {
-  display: inline; }
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0; }
-
-.mana-bar {
-  color: #a927f5;
-  border: 1px solid #a927f5; }
+header {
+  background-color: #a927f5 !important; }
 
 section,
-header,
-.section {
+header {
   margin: 1rem auto;
-  width: 43rem;
+  width: 90rem;
   text-align: center;
   border-radius: 10px;
   padding: 0.8rem;
   box-shadow: 0 2px 8px rgba(163, 160, 160, 0.25);
   background: white; }
-
-header {
-  background-color: #a927f5;
-  color: #fff;
-  font-weight: 1000; }
-
-#game-status {
-  color: #fff; }
-
-#controls {
-  display: flex;
-  flex-direction: column; }
-
-#startGameBtn {
-  display: block;
-  margin: 1rem auto;
-  padding: 1.1rem;
-  font-size: 1.8rem;
-  border-radius: 6px; }
-
-#validationFailed {
-  font-weight: bold; }
-
-#logs {
-  height: 17rem;
-  overflow-y: auto;
-  /*padding: 0rem auto;*/
-  letter-spacing: 0.04rem; }
-
-#logs ul {
-  padding: 0; }
-
-#logs ul li {
-  list-style: none;
-  border: 1px solid #a3a0a0;
-  border-radius: 6px;
-  padding: 0.5rem;
-  margin: 1px; }
+  @media (max-width: 75em) {
+    section,
+    header {
+      width: 90rem; } }
+  @media (max-width: 56.25em) {
+    section,
+    header {
+      width: 70rem; } }
+  @media (max-width: 37.5em) {
+    section,
+    header {
+      width: 90%; } }
 
 .hidden {
   display: none !important; }
-
-#hint {
-  display: none; }
-
-.system {
-  background-color: #e9dfdf; }
-
-.player {
-  color: #ff0062; }
-
-.player-bg {
-  background-color: #ff0062; }
-
-.monster {
-  color: #a927f5; }
-
-.monster-special {
-  animation: pulse-monster 5s;
-  background-color: #e9dfdf; }
-
-.player-special {
-  animation: pulse-player 5s;
-  background-color: #e9dfdf; }
-
-.monster-bg {
-  background-color: #a927f5; }

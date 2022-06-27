@@ -18,7 +18,6 @@ form.hpForm.addEventListener("submit", (event) => {
     }
   }
   setGameDifficulty(document.querySelector('input[name="difficultySelect"]:checked').value);
-  console.log('form.selectedDifficulty',document.querySelector('input[name="difficultySelect"]:checked').value)
   startGame();
 });
 
@@ -66,10 +65,10 @@ for (const difficultySelect of form.difficultySelects) {
             this.value = this.value.slice(0, 5);
           } 
           if (form.hpInputs[0].value < 99 || form.hpInputs[1].value < 99) {
-            form.hint.style = "display: block";
+            showSection(form.hint);
             buttons.startGameBtn.classList.remove("btn--active");
           } else {
-            form.hint.style = "display: none";
+            hideSection(form.hint);
             buttons.startGameBtn.classList.add("btn--active");
           }
           if (this.value < 99) {

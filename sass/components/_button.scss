@@ -9,12 +9,17 @@
   margin: 0.1rem;
   box-shadow: 2px 2px 5px rgba($color-grey-dark, 0.55);
 
+
+
   &--active {
-    padding: .5rem;
+    padding: .8rem;
     color: white;
     background: $color-primary;
     cursor: pointer;
     @include border($color-primary, 3px);
+    @include respond(phone) {
+      font-size: 2rem;
+    }
 
     & span {
       background-color: $color-secondary;
@@ -50,6 +55,15 @@
       }
     }
   }
+  &--big {
+    padding: 1.2rem;
+    font-size: 3rem;
+
+    @include respond(phone){
+      padding: .8rem;
+      font-size: 2rem;
+    }
+  }
 }
 
 
@@ -57,15 +71,21 @@
   margin: 2rem 0 2rem 0;
 
   & label {
-    font-size: 1.2rem;
+    font-size: $button-font-size;
     letter-spacing: 0.1rem;
     font-weight: bold;
-    min-width: 5.5rem;
+    min-width: 10rem;
     display: inline-block;
+    @include respond(phone){
+      padding: .4rem;
+      font-size: 1.5rem;
+      min-width: 7rem;
+    }
   }
 
   & input[type="radio"] {
     opacity: 0;
+    width: 1px;
   }
 
   & input[type="radio"]:checked + label {
@@ -85,4 +105,14 @@
   }
 }
 
+//#startGameBtn {
+//  margin: 1rem auto;
+//  padding: 1.1rem;
+//  font-size: 1.8rem;
+//  border-radius: 6px;
+//}
 
+#controls {
+  display: flex;
+  flex-direction: column;
+}

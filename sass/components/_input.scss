@@ -6,4 +6,17 @@ input {
   font-size: 1.3rem;
   font-family: inherit;
   letter-spacing: 0.1rem;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
 }
+
+.hp-input-label {
+  display: inline;
+}
+
+

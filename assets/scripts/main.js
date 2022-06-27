@@ -1,7 +1,7 @@
 import {manaSpan, buttons, sections} from "./elements.js";
 import {monster} from "./monsters.js";
 import {player} from "./player.js";
-import {activeGameSections, inActiveGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
+import {activeGameSections, inactiveGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
 import {writeLog} from "./logs.js";
 
 export const gameStatus = {
@@ -44,8 +44,8 @@ export function startGame() {
         showSection(activeSection);
     }
 
-    for (const inActiveGameSection of inActiveGameSections) {
-        hideSection(inActiveGameSection);
+    for (const inactiveGameSection of inactiveGameSections) {
+        hideSection(inactiveGameSection);
     }
 
     monster.calcSpec();

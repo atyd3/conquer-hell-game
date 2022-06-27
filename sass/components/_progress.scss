@@ -35,3 +35,8 @@ progress[value]::-moz-progress-bar {
   background-color: $color-secondary;
   @include transition;
 }
+
+.mana-bar {
+  color: $color-secondary;
+  border: 1px solid $color-secondary;
+}

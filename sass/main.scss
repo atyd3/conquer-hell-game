@@ -8,171 +8,20 @@
 
 @import "components/button";
 @import "components/input";
+@import "components/log-list";
 @import "components/modal";
 @import "components/progress";
 @import "components/scrollbar";
-@import "components/section";
 
-html {
-  font-family: "Bangers", cursive;
-}
-
-body {
-  background: $color-black;
-  position: relative;
-}
-
-h1 {
-  text-transform: uppercase;
-  letter-spacing: 0.2rem;
-  font-size: 3rem;
-  margin: 1rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-  margin: 1rem 0.5rem;
-  letter-spacing: 0.1rem;
-}
-
-p {
-  font-size: 1.1rem;
-}
-
-#monster-health-label {
-  margin: 0rem 0.5rem;
-}
-
-
-.close-icon {
-  display: block;
-  float: right;
-  box-sizing: border-box;
-  width: 25px;
-  height: 25px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: $color-primary;
-  border-radius: 100%;
-  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) $color-primary;
-  transition: all 0.3s ease;
-}
-
-.hp-input-label {
-  display: inline;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+@import "pages/game";
 
 
 
 
 
-.mana-bar {
-  color: $color-secondary;
-  border: 1px solid $color-secondary;
-}
 
 
 
-section,
-header,
-.section {
-  margin: 1rem auto;
-  width: 43rem;
-  text-align: center;
-  border-radius: 10px;
-  padding: 0.8rem;
-  box-shadow: 0 2px 8px rgba($color-grey-dark, 0.25);
-  background: white;
-}
 
-header {
-  background-color: $color-secondary;
-  color: $color-white;
-  font-weight: 1000;
-}
 
-#game-status {
-  color: $color-white;
-}
-
-#controls {
-  display: flex;
-  flex-direction: column;
-}
-
-#startGameBtn {
-  display: block;
-  margin: 1rem auto;
-  padding: 1.1rem;
-  font-size: 1.8rem;
-  border-radius: 6px;
-
-}
-
-#validationFailed {
-  font-weight: bold;
-}
-
-#logs {
-  height: 17rem;
-  overflow-y: auto;
-  /*padding: 0rem auto;*/
-  letter-spacing: 0.04rem;
-}
-
-#logs ul {
-  padding: 0;
-}
-
-#logs ul li {
-  list-style: none;
-  border: 1px solid $color-grey-dark;
-  border-radius: 6px;
-  padding: 0.5rem;
-  margin: 1px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-#hint {
-  display: none;
-}
-
-.system {
-  background-color: $color-grey;
-}
-
-.player {
-  color: $color-primary;
-}
-
-.player-bg {
-  background-color: $color-primary;
-}
-
-.monster {
-  color: $color-secondary;
-}
-
-.monster-special {
-  animation: pulse-monster 5s;
-  background-color: $color-grey;
-}
-
-.player-special {
-  animation: pulse-player 5s;
-  background-color: $color-grey;
-}
-
-.monster-bg {
-  background-color: $color-secondary;
-}
 

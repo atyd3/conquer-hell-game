@@ -25,17 +25,17 @@
 <div class="overlay hidden"></div>
 <div class="hidden" id="modal-window"></div>
 <header>
-    <h1>MONSTER KILLER</h1>
+    <h1 class="heading-primary">MONSTER KILLER</h1>
 </header>
 <section id="game-status" class="hidden">
-    <h1>GAME STARTED!</h1>
+    <h1 class="heading-primary">GAME STARTED!</h1>
 </section>
 </section>
 <section id="settings">
     <form id="hpForm" action="#">
         <div id="inputContainer">
             <div class="settingsSelect">
-                <h2>Difficulty levels</h2>
+                <h2 class="heading-secondary">Difficulty levels</h2>
                 <input class="btn btn--active"
                         type="radio"
                         id="normal"
@@ -90,10 +90,10 @@
                         value="1000"
                         required
                 />
-                <p id="hint">Hp must be greater then 100</p>
+                <p id="hint" class="paragraph hidden">Minimum HP is 100</p>
             </div>
             <div class="settingsSelect">
-                <h2>Fight with</h2>
+                <h2 class="heading-secondary">Fight with</h2>
                 <input
                         type="radio"
                         id="hypno"
@@ -119,16 +119,16 @@
                 />
                 <label for="drago" class="btn btn--active">Drago</label>
             </div>
-            <button type="submit" id="startGameBtn" class="btn btn--active">
+            <button type="submit" id="startGameBtn" class="btn btn--active btn--big">
                 START GAME
             </button>
         </div>
     </form>
 </section>
 <section id="health-levels" class="hidden">
-    <h2 id="monster-health-label">MONSTER HEALTH</h2>
+    <h2 id="monster-health-label" class="heading-secondary">MONSTER HEALTH</h2>
     <progress id="monster-health" max="200" value="200">100%</progress>
-    <h2>PLAYER HEALTH / MANA</h2>
+    <h2 class="heading-secondary">PLAYER HEALTH / MANA</h2>
     <progress id="player-health" max="100" value="100">100%</progress>
     <progress id="player-mana" class="mana-bar" max="100" value="100">
         100%
@@ -158,15 +158,15 @@
     <button id="log-btn" class="btn btn--active">TOGGLE GAME LOG</button>
     <button id="settings-btn" class="btn btn--active">NEW GAME</button>
 </section>
-<div id="how-to-play" class="section">
+<section id="how-to-play">
     <a href="#" class="close-icon hidden" id="close-icon-btn"></a>
-    <h2>HOW TO PLAY?</h2>
-    <p>Choose from available difficulty levels or create a custom level.</p>
-    <p>Select the monster that you want to fight with, each monster uses unique skills.</p>
-    <p>Use mana points to make a special attack or heal. Use your HP to restore half of your mana points.</p>
-    <p>You can use stun to stop some of a monster's special attacks while the monster is preparing to use them.</p>
-    <p>Using the same skill as in the previous round will cost you a double mana points.</p>
-    <p>A part of your mana points will be restored each round.</p>
-</div>
+    <h2 class="heading-secondary u-margin-bottom-small">HOW TO PLAY?</h2>
+    <p class="paragraph u-margin-bottom-small">Choose from available difficulty levels or create a custom level.</p>
+    <p class="paragraph u-margin-bottom-small">Select the monster that you want to fight with, each monster uses unique skills.</p>
+    <p class="paragraph u-margin-bottom-small">Use mana points to make a special attack or heal. Use your HP to restore half of your mana points.</p>
+    <p class="paragraph u-margin-bottom-small">You can use stun to stop some of a monster's special attacks while the monster is preparing to use them.</p>
+    <p class="paragraph u-margin-bottom-small">Using the same skill as in the previous round will cost you a double mana points.</p>
+    <p class="paragraph u-margin-bottom-small">A part of your mana points will be restored each round.</p>
+</section>
 </body>
 </html>

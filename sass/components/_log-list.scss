@@ -1,0 +1,50 @@
+#logs {
+  height: 17rem;
+  overflow-y: auto;
+  /*padding: 0rem auto;*/
+  letter-spacing: 0.04rem;
+  height: 35vh;
+}
+
+#logs ul {
+  padding: 0;
+}
+
+#logs ul li {
+  list-style: none;
+  border: 1px solid $color-grey-dark;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 1px;
+
+}
+
+.system {
+  background-color: $color-grey;
+}
+
+.player {
+  color: $color-primary;
+}
+
+.player-bg {
+  background-color: $color-primary;
+}
+
+.monster {
+  color: $color-secondary;
+}
+
+.monster-bg {
+  background-color: $color-secondary;
+}
+
+.monster-special {
+  animation: pulse-monster 5s;
+  background-color: $color-grey;
+}
+
+.player-special {
+  animation: pulse-player 5s;
+  background-color: $color-grey;
+}

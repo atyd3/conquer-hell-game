@@ -8,7 +8,7 @@ export const activeGameSections = [
   sections.additionalControls,
 ];
 
-export const inActiveGameSections = [
+export const inactiveGameSections = [
     sections.settings,
     sections.header,
     sections.howToPlay,
