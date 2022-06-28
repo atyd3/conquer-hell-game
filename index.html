@@ -69,7 +69,7 @@
                 <label for="custom" class="btn btn--active">Custom</label>
             </div>
             <div id="hpInputs" class="hidden">
-                <h2 class="hp-input-label">MONSTER HP:</h2>
+                <label for="monsterInput" class="heading-secondary u-margin-bottom-small">MONSTER HP:</label>
                 <input
                         type="number"
                         name="monster"
@@ -79,7 +79,7 @@
                         maxlength="5"
                         value="2000"
                 />
-                <h2 class="hp-input-label">PLAYER HP:</h2>
+                <label for="playerInput" class="heading-secondary u-margin-bottom-small">PLAYER HP:</label>
                 <input
                         type="number"
                         name="player"
@@ -134,7 +134,7 @@
         100%
     </progress>
 </section>
-<section id="logs" class="hidden">
+<section id="logs" class="logs list hidden">
     <ul id="logList"></ul>
 </section>
 <section id="controls" class="hidden">
@@ -161,12 +161,12 @@
 <section id="how-to-play">
     <a href="#" class="close-icon hidden" id="close-icon-btn"></a>
     <h2 class="heading-secondary u-margin-bottom-small">HOW TO PLAY?</h2>
-    <p class="paragraph u-margin-bottom-small">Choose from available difficulty levels or create a custom level.</p>
-    <p class="paragraph u-margin-bottom-small">Select the monster that you want to fight with, each monster uses unique skills.</p>
-    <p class="paragraph u-margin-bottom-small">Use mana points to make a special attack or heal. Use your HP to restore half of your mana points.</p>
-    <p class="paragraph u-margin-bottom-small">You can use stun to stop some of a monster's special attacks while the monster is preparing to use them.</p>
-    <p class="paragraph u-margin-bottom-small">Using the same skill as in the previous round will cost you a double mana points.</p>
-    <p class="paragraph u-margin-bottom-small">A part of your mana points will be restored each round.</p>
+    <p class="paragraph u-margin-bottom-small">Choose from available <span class="monster">difficulty levels</span> or create a <span class="player">custom level.</span></p>
+    <p class="paragraph u-margin-bottom-small">Select the monster that you want to fight with, <span class="monster">each monster uses unique skills.</span></p>
+    <p class="paragraph u-margin-bottom-small">Use <span class="monster">mana points</span> to make a <span class="player">special attack or heal.</span> Use your HP to restore half of your mana points.</p>
+    <p class="paragraph u-margin-bottom-small">You can <span class="player">use stun</span> to stop some of a <span class="monster">monster's special attacks</span> while the monster is <span class="monster">preparing</span> to use them.</p>
+    <p class="paragraph u-margin-bottom-small">Using <span class="player">the same skill</span> as in the previous round <span class="player">will cost you a double mana points.</span></p>
+    <p class="paragraph u-margin-bottom-small">A part of your <span class="monster">mana points will be restored</span> each round.</p>
 </section>
 </body>
 </html>

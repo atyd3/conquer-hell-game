@@ -1,18 +1,18 @@
 .btn {
   font-family: "Bangers", cursive;
   font-size: $button-font-size;
-  letter-spacing: 0.1rem;
+  letter-spacing: .1rem;
   background: $color-grey;
   @include border($color-grey-dark, 3px);
   color: $color-black;
-  padding: 0.6rem 2rem;
-  margin: 0.1rem;
+  padding: .5rem 1.9rem;
+  margin: .1rem;
   box-shadow: 2px 2px 5px rgba($color-grey-dark, 0.55);
 
 
 
   &--active {
-    padding: .8rem;
+    padding: .7rem;
     color: white;
     background: $color-primary;
     cursor: pointer;
@@ -58,6 +58,8 @@
   &--big {
     padding: 1.2rem;
     font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: .2rem;
 
     @include respond(phone){
       padding: .8rem;
@@ -77,8 +79,8 @@
     min-width: 10rem;
     display: inline-block;
     @include respond(phone){
-      padding: .4rem;
-      font-size: 1.5rem;
+      padding: .6rem;
+      font-size: 2rem;
       min-width: 7rem;
     }
   }
@@ -98,19 +100,12 @@
   transition: all 2s ease-out;
   background: $color-secondary !important;
   border-color: $color-secondary !important;
-  transform: scale(1.05);
 
   &:hover {
-    box-shadow: 0 2px 5px rgba($color-grey-dark, 0.15);
+    box-shadow: 3px 3px 5px rgba($color-grey-dark, 0.85);
   }
 }
 
-//#startGameBtn {
-//  margin: 1rem auto;
-//  padding: 1.1rem;
-//  font-size: 1.8rem;
-//  border-radius: 6px;
-//}
 
 #controls {
   display: flex;

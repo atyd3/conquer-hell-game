@@ -1,11 +1,9 @@
-
-
 progress {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   width: 80%;
-  height: 2rem;
+  height: 2.2rem;
   color: $color-primary;
   @include border($color-primary, 3px);
 }
