@@ -8,14 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atyd3/monster-killer-game.git"
+    "url": "git+https://github.com/atyd3/conquer-hell-game.git"
   },
   "author": "Edyta Wloszczynska",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/atyd3/monster-killer-game/issues"
-  },
-  "homepage": "https://github.com/atyd3/monster-killer-game#readme",
   "devDependencies": {
     "node-sass": "^7.0.1"
   }

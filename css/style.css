@@ -25,7 +25,7 @@ $breakpoint argument choices:
 
 @keyframes pulse-player {
   0% {
-    background-color: #22bd74;
+    background-color: #e82a3d;
     color: #fff; }
   100% {
     background-color: #e9dfdf;
@@ -91,7 +91,7 @@ header {
   letter-spacing: 0.04rem; }
 
 .player {
-  color: #22bd74; }
+  color: #e82a3d; }
 
 .monster {
   color: #427af4; }
@@ -140,9 +140,9 @@ header {
   .btn--active {
     padding: .7rem;
     color: white;
-    background: #22bd74;
+    background: #e82a3d;
     cursor: pointer;
-    border: 1px solid #22bd74;
+    border: 1px solid #e82a3d;
     border-radius: 3px; }
     @media (max-width: 37.5em) {
       .btn--active {
@@ -165,9 +165,9 @@ header {
       background-color: #427af4;
       border: 1px solid #427af4; }
       .btn--active--alt span {
-        background-color: #22bd74; }
+        background-color: #e82a3d; }
       .btn--active--alt:hover, .btn--active--alt:active {
-        background: #22bd74;
+        background: #e82a3d;
         border: 1px solid #292a2d; }
   .btn--big {
     padding: 1.2rem;
@@ -239,7 +239,7 @@ input {
   background-color: #e9dfdf; }
 
 .player-bg {
-  background-color: #22bd74; }
+  background-color: #e82a3d; }
 
 .monster-bg {
   background-color: #427af4; }
@@ -276,9 +276,9 @@ input {
   box-sizing: border-box;
   width: 25px;
   height: 25px;
-  border: 5px solid #22bd74;
+  border: 5px solid #e82a3d;
   border-radius: 100%;
-  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) #22bd74;
+  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) #e82a3d;
   transition: all 0.3s ease; }
 
 progress {
@@ -287,8 +287,8 @@ progress {
   appearance: none;
   width: 80%;
   height: 2.2rem;
-  color: #22bd74;
-  border: 1px solid #22bd74;
+  color: #e82a3d;
+  border: 1px solid #e82a3d;
   border-radius: 3px; }
 
 progress[value]::-webkit-progress-bar,
@@ -297,11 +297,11 @@ progress[value] {
   box-shadow: 0 2px 5px rgba(163, 160, 160, 0.15) inset; }
 
 progress[value]::-webkit-progress-value {
-  background-color: #22bd74;
+  background-color: #e82a3d;
   transition: all 0.2s ease-out; }
 
 progress[value]::-moz-progress-bar {
-  background-color: #22bd74;
+  background-color: #e82a3d;
   transition: all 0.2s ease-out; }
 
 .mana-bar[value]::-webkit-progress-value {
