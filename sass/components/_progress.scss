@@ -1,0 +1,40 @@
+progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 80%;
+  height: 2.2rem;
+  color: $color-primary;
+  @include border($color-primary, 3px);
+}
+
+progress[value]::-webkit-progress-bar,
+progress[value] {
+  background-color: $color-grey-light;
+  box-shadow: 0 2px 5px rgba($color-grey-dark, 0.15) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: $color-primary;
+  @include transition;
+}
+
+progress[value]::-moz-progress-bar {
+  background-color: $color-primary;
+  @include transition;
+}
+
+.mana-bar[value]::-webkit-progress-value {
+  background-color: $color-secondary;
+  @include transition;
+}
+
+.mana-bar[value]::-moz-progress-bar {
+  background-color: $color-secondary;
+  @include transition;
+}
+
+.mana-bar {
+  color: $color-secondary;
+  border: 1px solid $color-secondary;
+}

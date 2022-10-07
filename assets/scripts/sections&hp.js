@@ -1,10 +1,18 @@
-import {sections} from "./elements.js";
+import {buttons, sections} from "./elements.js";
+import {player} from "./player.js";
 
 export const activeGameSections = [
   sections.health,
   sections.logs,
   sections.controls,
   sections.additionalControls,
+];
+
+export const inactiveGameSections = [
+    sections.settings,
+    sections.header,
+    sections.howToPlay,
+    buttons.hypnosisBtn
 ];
 
 export const activeSettingsSections = [sections.header, sections.settings];
@@ -33,6 +41,10 @@ export function setProgressBar(object, progressBar) {
 
 export function updateHealthBar(object) {
   object.healthBar.value = object.currentHp;
+}
+
+export function updatePlayerManaBar() {
+  player.manaBar.value = player.currentMana;
 }
 
 export function toggleModalWindow() {

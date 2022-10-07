@@ -1,0 +1,22 @@
+@keyframes pulse-monster {
+  0% {
+    background-color: $color-secondary;
+    color: $color-white;
+  }
+  100% {
+    background-color: $color-grey;
+    color: $color-black;
+  }
+}
+
+@keyframes pulse-player {
+  0% {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+  100% {
+    background-color: $color-grey;
+    color: $color-black;
+  }
+}
+

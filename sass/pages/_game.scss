@@ -1,0 +1,38 @@
+body {
+  position: relative;
+  background: $color-black;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+header {
+  background-color: $color-secondary !important;
+}
+
+section,
+header {
+  margin: 1rem auto;
+  width: 90rem;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0.8rem;
+  box-shadow: 0 2px 8px rgba($color-grey-dark, 0.25);
+  background: white;
+
+
+  @include respond(tab-land) {
+    width: 90rem;
+  }
+  @include respond(tab-port) {
+    width: 70rem;
+  }
+  @include respond(phone) {
+    width: 90%;
+  }
+}
+
+.hidden {
+  display: none !important;
+}

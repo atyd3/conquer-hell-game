@@ -1,0 +1,19 @@
+input {
+  @include border($color-grey-dark, 3px);
+  padding: 0.1rem;
+  //margin: 1px;
+  text-align: center;
+  font-size: 2.5rem;
+  font-family: inherit;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1rem;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+
+

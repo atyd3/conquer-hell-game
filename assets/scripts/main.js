@@ -1,13 +1,11 @@
 import {manaSpan, buttons, sections} from "./elements.js";
 import {monster} from "./monsters.js";
 import {player} from "./player.js";
-import {activeGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
+import {activeGameSections, inactiveGameSections, showSection, hideSection, setProgressBar, updateHealthBar} from "./sections&hp.js";
 import {writeLog} from "./logs.js";
 
 export const gameStatus = {
-    canStart: true,
     isActive: true,
-    result: null,
     difficulty: null,
 };
 
@@ -30,6 +28,7 @@ export function startGame() {
 
     monster.canUseAllSkills = true;
     monster.skillPrep = false;
+    monster.activeSkill = null;
 
     monster.currentHp = monster.maxHp;
     player.currentHp = player.maxHp;
@@ -45,37 +44,26 @@ export function startGame() {
         showSection(activeSection);
     }
 
-    hideSection(sections.settings); //close settings
-    hideSection(sections.header); //close header
-    hideSection(buttons.hypnosisBtn);
-    hideSection(sections.howToPlay);
+    for (const inactiveGameSection of inactiveGameSections) {
+        hideSection(inactiveGameSection);
+    }
 
     monster.calcSpec();
 
     enableControlButtons();
-    buttons.restoreBtn.classList.add("button-active-alt");
+    // buttons.restoreBtn.classList.add("button-active-alt");
     buttons.settingsBtn.classList.remove("click-me");
 }
 
 export function nextRound() {
     endGame();
     player.returnMana();
-    if (!monster.canUseAllSkills && !monster.skillPrep) {
-        monster.canUseAllSkills = !monster.canUseAllSkills
-    }
-    //to przenieść do monstera
-    if (monster.isStunned || monster.skillPrep) {
-        monster.isStunned = false
-    } else {
-        monster.normalAttack();
-    }
 
-
-    if (player.isHypnotized){
+    if (player.isHypnotized) {
         player.isHypnotized = !player.isHypnotized;
     }
 
-    monster.calcSpec();
+    monster.nextRound();
 
     player.checkAvailableSkills(player.playerSkills.heal.canUseHeal(), buttons.healBtn);
     player.checkAvailableSkills(
@@ -88,39 +76,41 @@ export function nextRound() {
 
 export function enableControlButtons() {
     for (const controlBtn of buttons.controlBtns) {
-        controlBtn.classList.add("button-active");
+        controlBtn.classList.add("btn--active");
         controlBtn.removeAttribute("disabled");
-        buttons.restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.add("btn--active--alt");
     }
 }
 
 export function disableControlButtons() {
     for (const controlBtn of buttons.controlBtns) {
-        controlBtn.classList.remove("button-active");
+        controlBtn.classList.remove("btn--active");
         controlBtn.setAttribute("disabled", true);
-        buttons.restoreBtn.classList.add("button-active-alt");
+        buttons.restoreBtn.classList.remove("btn--active-alt");
     }
 }
 
 export function endGame() {
+    let result;
     if (monster.currentHp <= 0 && player.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = "Draw";
+        result = "Draw";
     } else if (player.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = `${monster.name} wins`;
+        result = `${monster.name} wins`;
         sections.gameStatus.classList.add("monster-bg");
     } else if (monster.currentHp <= 0 && gameStatus.isActive) {
-        gameStatus.result = "Player wins";
+        result = "Player wins";
         sections.gameStatus.classList.add("player-bg");
     } else {
         return;
     }
     monster.canUseAllSkills = false;
     monster.skillPrep = false;
-    writeLog(gameStatus.result, "system");
+    writeLog(result, "system");
     gameStatus.isActive = !gameStatus.isActive;
-    sections.gameStatus.firstElementChild.textContent = gameStatus.result;
-    hideSection(sections.health);
+    sections.gameStatus.firstElementChild.textContent = result;
+    // hideSection(sections.health);
     showSection(sections.gameStatus);
+    hideSection(sections.controls);
     disableControlButtons();
     buttons.settingsBtn.classList.add("click-me");
 }

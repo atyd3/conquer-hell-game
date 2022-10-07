@@ -1,5 +1,12 @@
-import {disableControlButtons, enableControlButtons, endGame, gameStatus, randomIntegerBetweenValues, dealDamage} from "./main.js";
-import {hideSection, showPercentageHp, showSection, updateHealthBar} from "./sections&hp.js";
+import {
+    disableControlButtons,
+    enableControlButtons,
+    endGame,
+    gameStatus,
+    randomIntegerBetweenValues,
+    dealDamage
+} from "./main.js";
+import {hideSection, showPercentageHp, showSection, updateHealthBar, updatePlayerManaBar} from "./sections&hp.js";
 import {player} from "./player.js";
 import {writeLog} from "./logs.js";
 import {buttons} from "./elements.js";
@@ -34,14 +41,30 @@ export const monster = {
     calcSpec() {
         let max = 100;
         if (monster.maxHp / player.maxHp >= 1.5) {
-            max = 80;
+            max = 70;
         }
-        console.log(max)
         let chance = randomIntegerBetweenValues(1, max);
         for (let skill in monster.specialSkills) {
             monster.specialSkills[skill](chance);
             console.log('chance after calc', chance)
         }
+    },
+    prepareSpec(skillName) {
+        monster.skillPrep = !monster.skillPrep; //true
+        monster.canUseAllSkills = !monster.canUseAllSkills //false
+        writeLog(`${monster.name} is preparing to use ${skillName}`, "monster-special");
+    },
+    nextRound() {
+        if (!monster.canUseAllSkills && !monster.skillPrep) {
+            monster.canUseAllSkills = !monster.canUseAllSkills //true
+        }
+
+        if (monster.isStunned || monster.skillPrep) {
+            monster.isStunned = false
+        } else {
+            monster.normalAttack();
+        }
+            monster.calcSpec();
     }
 };
 
@@ -70,7 +93,7 @@ export const useMonsterSkill = {
         glare() {
             writeLog(`Electro used glare and stole mana from player`, "monster-special");
             player.currentMana < player.maxMana * 0.3 ? player.currentMana = 0 : player.currentMana -= Math.ceil(player.maxMana * 0.3);
-            player.manaBar.value = player.currentMana;
+            updatePlayerManaBar();
         },
         lightning() {
             const dealtDamage = dealDamage(8, 18, monster, player);
@@ -81,7 +104,6 @@ export const useMonsterSkill = {
     },
     drago: {
         fireFury() {
-            //podpala playera na kilka rund
             let percentageDamage = randomIntegerBetweenValues(4, 7);
             player.currentHp -= Math.floor((player.maxHp / 100) * percentageDamage);
             updateHealthBar(player);
@@ -89,8 +111,8 @@ export const useMonsterSkill = {
             endGame();
         },
         rainOfFire() {
-            for (let i = 0; i < randomIntegerBetweenValues(3, 5); i++) {
-                let dealtDamage = dealDamage(4,7,monster, player)
+            for (let i = 0; i < randomIntegerBetweenValues(1, 3); i++) {
+                let dealtDamage = dealDamage(2, 4, monster, player)
                 let message =
                     `Drago used rain of fire and caused ${dealtDamage} damage to player (${showPercentageHp(
                         player
@@ -105,13 +127,8 @@ export const useMonsterSkill = {
 const monsterSkills = {
     hypno: {
         hypnosis(chance) {
-            if (monster.canUseAllSkills &&
-                chance < 5
-            ) {
-                monster.skillPrep = !monster.skillPrep; //true
-                monster.canUseAllSkills = !monster.canUseAllSkills //false
-                writeLog(`Hypno is preparing to use hypnosis`, "monster-special");
-                //przygotowanie do użycia hipnozy w następnej rundzie
+            if (monster.canUseAllSkills && chance <= 6) {
+                monster.prepareSpec('hypnosis');
                 return;
             }
 
@@ -139,13 +156,10 @@ const monsterSkills = {
     electro: {
         lightning(chance) {
             if (
-                chance < 5 &&
+                chance <= 6 &&
                 monster.canUseAllSkills
             ) {
-                monster.skillPrep = !monster.skillPrep; //true
-                monster.canUseAllSkills = !monster.canUseAllSkills //false
-                writeLog(`Electro is preparing to use lightning`, "monster-special");
-                //przygotowanie do użycia lightning w następnej rundzie
+                monster.prepareSpec('lightning')
                 return;
             }
 
@@ -153,13 +167,11 @@ const monsterSkills = {
                 monster.skillPrep = !monster.skillPrep //false
                 monster.canUseAllSkills = false;
                 useMonsterSkill.electro.lightning();
-                //użyj glare
             }
         },
         glare(chance) {
             if (
-                chance >= 10 && chance <
-                15 &&
+                chance >= 10 && chance < 15 &&
                 monster.canUseAllSkills
             ) {
                 useMonsterSkill.electro.glare()
@@ -169,14 +181,11 @@ const monsterSkills = {
     drago: {
         fireFury(chance) {
             if (
-                chance < 5 &&
+                chance <= 8 &&
                 monster.canUseAllSkills &&
-                !monster.activeSkill //zmienić żeby nextRound nie przestawiało canUseAllSkills i to wywalić
+                !monster.activeSkill
             ) {
-                monster.skillPrep = !monster.skillPrep; //true
-                monster.canUseAllSkills = !monster.canUseAllSkills //false
-                writeLog(`Drago is preparing to use fire fury`, "monster-special");
-                //przygotowanie do użycia fireFury w następnej rundzie
+                monster.prepareSpec('fire fury');
                 return;
             }
 
@@ -184,9 +193,7 @@ const monsterSkills = {
                 monster.skillPrep = !monster.skillPrep //false
                 monster.canUseAllSkills = false;
                 monster.activeSkill = 4;
-                console.log(monster.activeSkill)
                 writeLog(`Drago used fire fury`, 'monster-special');
-                //użyj firefury
             }
 
             if (monster.activeSkill) {
@@ -196,7 +203,7 @@ const monsterSkills = {
         },
         rainOfFire(chance) {
             if (
-                chance >= 10 && chance <= 18 &&
+                chance >= 10 && chance <= 15 &&
                 monster.canUseAllSkills &&
                 !monster.activeSkill
             ) {

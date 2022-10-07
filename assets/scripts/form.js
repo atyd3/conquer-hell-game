@@ -18,7 +18,6 @@ form.hpForm.addEventListener("submit", (event) => {
     }
   }
   setGameDifficulty(document.querySelector('input[name="difficultySelect"]:checked').value);
-  console.log('form.selectedDifficulty',document.querySelector('input[name="difficultySelect"]:checked').value)
   startGame();
 });
 
@@ -35,14 +34,14 @@ function setGameDifficulty(selectedDifficulty) {
       player.maxHp = 1000;
       player.damage = 40;
       monster.maxHp = 1500;
-      monster.damage = 75;
+      monster.damage = 60;
       gameStatus.difficulty = "nightmare";
       break;
     case "hell":
       player.maxHp = 1000;
       player.damage = 100;
       monster.maxHp = 2000;
-      monster.damage = 100;
+      monster.damage = 80;
       gameStatus.difficulty = "hell";
       break;
     case "custom":
@@ -52,10 +51,7 @@ function setGameDifficulty(selectedDifficulty) {
       monster.damage = Math.ceil(monster.maxHp * 0.075);
       gameStatus.difficulty = "custom";
   }
-  console.log('player.maxHp', player.maxHp);
-  console.log('monster.maxHp', monster.maxHp);
-  console.log('player.damage', player.damage);
-  console.log('monster.damage', monster.damage);
+  player.maxMana = player.maxHp;
 }
 
 for (const difficultySelect of form.difficultySelects) {
@@ -69,11 +65,11 @@ for (const difficultySelect of form.difficultySelects) {
             this.value = this.value.slice(0, 5);
           } 
           if (form.hpInputs[0].value < 99 || form.hpInputs[1].value < 99) {
-            form.hint.style = "display: block";
-            buttons.startGameBtn.classList.remove("button-active");
+            showSection(form.hint);
+            buttons.startGameBtn.classList.remove("btn--active");
           } else {
-            form.hint.style = "display: none";
-            buttons.startGameBtn.classList.add("button-active");
+            hideSection(form.hint);
+            buttons.startGameBtn.classList.add("btn--active");
           }
           if (this.value < 99) {
             this.style = "background-color: var(--color-tertiary)"

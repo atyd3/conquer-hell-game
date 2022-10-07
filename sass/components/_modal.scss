@@ -1,0 +1,27 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba($color-black, 0.96);
+  z-index: 10;
+}
+
+#modal-window {
+  @include absCenter;
+  z-index: 11; /* higher than the overlay */;
+  width: 100%;
+}
+
+.close-icon {
+  display: block;
+  float: right;
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+  border: 5px solid $color-primary;
+  border-radius: 100%;
+  background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white 56%, transparent 56%, transparent 100%) $color-primary;
+  transition: all 0.3s ease;
+}

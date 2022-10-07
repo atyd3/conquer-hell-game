@@ -1,0 +1,113 @@
+.btn {
+  font-family: "Bangers", cursive;
+  font-size: $button-font-size;
+  letter-spacing: .1rem;
+  background: $color-grey;
+  @include border($color-grey-dark, 3px);
+  color: $color-black;
+  padding: .5rem 1.9rem;
+  margin: .1rem;
+  box-shadow: 2px 2px 5px rgba($color-grey-dark, 0.55);
+
+
+
+  &--active {
+    padding: .7rem;
+    color: white;
+    background: $color-primary;
+    cursor: pointer;
+    @include border($color-primary, 3px);
+    @include respond(phone) {
+      font-size: 2rem;
+    }
+
+    & span {
+      background-color: $color-secondary;
+      margin-left: 0.5rem;
+      padding: 0.3rem;
+      border-radius: 6px;
+      @include border($color-white, 6px);
+      box-shadow: 1px 0px 20px rgba($color-white, 0.5);
+    }
+
+    &:hover,
+    &:active {
+      background: $color-secondary;
+      border: 1px solid $color-black;
+
+      & span {
+        @include border($color-black, 6px);
+      }
+    }
+
+    &--alt {
+      background-color: $color-secondary;
+      border: 1px solid $color-secondary;
+
+      & span {
+        background-color: $color-primary;
+      }
+
+      &:hover,
+      &:active {
+        background: $color-primary;
+        border: 1px solid $color-black;
+      }
+    }
+  }
+  &--big {
+    padding: 1.2rem;
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: .2rem;
+
+    @include respond(phone){
+      padding: .8rem;
+      font-size: 2rem;
+    }
+  }
+}
+
+
+.settingsSelect {
+  margin: 2rem 0 2rem 0;
+
+  & label {
+    font-size: $button-font-size;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+    min-width: 10rem;
+    display: inline-block;
+    @include respond(phone){
+      padding: .6rem;
+      font-size: 2rem;
+      min-width: 7rem;
+    }
+  }
+
+  & input[type="radio"] {
+    opacity: 0;
+    width: 1px;
+  }
+
+  & input[type="radio"]:checked + label {
+    background: $color-secondary;
+    border: 1px solid $color-black;
+  }
+}
+
+.click-me {
+  transition: all 2s ease-out;
+  background: $color-secondary !important;
+  border-color: $color-secondary !important;
+
+  &:hover {
+    box-shadow: 3px 3px 5px rgba($color-grey-dark, 0.85);
+  }
+}
+
+
+#controls {
+  display: flex;
+  flex-direction: column;
+}

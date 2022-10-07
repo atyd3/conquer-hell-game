@@ -1,0 +1,37 @@
+.logs {
+  height: 17rem;
+  overflow-y: auto;
+  /*padding: 0rem auto;*/
+  height: 35vh;
+
+  & ul li{
+    list-style: none;
+    border: 1px solid $color-grey-dark;
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin: 1px;
+  }
+
+}
+
+.system {
+  background-color: $color-grey;
+}
+
+.player-bg {
+  background-color: $color-primary;
+}
+
+.monster-bg {
+  background-color: $color-secondary;
+}
+
+.monster-special {
+  animation: pulse-monster 5s;
+  background-color: $color-grey;
+}
+
+.player-special {
+  animation: pulse-player 5s;
+  background-color: $color-grey;
+}
