@@ -108,7 +108,6 @@ export function endGame() {
     writeLog(result, "system");
     gameStatus.isActive = !gameStatus.isActive;
     sections.gameStatus.firstElementChild.textContent = result;
-    // hideSection(sections.health);
     showSection(sections.gameStatus);
     hideSection(sections.controls);
     disableControlButtons();
