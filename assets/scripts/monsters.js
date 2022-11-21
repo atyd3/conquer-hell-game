@@ -34,7 +34,6 @@ export const monster = {
         for (let key in monsterSkills) {
             if (key === name) {
                 monster.specialSkills = monsterSkills[key];
-                console.log(monster.specialSkills)
             }
         }
     },
@@ -46,7 +45,6 @@ export const monster = {
         let chance = randomIntegerBetweenValues(1, max);
         for (let skill in monster.specialSkills) {
             monster.specialSkills[skill](chance);
-            console.log('chance after calc', chance)
         }
     },
     prepareSpec(skillName) {
@@ -139,7 +137,6 @@ const monsterSkills = {
                 showSection(buttons.hypnosisBtn);
                 player.isHypnotized = true;
                 disableControlButtons();
-                //użyj hipnozy
             }
         },
         regeneration(chance) {
@@ -149,7 +146,6 @@ const monsterSkills = {
                 chance >= 15 && chance < 21
             ) {
                 useMonsterSkill.hypno.regeneration();
-                //użycie regeneracji
             }
         },
     },
